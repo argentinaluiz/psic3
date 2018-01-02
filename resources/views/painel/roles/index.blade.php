@@ -15,7 +15,6 @@
                 <tr>
                     <th>Nome</th>
                     <th>Label</th>
-                    <th>Usuários</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -24,8 +23,8 @@
                     <tr>
                         <td>{{ $role->name }}</td>
                         <td>{{ $role->label }}</td>
-                        <td>{{ $role->user->name }}</td>
                         <td>
+							<a href="{{url("/painel/roles/$role->id/permissions")}}">Permissões </a> |
                             <a href="{{route('roles.edit',['role' => $role->id])}}">Editar</a> |
                             <a href="{{route('roles.show',['role' => $role->id])}}">Ver</a>
                         </td>

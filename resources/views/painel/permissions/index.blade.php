@@ -15,6 +15,7 @@
                 <tr>
                     <th>Nome</th>
                     <th>Label</th>
+					<th>Funções</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -23,6 +24,7 @@
                     <tr>
                         <td>{{ $permission->name }}</td>
                         <td>{{ $permission->label }}</td>
+						<td>{{ $permission->role }}</td>
                         <td>
                             
                             <a href="{{route('permissions.edit',['permission' => $permission->id])}}">Editar</a> |

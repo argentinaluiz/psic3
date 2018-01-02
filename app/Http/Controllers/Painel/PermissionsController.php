@@ -11,7 +11,13 @@ use Gate;
 
 class PermissionsController extends Controller
 {
+    private $permission;
     
+    public function __construct(Permission $permission)
+    {
+        $this->permission = $permission;
+        
+    }
     
     /**
      * Display a listing of the resource.
@@ -25,8 +31,9 @@ class PermissionsController extends Controller
 
         \Session::flash('chave','valor');
         $permissions = Permission::all();
+       // $permissions = Permission::has('roles')->get();
        // $permissions = Permission::paginate(10);
-        return view('painel.permissions.index', compact('permissions', 'title', 'totalPermissions'));
+        return view('painel.permissions.index', compact('permissions', 'title', 'totalPermissions', 'roles'));
     }
 
     public function roles($id)

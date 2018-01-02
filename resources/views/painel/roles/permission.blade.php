@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h3>Roles <-> User : <b>{{$user->name}}</h3>
+            <h3>Permissions: <b>{{$role->name}}</h3>
             <br/>
             <a class="btn btn-default" href="{{route('users.create') }}">Criar novo</a>
             <table class="table table-striped">
@@ -16,15 +16,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                 @forelse( $roles as $role )
+                 @forelse( $permissions as $permission )
                     <tr>
-                        <td>{{$role->name}}</td>
-                        <td>{{$role->label}}</td>
+                        <td>{{$permission->name}}</td>
+                        <td>{{$permission->label}}</td>
                         <td>
-                            <a class="btn btn-sm btn-danger" href="{{ route('roles.destroy',['role' => $role->id]) }}"
+                            <a class="btn btn-sm btn-danger" href="{{ route('permissions.destroy',['permission' => $permission->id]) }}"
                                 onclick="event.preventDefault();if(confirm('Deseja excluir este item?')){document.getElementById('form-delete').submit();}">Excluir</a>
                         
-                            {{Form::open(['route' => ['roles.destroy',$role->id],'method' => 'DELETE', 'id' => 'form-delete'])}}
+                            {{Form::open(['route' => ['permissions.destroy',$permission->id],'method' => 'DELETE', 'id' => 'form-delete'])}}
                             {{Form::close()}}
                         </td>
                     </tr>

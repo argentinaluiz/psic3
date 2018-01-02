@@ -15,6 +15,7 @@
                 <tr>
                     <th>Nome</th>
                     <th>E-mail</th>
+					<th>Funções</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -23,6 +24,7 @@
                     <tr>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
+						<td>{{ $user->roles }}</td>
                         <td>
                             
                             <a href="{{route('users.edit',['user' => $user->id])}}">Editar</a> |

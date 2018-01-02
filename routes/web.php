@@ -24,10 +24,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['auth']], function(){    
     
     Route::resource('permissions', 'PermissionsController');
+    Route::get('permissions', 'PermissionsController@index')->name('permissions.index');
     
     Route::resource('roles', 'RolesController');
+    Route::get('role/{id}/permissions', 'Painel\RolesController@permissions');
 
     Route::resource('users', 'UsersController');
+    Route::get('users', 'UsersController@index')->name('users.index');
 
     Route::resource('clients', 'ClientsController');
 

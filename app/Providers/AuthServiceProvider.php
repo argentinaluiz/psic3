@@ -43,6 +43,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies($gate);
 
         $permissions = Permission::with('roles')->get();
+        //dd($permissions);
         foreach( $permissions as $permission )
         {
             $gate->define($permission->name, function(User $user) use ($permission){

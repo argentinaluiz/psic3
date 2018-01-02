@@ -10,8 +10,5 @@
 @endcomponent
 
 
-@component('form._form_group',['field' => 'user_id'])
-    {{ Form::label('user_id', 'Usuários',['class' => 'control-label']) }}
-    {{ Form::select('user_id', $users, null,['class' => 'form-control'])}}
-@endcomponent
+
 

@@ -29,6 +29,33 @@ class UsersController extends Controller
         return view('painel.users.index', compact('users', 'title', 'totalUsers'));
     }
 
+    public function roles($id)
+    {
+        //Recupera o usuário
+        $user = $this->user->find($id);
+        
+        //recuperar roles
+        $roles = $user->roles()->get();
+        
+        return view('painel.users.roles', compact('user', 'roles'));
+    }
+
+    public function rolesPermissions()
+    {
+        $nameUser = auth()->user()->name;
+        echo("<h1>{$nameUser}</h1>");
+        
+        foreach ( auth()->user()->roles as $role ) {
+            echo "<b>$role->name</b> -> ";
+            
+            $permissions = $role->permissions;
+            foreach( $permissions as $permission ) {
+                echo " $permission->name , ";
+            }
+            
+            echo '<hr>';
+        }
+    }
     
     public function create(Request $request)
     {

@@ -11,7 +11,13 @@ use Gate;
 
 class RolesController extends Controller
 {
-     
+    private $role;
+    
+    public function __construct(Role $role)
+    {
+        $this->role = $role;
+        
+    }
     /**
      * Display a listing of the resource.
      *
@@ -25,8 +31,19 @@ class RolesController extends Controller
         \Session::flash('chave','valor');
         $roles = Role::all();
         //$roles = Role::paginate(10);
-        $users = App\User::pluck('name', 'id');
+        //$users = App\User::pluck('name', 'id');
         return view('painel.roles.index', compact('roles', 'title', 'totalRoles'));
+    }
+
+    public function permissions($id)
+    {
+        //Recupera o role
+        $role = $this->role->find($id);
+        
+        //recuperar permissões
+        $permissions = $role->permissions()->get();
+        
+        return view('painel.roles.permission', compact('role', 'permissions'));
     }
 
     
@@ -37,7 +54,7 @@ class RolesController extends Controller
      */
     public function create(Request $request)
     {
-        $users = App\User::pluck('name', 'id');
+        //$users = App\User::pluck('name', 'id');
         return view('painel.roles.create');
     }
 

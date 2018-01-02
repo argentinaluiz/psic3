@@ -5,8 +5,10 @@
 
 
 @component('form._form_group',['field' => 'label'])
-    {{ Form::label('label', 'Label (descrição)',['class' => 'control-label']) }}
+    {{ Form::label('label', 'Descrição',['class' => 'control-label']) }}
     {{ Form::text('label', null,['class' => 'form-control'])}}
 @endcomponent
+
+
 
 
