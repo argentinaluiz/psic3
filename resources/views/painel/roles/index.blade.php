@@ -13,18 +13,19 @@
             <table class="table table-striped dataTables-roles">
                 <thead>
                 <tr>
-                    <th>Nome</th>
-                    <th>Label</th>
+                    <th>Permissões do papel</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($roles as $role)
                     <tr>
-                        <td>{{ $role->name }}</td>
-                        <td>{{ $role->label }}</td>
+                        <td>{{ $role->name }}:</b>
+							@foreach ($role->permissions as $permission)
+								{{ $permission->name }} <br>
+							@endforeach
+						</td>
                         <td>
-							<a href="{{url("/painel/roles/$role->id/permissions")}}">Permissões </a> |
                             <a href="{{route('roles.edit',['role' => $role->id])}}">Editar</a> |
                             <a href="{{route('roles.show',['role' => $role->id])}}">Ver</a>
                         </td>

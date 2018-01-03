@@ -23,15 +23,14 @@ class RolesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Role $role)
     {
         $title = "Papéis";
         $totalRoles   = Role::count();
 
         \Session::flash('chave','valor');
-        $roles = Role::all();
+        $roles = $role->get();
         //$roles = Role::paginate(10);
-        //$users = App\User::pluck('name', 'id');
         return view('painel.roles.index', compact('roles', 'title', 'totalRoles'));
     }
 
@@ -54,7 +53,10 @@ class RolesController extends Controller
      */
     public function create(Request $request)
     {
-        //$users = App\User::pluck('name', 'id');
+        
+       $dataForm=[$request];
+       Role::create($dataForm);
+        
         return view('painel.roles.create');
     }
 
@@ -89,10 +91,13 @@ class RolesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Role $role)
+    public function edit($id)
     {
-        
-        return view('painel.roles.edit', compact('role'));
+        $role = $this->role->find($id);
+        if(!$role)
+            return redirect()->back();
+        $permissions = $role->permissions()->get();
+        return view('painel.roles.edit', compact('role', 'permissions'));
     }
 
     /**
