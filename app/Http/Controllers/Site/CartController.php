@@ -263,20 +263,20 @@ class CartController extends Controller
 
         $req = Request();
         $idorder  = $req->input('order_id');
-        $coupom     = $req->input('cupom');
+        $coupon     = $req->input('cupom');
         $iduser = Auth::id();
 
-        if( empty($coupom) ) {
+        if( empty($coupon) ) {
             $req->session()->flash('mensagem-falha', 'Cupom inválido!');
             return redirect()->route('site.cart.index');
         }
 
-        $coupom = DiscountCoupom::where([
-            'tracker' => $coupom,
+        $coupon = DiscountCoupon::where([
+            'tracker' => $coupon,
             'ativo'       => 'S'
             ])->where('expiry_dthr', '>', date('Y-m-d H:i:s'))->first();
 
-        if( empty($coupom->id) ) {
+        if( empty($coupon->id) ) {
             $req->session()->flash('mensagem-falha', 'Cupom de desconto não encontrado!');
             return redirect()->route('site.cart.index');
         }
@@ -305,41 +305,41 @@ class CartController extends Controller
         $apply_discount = false;
         foreach ($order_products as $order_product) {
 
-            switch ($coupom->discount_mode) {
+            switch ($coupon->discount_mode) {
                 case 'porc':
-                    $value_discount = ( $order_product->value * $coupom->discount ) / 100;
+                    $value_discount = ( $order_product->value * $coupon->discount ) / 100;
                     break;
 
                 default:
-                    $value_discount = $coupom->discount;
+                    $value_discount = $coupon->discount;
                     break;
             }
 
             $value_discount = ($value_discount > $order_product->value) ? $order_product->value : number_format($value_discount, 2);
 
-            switch ($coupom->limit_mode) {
+            switch ($coupon->limit_mode) {
                 case 'qtd':
                     $qtd_pedido = OrderProduct::whereIn('status', ['PA', 'RE'])->where([
-                            'discount_coupom_id' => $coupom->id
+                            'discount_coupon_id' => $coupon->id
                         ])->count();
 
-                    if( $qtd_pedido >= $coupom->limit ) {
+                    if( $qtd_pedido >= $coupon->limit ) {
                         continue;
                     }
                     break;
 
                 default:
                     $value_ckc_discounts = OrderProduct::whereIn('status', ['PA', 'RE'])->where([
-                            'discount_coupom_id' => $coupom->id
+                            'discount_coupon_id' => $coupon->id
                         ])->sum('discount');
 
-                    if( ($value_ckc_discounts+$value_discount) > $coupom->limit ) {
+                    if( ($value_ckc_discounts+$value_discount) > $coupon->limit ) {
                         continue;
                     }
                     break;
             }
 
-            $order_product->discount_coupom_id = $coupom->id;
+            $order_product->discount_coupon_id = $coupon->id;
             $order_product->discount          = $value_discount;
             $order_product->update();
 
