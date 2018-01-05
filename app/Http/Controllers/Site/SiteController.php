@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Painel\Product;
 
 class SiteController extends Controller
 {
@@ -14,8 +15,35 @@ class SiteController extends Controller
      */
     public function index()
     {
-        //
+        $title    = "Psicanalysis";
+
+        $registros = App\Models\Painel\Product::where([
+            'ativo' => 'S'
+            ])->get();
+
+        return view('site.home.index', compact('title'));
     }
+
+    public function product($id = null)
+    {
+        if( !empty($id) ) {
+            $registro = App\Models\Painel\Product::where([
+                'id'    => $id,
+                'ativo' => 'S'
+                ])->first();
+
+            if( !empty($registro) ) {
+                return view('site.home.product', compact('registro'));
+            }
+        }
+        return redirect()->route('index');
+    }
+
+
+
+
+
+
 
     /**
      * Show the form for creating a new resource.

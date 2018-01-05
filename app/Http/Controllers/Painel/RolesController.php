@@ -25,7 +25,6 @@ class RolesController extends Controller
      */
     public function index(Role $role)
     {
-        $title = "Papéis";
         $totalRoles   = Role::count();
 
         \Session::flash('chave','valor');
@@ -52,11 +51,8 @@ class RolesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
-    {
-        
-       $dataForm=[$request];
-       Role::create($dataForm);
-        
+    {    
+        Role::create($request->all());
         return view('painel.roles.create');
     }
 

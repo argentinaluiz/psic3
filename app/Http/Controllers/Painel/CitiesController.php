@@ -21,8 +21,6 @@ class CitiesController extends Controller
         //dd($state);
 
         $cities   = $state->cities;
-        $title    = "Cidades do estado {$state->name}";
-
         return view('painel.cities.index', compact('cities', 'title', 'totalCities', 'state'));
     }
 }

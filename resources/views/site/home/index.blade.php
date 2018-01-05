@@ -1,4 +1,5 @@
-@extends('site.layouts.psic')
+@extends('layouts.psic')
+@section('pag_title', 'HOME')
 
 @section('content')
   <section class="hero-slider" style="background-image: url({{ asset('site/img/hero-slider/main-bg.jpg') }});">

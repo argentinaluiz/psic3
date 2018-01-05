@@ -17,7 +17,6 @@ class RoomsController extends Controller
      */
     public function index()
     {
-        $title              = "Salas";
         $totalRooms   = Room::count();
 
         \Session::flash('chave','valor');

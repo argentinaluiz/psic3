@@ -3,7 +3,6 @@
 namespace App\Models\Painel;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Painel\Permission;
 use App\Models\Painel\Role;
 use App\User;
 

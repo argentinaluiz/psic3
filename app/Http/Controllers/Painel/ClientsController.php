@@ -18,7 +18,6 @@ class ClientsController extends Controller //Controller resource
      */
     public function index()
     {
-        $title          = "Clientes";
         $totalClients   = Client::count();
 
         $countPacients = Client::where(['expertise' => 1])->count(); 

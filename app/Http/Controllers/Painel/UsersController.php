@@ -20,7 +20,6 @@ class UsersController extends Controller
 
     public function index()
     {
-        $title = "Usuários";
         $totalUsers   = User::count();
 
         \Session::flash('chave','valor');

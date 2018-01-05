@@ -26,7 +26,6 @@ class PermissionsController extends Controller
      */
     public function index()
     {
-        $title              = "Permissões";
         $totalPermissions   = Permission::count();
 
         \Session::flash('chave','valor');

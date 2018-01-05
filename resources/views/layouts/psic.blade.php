@@ -11,7 +11,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{$title or 'Psicanalysis'}}</title>
+    <title>Psicanalysis - @yield('pag_title')</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- Favicon and Icons-->
@@ -34,9 +34,10 @@
 
     <link href="{{ asset('site/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
     <link id="mainStyles" rel="stylesheet" media="screen" href="{{ asset('site/css/styles.min.css') }}"> 
+     <link rel="stylesheet" href="{{ asset('site/css/materialize.min.css') }}">
 
     <!-- Modernizr-->
-    <script src="{{ asset('site/js/jquery-3.1.1.min.js') }}"></script>
+    <script src="{{ asset('site/js/jquery-3.2.1.min.js') }}"></script>
     <script src="{{ asset('site/js/modernizr.min.js') }}"></script>
   </head>
 
@@ -99,7 +100,7 @@
                       </div>
                       <div class="col-sm-2"></div>
                       <div class="col-sm-4">
-                        <button type="submit" class="btn btn-sm" value="github" name="social_type">
+                        <button type="submit" class="btn btn-sm" value="github" name="social_type" style="color: #00397D;">
                             {{trans('auth.loginwithgithub?')}} 
                         </button>
                       </div>
@@ -107,12 +108,12 @@
                 </form>
                 <div class="cleaner_h5"></div> 
 
-                <p class="text-center"><a class="btn btn-sm btn-link" href="{{ route('password.request') }}">{{trans('auth.forgotYourPassword?')}}</a></p>
+                <p class="text-center"><a class="btn btn-sm btn-link" style="color: #00397D;" href="{{ route('password.request') }}">{{trans('auth.forgotYourPassword?')}}</a></p>
                 
-                <a class="btn btn-sm btn-outline-primary btn-block">Criar uma conta</a>
+                <a class="btn btn-sm btn-outline-primary btn-block" style="color: #00397D; border-color: #00397D;">Criar uma conta</a>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-outline-secondary btn-sm" type="button" data-dismiss="modal">Fechar </button>
+            <button class="btn btn-outline-secondary btn-sm" type="button" data-dismiss="modal" style="color: #00397D;">Fechar </button>
           </div>
         </div>
       </div>
@@ -251,5 +252,6 @@
     <script type="text/javascript" src="{{ asset('site/js/scriptLogin.js') }}"></script>
     <script src="{{ asset('site/js/vendor.min.js') }}"></script>
     <script src="{{ asset('site/js/scripts.min.js') }}"></script>
+    <script src="{{ asset('site/js/materialize.min.js') }}"></script>
   </body>
 </html>

@@ -17,7 +17,6 @@ class ReservesController extends Controller
      */
     public function index()
     {
-        $title              = "Reservas";
         $totalReserves   = Reserve::count();
 
         \Session::flash('chave','valor');

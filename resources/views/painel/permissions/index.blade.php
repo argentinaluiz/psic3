@@ -20,6 +20,37 @@
                 </tr>
                 </thead>
                 <tbody>
+				@foreach($permissions as $permission)
+                    <tr>
+                        <td>{{ $role->name }}:</b>
+							@foreach ($role->permissions as $permission)
+								{{ $permission->name }} <br>
+							@endforeach
+						</td>
+                        <td>
+                            <a href="{{route('roles.edit',['role' => $role->id])}}">Editar</a> |
+                            <a href="{{route('roles.show',['role' => $role->id])}}">Ver</a>
+                        </td>
+                    </tr>
+                @endforeach
+				
+				@foreach($roles as $role)
+                    <tr>
+                        <td>{{ $role->name }}:</b>
+							@foreach ($role->permissions as $permission)
+								{{ $permission->name }} <br>
+							@endforeach
+						</td>
+                        <td>
+                            <a href="{{route('roles.edit',['role' => $role->id])}}">Editar</a> |
+                            <a href="{{route('roles.show',['role' => $role->id])}}">Ver</a>
+                        </td>
+                    </tr>
+                @endforeach
+
+
+
+
                 @foreach($permissions as $permission)
                     <tr>
                         <td>{{ $permission->name }}</td>

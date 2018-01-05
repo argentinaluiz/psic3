@@ -18,8 +18,6 @@ class StatesController extends Controller
 
     public function index()
     {
-    
-        $title          = 'Estados brasileiros';
         $totalStates   = State::count();
 
         \Session::flash('chave','valor');
