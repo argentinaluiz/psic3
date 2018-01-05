@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{$title or 'Psicanalysis'}}</title>
+    <title>Psicanalysis - @yield('pag_title')</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -51,6 +51,7 @@
                         <li><a href="{{ route('permissions.index') }}">Permissões</a></li>
                         <li><a href="{{ route('clients.index') }}">Clientes</a></li>
                         <li><a href="{{ route('states.index') }}">Estados</a></li>
+                        <li><a href="{{ route('painel.products.index') }}">Produtos</a></li>
                         <li><a href="{{ route('rooms.index') }}">Salas</a></li>
                         <li><a href="{{ route('agendas.index') }}">Agendas</a></li>
                         <li><a href="{{ route('reserves.index') }}">Reservas</a></li>

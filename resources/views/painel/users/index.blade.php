@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('pag_title', 'Usuários')
 
 @section('content')
 <div class="container">
@@ -15,7 +16,7 @@
                 <tr>
                     <th>Nome</th>
                     <th>E-mail</th>
-					<th>Funções</th>
+					<th>Papéis</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -24,9 +25,10 @@
                     <tr>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-						<td>{{ $user->roles }}</td>
+						<td>@foreach ($user->roles as $role)
+								{{ $role->name }} ,
+							@endforeach</td>
                         <td>
-                            
                             <a href="{{route('users.edit',['user' => $user->id])}}">Editar</a> |
                             <a href="{{route('users.show',['user' => $user->id])}}">Ver</a>
                         </td>

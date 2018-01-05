@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('pag_title', 'Reservas')
 
 @section('content')
 <div class="container">

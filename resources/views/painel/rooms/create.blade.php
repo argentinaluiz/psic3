@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('pag_title', 'Nova sala - Cadastrar')
 
 @section('content')
 <div class="container">

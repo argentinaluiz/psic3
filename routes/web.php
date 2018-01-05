@@ -77,7 +77,7 @@ Route::post('/checkout/{id}', function ($id) {
 Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['auth']], function(){    
     
     Route::resource('permissions', 'PermissionsController');
-    Route::get('permissions', 'PermissionsController@index')->name('permissions.index');
+    Route::get('permission/{id}/roles', 'PermissionsController@roles');
     
     Route::resource('roles', 'RolesController');
     Route::get('role/{id}/permissions', 'RolesController@permissions');
@@ -99,6 +99,8 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
     Route::resource('painel', 'PainelController');
 
     Route::resource('products', 'ProductsController');
+    Route::get('products', 'ProductsController@index')->name('painel.products.index');
+    Route::get('products/adicionar', 'ProductsController@adicionar')->name('painel.products.adicionar');
 
     Route::resource('coupons', 'DiscountCouponController');
 });

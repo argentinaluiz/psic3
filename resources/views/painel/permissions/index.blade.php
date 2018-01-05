@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('pag_title', 'Permissões')
 
 @section('content')
 <div class="container">
@@ -13,56 +14,26 @@
             <table class="table table-striped dataTables-permissions">
                 <thead>
                 <tr>
-                    <th>Nome</th>
-                    <th>Label</th>
-					<th>Funções</th>
+                    <th>Permissões:Papéis</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
                 <tbody>
+		
 				@foreach($permissions as $permission)
                     <tr>
-                        <td>{{ $role->name }}:</b>
-							@foreach ($role->permissions as $permission)
-								{{ $permission->name }} <br>
+                        <td>{{ $permission->name }}:</b>
+							@foreach ($permission->roles as $role)
+								{{ $role->name }} <br>
 							@endforeach
 						</td>
                         <td>
-                            <a href="{{route('roles.edit',['role' => $role->id])}}">Editar</a> |
-                            <a href="{{route('roles.show',['role' => $role->id])}}">Ver</a>
-                        </td>
-                    </tr>
-                @endforeach
-				
-				@foreach($roles as $role)
-                    <tr>
-                        <td>{{ $role->name }}:</b>
-							@foreach ($role->permissions as $permission)
-								{{ $permission->name }} <br>
-							@endforeach
-						</td>
-                        <td>
-                            <a href="{{route('roles.edit',['role' => $role->id])}}">Editar</a> |
-                            <a href="{{route('roles.show',['role' => $role->id])}}">Ver</a>
-                        </td>
-                    </tr>
-                @endforeach
-
-
-
-
-                @foreach($permissions as $permission)
-                    <tr>
-                        <td>{{ $permission->name }}</td>
-                        <td>{{ $permission->label }}</td>
-						<td>{{ $permission->role }}</td>
-                        <td>
-                            
                             <a href="{{route('permissions.edit',['permission' => $permission->id])}}">Editar</a> |
                             <a href="{{route('permissions.show',['permission' => $permission->id])}}">Ver</a>
                         </td>
                     </tr>
                 @endforeach
+
                 </tbody>
             </table>
 

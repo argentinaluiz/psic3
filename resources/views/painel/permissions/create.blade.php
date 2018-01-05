@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('pag_title', 'Permissão - Cadastrar')
 
 @section('content')
 <div class="container">

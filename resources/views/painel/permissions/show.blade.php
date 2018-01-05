@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('pag_title', 'Permissão - Mostrar')
 
 @section('content')
 <div class="container">

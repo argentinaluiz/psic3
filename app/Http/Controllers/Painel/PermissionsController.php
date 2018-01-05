@@ -24,15 +24,15 @@ class PermissionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Permission $permission)
     {
         $totalPermissions   = Permission::count();
 
         \Session::flash('chave','valor');
-        $permissions = Permission::all();
-       // $permissions = Permission::has('roles')->get();
+        //$permissions = Permission::all();
+        $permissions = $permission->get();
        // $permissions = Permission::paginate(10);
-        return view('painel.permissions.index', compact('permissions', 'title', 'totalPermissions', 'roles'));
+        return view('painel.permissions.index', compact('permissions', 'totalPermissions'));
     }
 
     public function roles($id)

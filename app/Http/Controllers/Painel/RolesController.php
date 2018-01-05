@@ -30,7 +30,7 @@ class RolesController extends Controller
         \Session::flash('chave','valor');
         $roles = $role->get();
         //$roles = Role::paginate(10);
-        return view('painel.roles.index', compact('roles', 'title', 'totalRoles'));
+        return view('painel.roles.index', compact('roles', 'totalRoles'));
     }
 
     public function permissions($id)

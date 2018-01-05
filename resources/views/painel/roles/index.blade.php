@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('pag_title', 'Papéis')
 
 @section('content')
 <div class="container">
@@ -22,7 +23,7 @@
                     <tr>
                         <td>{{ $role->name }}:</b>
 							@foreach ($role->permissions as $permission)
-								{{ $permission->name }} <br>
+								{{ $permission->name }} ,
 							@endforeach
 						</td>
                         <td>
