@@ -19,7 +19,7 @@ class CartController extends Controller
         $this->middleware('auth');
     }
 
-    ublic function index()
+    public function index()
     {
 
         $orders = Order::where([

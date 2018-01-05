@@ -42,7 +42,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies($gate);
 
-        /*if(!app()->runningInConsole()){
+        if(!app()->runningInConsole()){
             $permissions = Permission::with('roles')->get();
             //dd($permissions);
             foreach( $permissions as $permission )
@@ -51,7 +51,7 @@ class AuthServiceProvider extends ServiceProvider
                     return $user->hasPermission($permission);
                 });
             }
-        */
+            
             $gate->before(function(User $user, $ability){
                 
                 if ( $user->hasAnyRoles('adm') )
