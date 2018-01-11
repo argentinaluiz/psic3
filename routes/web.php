@@ -34,6 +34,10 @@ Route::group(['prefix' => 'site', 'namespace' => 'Site'], function(){
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
 Route::post('/login/social', 'Auth\LoginController@loginSocial');
 Route::get('/login/callback', 'Auth\LoginController@loginCallback');
 

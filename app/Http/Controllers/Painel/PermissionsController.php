@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Painel;
 
 use App\Models\Painel\Permission;
+use App\Models\Painel\Role;
 use App\Http\Requests\PermissionRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -46,14 +47,17 @@ class PermissionsController extends Controller
         return view('painel.permissions.roles', compact('permission', 'roles'));
     }
 
+   
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, Permission $permission, Role $role)
     {
-        return view('painel.permissions.create');
+        $roles = $permission->roles()->get();
+        
+        return view('painel.permissions.create',  compact('permission', 'roles'));
     }
 
     /**
@@ -87,9 +91,13 @@ class PermissionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Permission $permission)
+    public function edit($id)
     {
-        return view('painel.permissions.edit', compact('permission'));
+        $permission = $this->permission->find($id);
+        if(!$permission)
+            return redirect()->back();
+        $roles = $permission->roles()->get();        
+        return view('painel.permissions.edit', compact('roles','permission'));
     }
 
     /**

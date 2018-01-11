@@ -29,7 +29,7 @@ class RoleRequest extends FormRequest
 
         $rules = [
             'name' => 'required|min:3|max:50',
-            'label' => 'max:150',
+            'label' => 'max:150'
         ];
 
         return $rules;

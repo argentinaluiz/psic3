@@ -33,6 +33,7 @@ class RolesController extends Controller
         return view('painel.roles.index', compact('roles', 'totalRoles'));
     }
 
+    
     public function permissions($id)
     {
         //Recupera o role
@@ -50,10 +51,11 @@ class RolesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, Role $role)
     {    
-        Role::create($request->all());
-        return view('painel.roles.create');
+        $role = $role->create($request->all());
+        
+        return view('painel.roles.create', ['role'=> new Role()]);
     }
 
     /**
@@ -62,10 +64,14 @@ class RolesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RoleRequest $request)
+    public function store(RoleRequest $request, Role $role)
     {
-        $data = $request->only(array_keys($request->rules()));
-        Role::create($data);
+        // Cadastra o Role
+        $role = $role->create($request->all());
+
+        // Cadastra as permissões
+        $role->permissions()->attach($request->permissions);
+
         return redirect()->route('roles.index')
                         ->with('message','Papel cadastrada com sucesso!');
     }

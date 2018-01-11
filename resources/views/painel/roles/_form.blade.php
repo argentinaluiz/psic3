@@ -1,13 +1,3 @@
-@forelse ($users as $user)
-   @component('form._form_group',['field' => 'user_id'])
-        {{ Form::label('user_id', 'Usuários',['class' => 'control-label']) }}
-        {{
-            Form::select('users[]', $user->id, null,['class' => 'form-control'])
-        }}
-    @endcomponent
-    @empty
-@endforelse
-
 @component('form._form_group',['field' => 'name'])
     {{ Form::label('name','Nome',['class' => 'control-label']) }}
     {{ Form::text('name',null,['class' => 'form-control']) }}

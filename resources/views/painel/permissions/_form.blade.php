@@ -9,11 +9,11 @@
     {{ Form::text('label', null,['class' => 'form-control'])}}
 @endcomponent
 
-@forelse ($rules as $rule)
-   @component('form._form_group',['field' => 'rule_id'])
-        {{ Form::label('rule_id', 'Papéis',['class' => 'control-label']) }}
+@forelse ($roles as $role)
+   @component('form._form_group',['field' => 'role_id'])
+        {{ Form::label('role_id', 'Papéis',['class' => 'control-label']) }}
         {{
-            Form::checkbox('rules[]', $rule->id, null,['class' => 'form-control'])
+            Form::checkbox('roles[]', $role->id, null,['class' => 'form-control'])
         }}
     @endcomponent
     @empty

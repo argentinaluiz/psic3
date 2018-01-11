@@ -183,7 +183,8 @@
                 <span class="subtotal">CART:<br/>
                 <span>R$ </span>
             </div> 
-            <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#modalDefault" style="margin-left: 50px;">LOGIN</button>
+            <a class="btn btn-sm btn-warning" style="height: 44px;line-height: 44px;" href="{{ route('login') }}">{{trans('auth.login')}}</a>
+            
           </div>
         </div>
       </div>
