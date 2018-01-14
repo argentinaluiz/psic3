@@ -44,20 +44,16 @@ class ProductsController extends Controller
         $data = $request->only(array_keys($request->rules()));
         $data['active'] = $request->has('active');
 
-        $nameFile = '';
-        if($request->hasFile('image')&& $request->file('image')->isValid()){
-            $nameFile = uniqid(date('HisYmd')).'.'.$request->image->extension();
-
-            if (!$request->image->storeAs('public/uploads/products', $nameFile))
-                return redirect()
-                            ->back()
-                            ->with('error', 'Falha ao fazer upload')
-                            ->withInput();
+        $pure_name="";
+        if($request->hasFile('file')){
+            $file_name=$request->file->store('public/uploads/products');
+            $pure_name = basename($file_name);
         }
-        
-      
-       // Product::create($request->all() + ['image_url'=>$nameFile] );
-       Product::create($data);
+
+
+        Product::create($request->all() + ['image_url'=>$pure_name] );
+
+       //Product::create($data);
         return redirect()->route('painel.products.index')
             ->with('message','Produto cadastrado com sucesso!');
     }
@@ -110,7 +106,7 @@ class ProductsController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-        return redirect()->route('products.index')
+        return redirect()->route('painel.products.index')
             ->with('message','Produto excluído com sucesso!');
     }
 }
