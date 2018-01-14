@@ -16,13 +16,21 @@ Route::get('/', function () {
     return view('site.home.index');
 });
 
-
+//Site
 Route::group(['prefix' => 'site', 'namespace' => 'Site'], function(){    
     Route::get('/product/{id}', 'SiteController@product')->name('product');
     Route::get('/cart', 'cart@index')->name('cart.index');
     Route::get('/cart/adicionar', function() {
         return redirect()->route('index');
     });
+
+    //Language route
+    Route::post('/language-chooser', 'LanguageController@changeLanguage');
+    Route::post('/language/', array(
+        'before'=> 'csrf',
+        'as'    => 'language-chooser',
+        'uses'  => 'LanguageController@changeLanguage',
+    ));
 
     Route::post('/cart/adicionar', 'CartController@adicionar')->name('cart.adicionar');
     Route::delete('/cart/remover', 'CartController@remover')->name('cart.remover');

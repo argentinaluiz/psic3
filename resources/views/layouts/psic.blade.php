@@ -143,7 +143,7 @@
         <div class="lang-currency-switcher-wrap">
             <div class="lang-currency-switcher">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">LÍNGUA</a>
-                <ul class="dropdown-menu">
+                <ul id = "languageSwitcher" class="dropdown-menu">
                     <li><a class="dropdown-item" href="" style="color: #333;"><img alt="image" class="img-circle" src="{{ asset('site/img/flags/16/United-States.png') }}"/> English</a> </li>
                     <li><a class="dropdown-item" href="" style="color: #333;"><img alt="image" class="img-circle" src="{{ asset('site/img/flags/16/Brazil.png') }}"/> Português</a></li>
                     <li><a class="dropdown-item" href="" style="color: #333;"><img alt="image" class="img-circle" src="{{ asset('site/img/flags/16/Spain.png') }}"/> Espanhol</a></li>
