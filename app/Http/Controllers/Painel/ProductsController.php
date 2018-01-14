@@ -3,69 +3,114 @@
 namespace App\Http\Controllers\Painel;
 
 use App\Models\Painel\Product;
+use App\Http\Requests\ProductRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ProductsController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
+        $totalProducts   = Product::count();
+
+        \Session::flash('chave','valor');
         $products = Product::all();
-        return view('painel.products.index', compact('products'));
+        return view('painel.products.index', compact('products', 'title', 'totalProducts'));
     }
 
-    public function adicionar()
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
     {
-        return view('painel.products.adicionar');
+        return view('painel.products.create', ['product' => new Product()]);
     }
 
-    public function editar($id)
-    {
-        $registro = Product::find($id);
-        if( empty($registro->id) ) {
-            return redirect()->route('painel.products');
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(ProductRequest $request)
+    {        
+        $data = $request->only(array_keys($request->rules()));
+        $data['active'] = $request->has('active');
+
+        $nameFile = '';
+        if($request->hasFile('image')&& $request->file('image')->isValid()){
+            $nameFile = uniqid(date('HisYmd')).'.'.$request->image->extension();
+
+            if (!$request->image->storeAs('public/uploads/products', $nameFile))
+                return redirect()
+                            ->back()
+                            ->with('error', 'Falha ao fazer upload')
+                            ->withInput();
         }
-        return view('painel.products.editar', compact('registro'));
+        
+      
+       // Product::create($request->all() + ['image_url'=>$nameFile] );
+       Product::create($data);
+        return redirect()->route('painel.products.index')
+            ->with('message','Produto cadastrado com sucesso!');
     }
 
-    public function show($id)
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Painel\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Product $product)
     {
-        $registro = Product::find($id);
-        if( empty($registro->id) ) {
-            return redirect()->route('painel.products.index');
-        }
-        return view('painel.products.editar', compact('registro'));
+        return view('painel.products.show', compact('product'));
     }
 
-    public function salvar(Request $req)
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Painel\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Product $product)
     {
-        $dados = $req->all();
-
-        Product::create($dados);
-
-        $req->session()->flash('painel-mensagem-sucesso', 'Produto cadastrado com sucesso!');
-
-        return redirect()->route('painel.products.index');
+        return view('painel.products.edit', compact('product'));
     }
 
-    public function atualizar(Request $req, $id)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Painel\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function update(ProductRequest $request, Product $product)
     {
-        $dados = $req->all();
-
-        Product::find($id)->update($dados);
-
-        $req->session()->flash('painel-mensagem-sucesso', 'Produto atualizado com sucesso!');
-
-        return redirect()->route('painel.products.index');
+        $data = $request->only(array_keys($request->rules()));
+        $data['active'] = $request->has('active');
+        $product->fill($data);
+        $product->save();
+        return redirect()->route('painel.products.index')
+            ->with('message','Produto alterado com sucesso!');
     }
 
-    public function deletar($id)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Painel\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Product $product)
     {
-
-        Product::find($id)->delete();
-
-        $req->session()->flash('painel-mensagem-sucesso', 'Produto deletado com sucesso!');
-
-        return redirect()->route('painel.products.index');
+        $product->delete();
+        return redirect()->route('products.index')
+            ->with('message','Produto excluído com sucesso!');
     }
 }

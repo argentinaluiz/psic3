@@ -1,27 +1,32 @@
-<div class="input-field">
-	<input type="text" name="name" id="name" value="{{ isset($registro->name) ? $registro->name : null }}">
-	<label for="name">Nome</label>
+@component('form._form_group',['field' => 'name'])
+    {{ Form::label('name','Nome',['class' => 'control-label']) }}
+    {{ Form::text('name',null,['class' => 'form-control']) }}
+@endcomponent
+
+@component('form._form_group',['field' => 'image'])
+    {{ Form::label('image', 'Imagem',['class' => 'control-label']) }}
+    {{ Form::file('image', null,['class' => 'form-control'])}}
+@endcomponent
+
+@component('form._form_group',['field' => 'description'])
+    {{ Form::label('description', 'Descrição',['class' => 'control-label']) }}
+    {{ Form::text('description', null,['class' => 'form-control'])}}
+@endcomponent
+
+@component('form._form_group',['field' => 'old_price'])
+    {{ Form::label('old_price', 'Valor anterior',['class' => 'control-label']) }}
+    {{ Form::text('old_price', null,['class' => 'form-control'])}}
+@endcomponent
+
+@component('form._form_group',['field' => 'price'])
+    {{ Form::label('price', 'Valor vendido',['class' => 'control-label']) }}
+    {{ Form::text('price', null,['class' => 'form-control'])}}
+@endcomponent
+<div class="checkbox">
+    <label>
+        {{ Form::checkbox('active') }} Ativo?
+    </label>
 </div>
-<div class="input-field">
-	<textarea type="text" name="description" id="description" class="materialize-textarea">{{ isset($registro->description) ? $registro->description : null }}</textarea>
-	<label for="description">Descrição</label>
-</div>
-<div class="input-field">
-	<input type="text" name="image" id="image" value="{{ isset($registro->image) ? $registro->image : null }}">
-	<label for="image">Imagem</label>
-</div>
-<div class="input-field">
-	<input type="text" name="value" id="value" value="{{ isset($registro->value) ? $registro->value : null }}">
-	<label for="value">Valor</label>
-</div>
-<div class="input-field">
-    <div class="row">
-        <label for="active">Ativo</label>
-    </div>
-    <div class="row">
-      <input name="active" type="radio" id="active-s" value="S" {{ isset($registro->active) && $registro->active == 'S' ? ' checked="checked"' : null }} required="required" />
-      <label for="active-s">Sim</label>
-      <input name="active" type="radio" id="active-n" value="N" {{ isset($registro->active) && $registro->active == 'N' ? ' checked="checked"' : null }} required="required"  />
-      <label for="active-n">Não</label>
-    </div>
-</div>
+
+
+

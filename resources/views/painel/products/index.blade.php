@@ -1,46 +1,98 @@
 @extends('layouts.app')
-@section('pag_title', 'Carrinho de compras - Produtos')
+@section('pag_title', 'Pacotes')
 
 @section('content')
-	<div class="container">
-		<div class="row">
-			<h3>Lista de produtos</h3>
-			@if (Session::has('painel-mensagem-sucesso'))
-	            <div class="card-panel green"><strong>{{ Session::get('painel-mensagem-sucesso') }}<strong></div>
-	        @endif
-			<table>
-				<thead>
-					<tr>
-						<th></th>
-						<th>ID</th>
-						<th>Nome</th>
-						<th>Valor</th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach ($products as $product)
-					<tr>
-						<td>
-							<a class="btn-flat tooltipped" href="{{ route('painel.products.editar', $product->id) }}" class="btn-flat tooltipped" data-position="right" data-delay="50" data-tooltip="Editar produto?">
-								<i class="material-icons black-text">mode_edit</i>
-							</a>
-							<a class="btn-flat tooltipped" href="{{ route('painel.products.deletar', $product->id) }}" class="btn-flat tooltipped" data-position="right" data-delay="50" data-tooltip="Deletar produto?">
-								<i class="material-icons black-text">delete</i>
-								</a>
-						</td>
-						<td>{{ $product->id }}</td>
-						<td>{{ $product->name }}</td>
-						<td>R$ {{ $product->value }}</td>
-					</tr>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Listagem dos produtos</h3>
+            <div class="cleaner_h25"></div>
+            <span class="pull-right small text-muted">Total de produtos: {{ $totalProducts}}</span>
+            <br/>
+            <a class="btn btn-default" href="{{route('products.create') }}">Criar nova</a>
+            <div class="cleaner_h15"></div>
+            <table class="table table-striped dataTables-products">
+                <thead>
+                <tr>
+                    <th>Nome</th>
+					<th>Imagem</th>
+					<th>Descrição</th>
+                    <th>Preço anterior</th>
+					<th>Preço vendido</th>
+					<th>Ativo?</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+					@foreach($products as $product)
+						<tr>
+							<td>{{ $product->name }}</td>
+							<td>@if($product->image_url)
+								<img src="{{ asset("storage/uploads/products".$product->image_url) }}" />
+								@else
+								<img src="{{ asset('storage/uploads/products/no-image.png')}} alt="{{$product->id}}" />
+							@endif
+							</td>
+							<td>{{ $product->description }}</td>
+							<td>R$ {{number_format($product->old_price, 2, ',', '.')}}</td>
+							<td>R$ {{number_format($product->price, 2, ',', '.')}}</td>
+							<td>{{$product->active?'Sim': 'Não'}}</td>
+							<td>
+								<a href="{{route('products.edit',['product' => $product->id])}}">Editar</a> |
+								<a href="{{route('products.show',['product' => $product->id])}}">Ver</a>
+							</td>
+						</tr>
 					@endforeach
-				</tbody>
-			</table>
-		</div>
-		<div class="row">
-			<a class="btn-floating btn-large blue tooltipped" href="{{ route('painel.products.adicionar') }}" title="Adicionar" data-position="top" data-delay="50" data-tooltip="Adicionar produto?">
-				<i class="material-icons">add</i>
-			</a>
-		</div>
-	</div>
+                </tbody>
+            </table>
 
+        </div>
+    </div>
+</div>
+
+<script>$(document).ready(function () {
+    $.noConflict();
+		var table = $('.dataTables-products').DataTable({
+			pageLength: 10,
+			responsive: true,
+			dom: '<"html5buttons"B>lTfgitp',
+			"language": {
+				"lengthMenu": "Mostrando _MENU_ registros por página",
+				"zeroRecords": "Nada encontrado",
+				"info": "Mostrando _PAGE_ de _PAGES_",
+				"infoEmpty": "Nenhum registro disponível",
+				"infoFiltered": "(filtrado de _MAX_ registros no total)",
+				"search":         "Busca:",
+				"zeroRecords":    "Nenhum registro cadastrado",
+				"paginate": {
+					"first":      "Primeira",
+					"last":       "Última",
+					"next":       "Próxima",
+					"previous":   "Anterior"
+				},
+				"aria": {
+					"sortAscending":  ": ativa para ordenar de modo crescente",
+					"sortDescending": ": ativa para ordenar de modo decrescente"
+				}
+			},
+			buttons: [
+				{extend: 'copy'},
+				{extend: 'csv'},
+				{extend: 'excel', title: 'ProdutosFile'},
+				{extend: 'pdf', title: 'ProdutosFile'},
+
+				{extend: 'print',
+					customize: function (win){
+						$(win.document.body).addClass('white-bg');
+						$(win.document.body).css('font-size', '10px');
+						$(win.document.body).find('table')
+								.addClass('compact')
+								.css('font-size', 'inherit');
+				}
+				}
+			]
+			
+		});
+	});
+</script>
 @endsection

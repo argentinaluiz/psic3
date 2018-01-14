@@ -17,4 +17,5 @@
         }}
     @endcomponent
     @empty
+    <p>Nenhuma permissão cadastrada.</p>
 @endforelse

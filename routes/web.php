@@ -104,7 +104,8 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
 
     Route::resource('products', 'ProductsController');
     Route::get('products', 'ProductsController@index')->name('painel.products.index');
-    Route::get('products/adicionar', 'ProductsController@adicionar')->name('painel.products.adicionar');
+    Route::post('products', 'ProductsController@store')->name('painel.products.store');
+
 
     Route::resource('coupons', 'DiscountCouponController');
 });
