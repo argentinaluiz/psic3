@@ -25,11 +25,11 @@ Route::group(['prefix' => 'site', 'namespace' => 'Site'], function(){
     });
 
     //Language route
-    Route::post('/language-chooser', 'LanguageController@changeLanguage');
+    Route::post('/language', 'LanguageController@chooser');
     Route::post('/language/', array(
         'before'=> 'csrf',
         'as'    => 'language-chooser',
-        'uses'  => 'LanguageController@changeLanguage',
+        'uses'  => 'LanguageController@chooser',
     ));
 
     Route::post('/cart/adicionar', 'CartController@adicionar')->name('cart.adicionar');

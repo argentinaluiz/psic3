@@ -7,6 +7,8 @@ return [
     'Register' => 'Registrar',
     'Language' => 'Língua',
     'Logout' => 'Sair',
+    'Packages'=>'Pacotes',
+    'Contact'=>'Contato',
     'EmailAddress' => 'Email',
     'Password' => 'Senha',
     'ForgetPassword' => 'Esqueceu sua Senha?',

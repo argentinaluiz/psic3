@@ -7,6 +7,8 @@ return [
     'Register' => 'Register',
     'Language' => 'Language',
     'Logout' => 'Logout',
+    'Packages'=>'Packages',
+    'Contact'=>'Contact',
     'EmailAddress' => 'Email Address',
     'Password' => 'Password',
     'ForgetPassword' => 'Forgot Your Password?',

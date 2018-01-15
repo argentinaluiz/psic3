@@ -42,90 +42,13 @@
   </head>
 
   <body id="page-top">
-    <!-- Default Modal-->
-    <div class="modal fade" id="modalDefault" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title"><img alt="image" class="img-circle" style="width: 150px;" src="{{ asset('site/img/logo2.png') }}"/></h4>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          </div>
-          <div class="modal-body">
-                <div>
-                    <div class="cleaner_h10"></div> 
-                    <h5 class="logo-name text-center">Área de Login</h5>
-                    <div class="cleaner_h10"></div> 
-                </div>
-
-                <form class="m-t" role="form" action="{{ route('login') }}" method="POST">
-                  {{ csrf_field() }}
-                    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                        <input id="email" type="email" class="form-control" placeholder="Email" name="email" value="{{ old('email') }}" required autofocus>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                    </div>
-                    <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                        <input id="password" type="password" class="form-control" placeholder="Senha" name="password" required>
-                            @if ($errors->has('password'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('password') }}</strong>
-                                </span>
-                            @endif
-                    </div>
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-sm btn-primary btn-block block full-width m-b">
-                            {{trans('auth.login')}}
-                        </button>
-                        <div class="checkbox ">
-                            <label style="float: right">
-                                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{trans('auth.rememberme')}}
-                            </label>
-                        </div>
-                         <div class="cleaner_h5"></div> 
-                    </div>
-                </form>
-
-                <form class="form-inline" method="post" action="{{ url('/login/social') }}">
-                    {{ csrf_field() }}
-                    <div class="row">
-                      <div class="col-sm-4">
-                          <button type="submit" class="btn btn-sm btn-danger" value="google" name="social_type">
-                              {{trans('auth.loginwithgoogle?')}} 
-                          </button>
-                      </div>
-                      <div class="col-sm-2"></div>
-                      <div class="col-sm-4">
-                        <button type="submit" class="btn btn-sm" value="github" name="social_type" style="color: #00397D;">
-                            {{trans('auth.loginwithgithub?')}} 
-                        </button>
-                      </div>
-                    </div>
-                </form>
-                <div class="cleaner_h5"></div> 
-
-                <p class="text-center"><a class="btn btn-sm btn-link" style="color: #00397D;" href="{{ route('password.request') }}">{{trans('auth.forgotYourPassword?')}}</a></p>
-                
-                <a class="btn btn-sm btn-outline-primary btn-block" style="color: #00397D; border-color: #00397D;">Criar uma conta</a>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-outline-secondary btn-sm" type="button" data-dismiss="modal" style="color: #00397D;">Fechar </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Off-Canvas Mobile Menu-->
     <div class="offcanvas-container" id="mobile-menu">
       <nav class="offcanvas-menu">
         <ul class="menu">
-            <li><a class="page-scroll active" href="#page-top"><span> HOME </span></a></li>
-            <li><a class="page-scroll" href="#pricing"><span> PACKAGES </span></a></li>
-            <li><a class="page-scroll" href="#contact"><span> CONTACT </span></a></li>
+            <li><a class="page-scroll active" href="#page-top"><span> {{ trans ('app.Home') }} </span></a></li>
+            <li><a class="page-scroll" href="#pricing"><span> {{ trans ('app.Packages') }} </span></a></li>
+            <li><a class="page-scroll" href="#contact"><span> {{ trans ('app.Contact') }} </span></a></li>
         </ul>
       </nav>
     </div>
@@ -140,16 +63,16 @@
         <a class="social-button sb-whatsapp" href="#" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a>
       </div>
       <div class="topbar-column">
-        <div class="lang-currency-switcher-wrap">
-            <div class="lang-currency-switcher">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">LÍNGUA</a>
-                <ul id = "languageSwitcher" class="dropdown-menu">
-                    <li><a class="dropdown-item" href="" style="color: #333;"><img alt="image" class="img-circle" src="{{ asset('site/img/flags/16/United-States.png') }}"/> English</a> </li>
-                    <li><a class="dropdown-item" href="" style="color: #333;"><img alt="image" class="img-circle" src="{{ asset('site/img/flags/16/Brazil.png') }}"/> Português</a></li>
-                    <li><a class="dropdown-item" href="" style="color: #333;"><img alt="image" class="img-circle" src="{{ asset('site/img/flags/16/Spain.png') }}"/> Espanhol</a></li>
-                </ul>
-            </div>
-        </div>
+		<form action="{{ URL::route('language-chooser') }}" method="post">
+			<select name="locale">
+				<option value="en"> English</option>
+				<option value="pt-BR" {{ Lang::locale() === 'pt-BR' ? ' selected ' : ''  }}> Portuguese</option>
+				<option value="es" {{ Lang::locale() === 'es' ? ' selected ' : ''  }}> Spanish</option>
+			</select>
+      
+			<input class="btn btn-sm btn-primary" type="submit" value="Choose">
+			{{ Form::token( ) }}
+		</form>
       </div>
     </div>
     <!-- Navbar-->
@@ -169,9 +92,9 @@
       <!-- Main Navigation-->
       <nav class="site-menu">
         <ul>
-            <li><a class="page-scroll active" href="#page-top"><span> HOME </span></a></li>
-            <li><a class="page-scroll" href="#pricing"><span> PACKAGES </span></a></li>
-            <li><a class="page-scroll" href="#contact"><span> CONTACT </span></a></li>
+            <li><a class="page-scroll active" href="#page-top"><span> {{ trans ('app.Home') }}</span></a></li>
+            <li><a class="page-scroll" href="#pricing"><span> {{ trans ('app.Packages') }} </span></a></li>
+            <li><a class="page-scroll" href="#contact"><span>{{ trans ('app.Contact') }} </span></a></li>
         </ul>
       </nav>
       <!-- Toolbar-->
