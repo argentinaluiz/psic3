@@ -8,7 +8,7 @@ class Product extends Model
 {
     protected $fillable = [
         'name',
-        'image',
+        'image_url',
         'description',
         'old_price',
         'price',

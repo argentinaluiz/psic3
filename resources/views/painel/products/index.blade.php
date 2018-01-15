@@ -28,7 +28,7 @@
 						<tr>
 							<td>{{ $product->name }}</td>
 							<td>@if($product->image_url)
-								<img src="{{ asset("storage/uploads/products".$product->image_url) }}" />
+								<img src="{{ asset("storage/uploads/products/".$product->image_url) }}" />
 								@else
 								<img src="{{ asset('storage/uploads/products/no-image.png')}} alt="{{$product->id}}" />
 							@endif

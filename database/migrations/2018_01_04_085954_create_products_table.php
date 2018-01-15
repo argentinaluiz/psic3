@@ -19,8 +19,8 @@ class CreateProductsTable extends Migration
             $table->text('description')->nullable();
             $table->double('old_price', 10, 2);
             $table->double('price', 10, 2);
-            $table->string('image', 200)->nullable();
-            $table->boolean('active', 2); //s ou n
+            $table->string('image_url', 100)->nullable();
+            $table->boolean('active')->default(true); //s ou n
             $table->timestamps();
         });
     }
