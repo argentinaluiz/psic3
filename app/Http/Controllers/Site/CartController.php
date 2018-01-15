@@ -2,357 +2,102 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Models\Site\Cart;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Models\Painel\Order;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Site\Cart;
 use App\Models\Painel\Product;
-use App\Models\Painel\OrderProduct;
-use App\Models\Painel\DiscountCoupon;
 
 class CartController extends Controller
 {
-    function __construct()
-    {
-        // obriga estar logado;
-        $this->middleware('auth');
-    }
-
+    
     public function index()
     {
+        $mightAlsoLike = Product::mightAlsoLike()->get();
+        return view('cart.index')->with('mightAlsoLike', $mightAlsoLike);
+    }
 
-        $orders = Order::where([
-            'status'  => 'RE',
-            'user_id' => Auth::id()
-            ])->get();
-        
-        dd([
-            $orders,
-            $orders[0]->order_products,
-            $orders[0]->order_products[0]->product,
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $duplicates = Cart::search(function ($cartItem, $rowId) use ($request) {
+            return $cartItem->id === $request->id;
+        });
+
+        if ($duplicates->isNotEmpty()) {
+            return redirect()->route('cart.index')->with('success_message', 'Item is already in your cart!');
+        }
+
+        Cart::add($request->id, $request->name, 1, $request->price)
+            ->associate('App\Product');
+
+        return redirect()->route('cart.index')->with('success_message', 'Item was added to your cart!');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'quantity' => 'required|numeric|between:1,5'
         ]);
 
-        return view('site.cart.index', compact('orders'));
+        if ($validator->fails()) {
+            session()->flash('errors', collect(['Quantity must be between 1 and 5.']));
+            return response()->json(['success' => false], 400);
+        }
+
+        Cart::update($id, $request->quantity);
+        session()->flash('success_message', 'Quantity was updated successfully!');
+        return response()->json(['success' => true]);
     }
 
-    public function adicionar()
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
     {
-
-        $this->middleware('VerifyCsrfToken');
-
-        $req = Request();
-        $idproduct = $req->input('id');
-
-        $product = Product::find($idproduct);
-        if( empty($product->id) ) {
-            $req->session()->flash('mensagem-falha', 'Produto não encontrado em nossa loja!');
-            return redirect()->route('site.cart.index');
-        }
-
-        $iduser = Auth::id();
-
-        $idorder = Order::consultaId([
-            'user_id' => $iduser,
-            'status'  => 'RE' // Reservada
-            ]);
-
-        if( empty($idorder) ) {
-            $order_new = Order::create([
-                'user_id' => $iduser,
-                'status'  => 'RE'
-                ]);
-
-            $idorder = $order_new->id;
-
-        }
-
-        OrderProduct::create([
-            'order_id'  => $idorder,
-            'product_id' => $idproduct,
-            'value'      => $product->value,
-            'status'     => 'RE'
-            ]);
-
-        $req->session()->flash('mensagem-sucesso', 'Produto adicionado ao carrinho com sucesso!');
-
-        return redirect()->route('site.cart.index');
-
+        Cart::remove($id);
+        return back()->with('success_message', 'Item has been removed!');
     }
 
-    public function remover()
+    /**
+     * Switch item for shopping cart to Save for Later.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function switchToSaveForLater($id)
     {
+        $item = Cart::get($id);
+        Cart::remove($id);
 
-        $this->middleware('VerifyCsrfToken');
+        $duplicates = Cart::instance('saveForLater')->search(function ($cartItem, $rowId) use ($id) {
+            return $rowId === $id;
+        });
 
-        $req = Request();
-        $idorder           = $req->input('order_id');
-        $idproduct          = $req->input('product_id');
-        $remove_apenas_item = (boolean)$req->input('item');
-        $iduser          = Auth::id();
-
-        $idorder = Order::consultaId([
-            'id'      => $idorder,
-            'user_id' => $iduser,
-            'status'  => 'RE' // Reservada
-            ]);
-
-        if( empty($idorder) ) {
-            $req->session()->flash('mensagem-falha', 'Pedido não encontrado!');
-            return redirect()->route('site.cart.index');
+        if ($duplicates->isNotEmpty()) {
+            return redirect()->route('cart.index')->with('success_message', 'Item is already Saved For Later!');
         }
 
-        $where_produto = [
-            'order_id'  => $idorder,
-            'product_id' => $idproduct
-        ];
+        Cart::instance('saveForLater')->add($item->id, $item->name, 1, $item->price)
+            ->associate('App\Product');
 
-        $product = OrderProduct::where($where_produto)->orderBy('id', 'desc')->first();
-        if( empty($product->id) ) {
-            $req->session()->flash('mensagem-falha', 'Produto não encontrado no carrinho!');
-            return redirect()->route('site.cart.index');
-        }
-
-        if( $remove_apenas_item ) {
-            $where_produto['id'] = $product->id;
-        }
-        OrderProduct::where($where_produto)->delete();
-
-        $check_order = OrderProduct::where([
-            'order_id' => $product->order_id
-            ])->exists();
-
-        if( !$check_order ) {
-            Order::where([
-                'id' => $product->order_id
-                ])->delete();
-        }
-
-        $req->session()->flash('mensagem-sucesso', 'Produto removido do carrinho com sucesso!');
-
-        return redirect()->route('site.cart.index');
+        return redirect()->route('cart.index')->with('success_message', 'Item has been Saved For Later!');
     }
 
-    public function concluir()
-    {
-        $this->middleware('VerifyCsrfToken');
-
-        $req = Request();
-        $idorder  = $req->input('order_id');
-        $iduser = Auth::id();
-
-        $check_order = Order::where([
-            'id'      => $idorder,
-            'user_id' => $iduser,
-            'status'  => 'RE' // Reservada
-            ])->exists();
-
-        if( !$check_order ) {
-            $req->session()->flash('mensagem-falha', 'Pedido não encontrado!');
-            return redirect()->route('site.cart.index');
-        }
-
-        $check_products = OrderProduct::where([
-            'order_id' => $idorder
-            ])->exists();
-        if(!$check_products) {
-            $req->session()->flash('mensagem-falha', 'Produtos do pedido não encontrados!');
-            return redirect()->route('site.cart.index');
-        }
-
-        OrderProduct::where([
-            'order_id' => $idorder
-            ])->update([
-                'status' => 'PA'
-            ]);
-            Order::where([
-                'id' => $idorder
-            ])->update([
-                'status' => 'PA'
-            ]);
-
-        $req->session()->flash('mensagem-sucesso', 'Compra concluída com sucesso!');
-
-        return redirect()->route('site.cart.compras');
-    }
-
-    public function compras()
-    {
-
-        $compras = Order::where([
-            'status'  => 'PA',
-            'user_id' => Auth::id()
-            ])->orderBy('created_at', 'desc')->get();
-
-        $cancelados = Order::where([
-            'status'  => 'CA',
-            'user_id' => Auth::id()
-            ])->orderBy('updated_at', 'desc')->get();
-
-        return view('site.cart.compras', compact('compras', 'cancelados'));
-
-    }
-
-    public function cancelar()
-    {
-        $this->middleware('VerifyCsrfToken');
-
-        $req = Request();
-        $idorder       = $req->input('order_id');
-        $idsorder_prod = $req->input('id');
-        $iduser      = Auth::id();
-
-        if( empty($idspedido_prod) ) {
-            $req->session()->flash('mensagem-falha', 'Nenhum item selecionado para cancelamento!');
-            return redirect()->route('site.cart.compras');
-        }
-
-        $check_order = Order::where([
-            'id'      => $idorder,
-            'user_id' => $iduser,
-            'status'  => 'PA' // Pago
-            ])->exists();
-
-        if( !$check_order ) {
-            $req->session()->flash('mensagem-falha', 'Order não encontrado para cancelamento!');
-            return redirect()->route('site.cart.compras');
-        }
-
-        $check_products = OrderProduct::where([
-                'order_id' => $idorder,
-                'status'    => 'PA'
-            ])->whereIn('id', $idspedido_prod)->exists();
-
-        if( !$check_products ) {
-            $req->session()->flash('mensagem-falha', 'Produtos do pedido não encontrados!');
-            return redirect()->route('site.cart.compras');
-        }
-
-        OrderProduct::where([
-                'order_id' => $idorder,
-                'status'    => 'PA'
-            ])->whereIn('id', $idspedido_prod)->update([
-                'status' => 'CA'
-            ]);
-
-        $check_order_cancel = OrderProduct::where([
-                'order_id' => $idorder,
-                'status'    => 'PA'
-            ])->exists();
-
-        if( !$check_order_cancel ) {
-            Order::where([
-                'id' => $idorder
-            ])->update([
-                'status' => 'CA'
-            ]);
-
-            $req->session()->flash('mensagem-sucesso', 'Compra cancelada com sucesso!');
-
-        } else {
-            $req->session()->flash('mensagem-sucesso', 'Item(ns) da compra cancelado(s) com sucesso!');
-        }
-
-        return redirect()->route('site.cart.compras');
-    }
-
-    public function discount()
-    {
-
-        $this->middleware('VerifyCsrfToken');
-
-        $req = Request();
-        $idorder  = $req->input('order_id');
-        $coupon     = $req->input('cupom');
-        $iduser = Auth::id();
-
-        if( empty($coupon) ) {
-            $req->session()->flash('mensagem-falha', 'Cupom inválido!');
-            return redirect()->route('site.cart.index');
-        }
-
-        $coupon = DiscountCoupon::where([
-            'tracker' => $coupon,
-            'ativo'       => 'S'
-            ])->where('expiry_dthr', '>', date('Y-m-d H:i:s'))->first();
-
-        if( empty($coupon->id) ) {
-            $req->session()->flash('mensagem-falha', 'Cupom de desconto não encontrado!');
-            return redirect()->route('site.cart.index');
-        }
-
-        $check_order = Order::where([
-            'id'      => $idorder,
-            'user_id' => $iduser,
-            'status'  => 'RE' // Reservado
-            ])->exists();
-
-        if( !$check_order ) {
-            $req->session()->flash('mensagem-falha', 'Pedido não encontrado para validação!');
-            return redirect()->route('site.cart.index');
-        }
-
-        $order_products = OrderProduct::where([
-                'order_id' => $idorder,
-                'status'    => 'RE'
-            ])->get();
-
-        if( empty($order_products) ) {
-            $req->session()->flash('mensagem-falha', 'Produtos do pedido não encontrados!');
-            return redirect()->route('site.cart.index');
-        }
-
-        $apply_discount = false;
-        foreach ($order_products as $order_product) {
-
-            switch ($coupon->discount_mode) {
-                case 'porc':
-                    $value_discount = ( $order_product->value * $coupon->discount ) / 100;
-                    break;
-
-                default:
-                    $value_discount = $coupon->discount;
-                    break;
-            }
-
-            $value_discount = ($value_discount > $order_product->value) ? $order_product->value : number_format($value_discount, 2);
-
-            switch ($coupon->limit_mode) {
-                case 'qtd':
-                    $qtd_pedido = OrderProduct::whereIn('status', ['PA', 'RE'])->where([
-                            'discount_coupon_id' => $coupon->id
-                        ])->count();
-
-                    if( $qtd_pedido >= $coupon->limit ) {
-                        continue;
-                    }
-                    break;
-
-                default:
-                    $value_ckc_discounts = OrderProduct::whereIn('status', ['PA', 'RE'])->where([
-                            'discount_coupon_id' => $coupon->id
-                        ])->sum('discount');
-
-                    if( ($value_ckc_discounts+$value_discount) > $coupon->limit ) {
-                        continue;
-                    }
-                    break;
-            }
-
-            $order_product->discount_coupon_id = $coupon->id;
-            $order_product->discount          = $value_discount;
-            $order_product->update();
-
-            $apply_discount = true;
-
-        }
-
-        if( $apply_discount ) {
-            $req->session()->flash('mensagem-sucesso', 'Cupom aplicado com sucesso!');
-        } else {
-            $req->session()->flash('mensagem-falha', 'Cupom esgotado!');
-        }
-        return redirect()->route('site.cart.index');
-
-    }
 }

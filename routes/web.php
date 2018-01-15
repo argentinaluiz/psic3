@@ -18,12 +18,6 @@ Route::get('/', function () {
 
 //Site
 Route::group(['prefix' => 'site', 'namespace' => 'Site'], function(){    
-    Route::get('/product/{id}', 'SiteController@product')->name('product');
-    Route::get('/cart', 'cart@index')->name('cart.index');
-    Route::get('/cart/adicionar', function() {
-        return redirect()->route('index');
-    });
-
     //Language route
     Route::post('/language', 'LanguageController@chooser');
     Route::post('/language/', array(
@@ -32,12 +26,24 @@ Route::group(['prefix' => 'site', 'namespace' => 'Site'], function(){
         'uses'  => 'LanguageController@chooser',
     ));
 
-    Route::post('/cart/adicionar', 'CartController@adicionar')->name('cart.adicionar');
-    Route::delete('/cart/remover', 'CartController@remover')->name('cart.remover');
-    Route::post('/cart/concluir', 'CartController@concluir')->name('cart.concluir');
-    Route::get('/cart/compras', 'CartController@compras')->name('cart.compras');
-    Route::post('/cart/cancelar', 'CartController@cancelar')->name('cart.cancelar');
-    Route::post('/cart/desconto', 'CartController@desconto')->name('cart.desconto');
+    //Carrinho de compra 
+    Route::get('/shop', 'ShopController@index')->name('shop.index');
+    Route::get('/shop/{product}', 'ShopController@show')->name('shop.show');
+
+    Route::get('/cart', 'CartController@index')->name('cart.index');
+    Route::post('/cart', 'CartController@store')->name('cart.store');
+    Route::patch('/cart/{product}', 'CartController@update')->name('cart.update');
+    Route::delete('/cart/{product}', 'CartController@destroy')->name('cart.destroy');
+    Route::post('/cart/switchToSaveForLater/{product}', 'CartController@switchToSaveForLater')->name('cart.switchToSaveForLater');
+
+    Route::delete('/saveForLater/{product}', 'SaveForLaterController@destroy')->name('saveForLater.destroy');
+    Route::post('/saveForLater/switchToCart/{product}', 'SaveForLaterController@switchToCart')->name('saveForLater.switchToCart');
+
+    Route::get('/checkout', 'CheckoutController@index')->name('checkout.index');
+    Route::post('/checkout', 'CheckoutController@store')->name('checkout.store');
+
+    Route::get('/thankyou', 'ConfirmationController@index')->name('confirmation.index');
+
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

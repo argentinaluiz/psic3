@@ -6,6 +6,7 @@ return [
     'Login' => 'Login',
     'Register' => 'Register',
     'Language' => 'Language',
+    'Choose' => 'Choose',
     'Logout' => 'Logout',
     'Packages'=>'Packages',
     'Contact'=>'Contact',

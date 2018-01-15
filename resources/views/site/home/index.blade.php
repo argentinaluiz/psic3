@@ -186,8 +186,10 @@
                 </div>
             </div>
             <div class="row">
-                  
-
+                
+            </div>
+            <div class="text-center ">
+                <a href="{{ route('shop.index') }}" class="btn btn-sm btn-primary">View more products</a>
             </div>
         </div>
     </section>

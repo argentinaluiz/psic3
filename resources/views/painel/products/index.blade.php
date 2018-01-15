@@ -9,16 +9,18 @@
             <div class="cleaner_h25"></div>
             <span class="pull-right small text-muted">Total de produtos: {{ $totalProducts}}</span>
             <br/>
-            <a class="btn btn-default" href="{{route('products.create') }}">Criar nova</a>
+            <a class="btn btn-default" href="{{route('products.create') }}">Criar novo</a>
             <div class="cleaner_h15"></div>
             <table class="table table-striped dataTables-products">
                 <thead>
                 <tr>
                     <th>Nome</th>
 					<th>Imagem</th>
-					<th>Descrição</th>
+					<th>Detallhes</th>
                     <th>Preço anterior</th>
 					<th>Preço vendido</th>
+					<th>Descrição</th>
+					<th>Destaque?</th>
 					<th>Ativo?</th>
                     <th>Ações</th>
                 </tr>
@@ -27,15 +29,18 @@
 					@foreach($products as $product)
 						<tr>
 							<td>{{ $product->name }}</td>
-							<td>@if($product->image_url)
-								<img src="{{ asset("storage/uploads/products/".$product->image_url) }}" />
+							<td>
+								@if($product->image)
+									<img src="{{url("storage/products/{$product->image}")}}" alt="{{$product->id}}" style="max-width: 60px;">
 								@else
-								<img src="{{ asset('storage/uploads/products/no-image.png')}} alt="{{$product->id}}" />
-							@endif
+									<img src="{{url('painel/imgs/no-image.png')}}" alt="{{$product->id}}" style="max-width: 100px;">
+								@endif
 							</td>
-							<td>{{ $product->description }}</td>
+							<td>{{ $product->details }}</td>
 							<td>R$ {{number_format($product->old_price, 2, ',', '.')}}</td>
 							<td>R$ {{number_format($product->price, 2, ',', '.')}}</td>
+							<td>{{ $product->description }}</td>
+							<td>{{$product->featured?'Sim': 'Não'}}</td>
 							<td>{{$product->active?'Sim': 'Não'}}</td>
 							<td>
 								<a href="{{route('products.edit',['product' => $product->id])}}">Editar</a> |

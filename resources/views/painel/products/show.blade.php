@@ -20,8 +20,8 @@
                     <td>{{$product->name}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Descrição</th>
-                    <td>{{$product->description}}</td>
+                    <th scope="row">Detalhes</th>
+                    <td>{{$product->details}}</td>
                 </tr>
                  <tr>
                     <th scope="row">Valor anterior</th>
@@ -31,7 +31,14 @@
                     <th scope="row">Valor Atual</th>
                     <td> R$ {{number_format($product->price, 2, ',', '.')}}</td>
                 </tr>
-
+                <tr>
+                    <th scope="row">Descrição</th>
+                    <td>{{$product->description}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Destaque</th>
+                    <td>{{$product->featured?'Sim': 'Não'}}</td>
+                </tr>
                 <tr>
 					<th scope="row">Ativo</th>
 					<td>{{$product->active?'Sim': 'Não'}}</td>

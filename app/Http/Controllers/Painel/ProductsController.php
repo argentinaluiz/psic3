@@ -9,6 +9,13 @@ use App\Http\Controllers\Controller;
 
 class ProductsController extends Controller
 {
+    private $product;
+
+    public function __construct(Product $product)
+    {
+        $this->product = $product;
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -42,20 +49,29 @@ class ProductsController extends Controller
     public function store(ProductRequest $request)
     {        
         $data = $request->only(array_keys($request->rules()));
+        $data['featured'] = $request->has('featured');
         $data['active'] = $request->has('active');
 
-        $pure_name="";
-        if($request->hasFile('file')){
-            $file_name=$request->file->store('public/uploads/products');
-            $pure_name = basename($file_name);
+        $nameFile = '';
+        if ($request->hasFile('image') && $request->file('image')->isValid()) { 
+            $nameFile = uniqid(date('HisYmd')).'.'.$request->image->extension();
+            if (!$request->image->storeAs('products', $nameFile))
+                return redirect()
+                            ->back()
+                            ->with('error', 'Falha ao fazer upload')
+                            ->withInput();
         }
+        if ( $this->product->newProduct($request, $nameFile) )
+            return redirect()
+                     ->route('painel.products.index')
+                     ->with('message', 'Produto cadastrado com sucesso!');
+            else
+                return redirect()
+                            ->back()
+                            ->with('error', 'Falha ao cadastrar')
+                            ->withInput();
 
-
-        Product::create($request->all() + ['image_url'=>$pure_name] );
-
-       //Product::create($data);
-        return redirect()->route('painel.products.index')
-            ->with('message','Produto cadastrado com sucesso!');
+        //Product::create($request->all() + ['image'=>$nameFile] );
     }
 
     /**
@@ -90,11 +106,33 @@ class ProductsController extends Controller
     public function update(ProductRequest $request, Product $product)
     {
         $data = $request->only(array_keys($request->rules()));
+        $data['featured'] = $request->has('featured');
         $data['active'] = $request->has('active');
-        $product->fill($data);
-        $product->save();
-        return redirect()->route('painel.products.index')
-            ->with('message','Produto alterado com sucesso!');
+
+        $nameFile = $product->image;
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            if($product->image)
+                $nameFile = $product->image;
+            else
+                $nameFile = uniqid(date('HisYmd')).'.'.$request->image->extension();
+
+            if (!$request->image->storeAs('products', $nameFile))
+                return redirect()
+                            ->back()
+                            ->with('error', 'Falha ao fazer upload')
+                            ->withInput();
+
+        }
+
+        if ( $product->updateProduct($request, $nameFile) )
+            return redirect()
+                            ->route('painel.products.index')
+                            ->with('message', 'Produto alterado com sucesso!');
+            else
+                return redirect()
+                            ->back()
+                            ->with('error', 'Falha ao atualizar')
+                            ->withInput();
     }
 
     /**

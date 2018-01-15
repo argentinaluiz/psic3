@@ -6,6 +6,7 @@ return [
     'Login' => 'Acesso',
     'Register' => 'Registrar',
     'Language' => 'Língua',
+    'Choose' => 'Escolha',
     'Logout' => 'Sair',
     'Packages'=>'Pacotes',
     'Contact'=>'Contato',
