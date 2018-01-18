@@ -20,6 +20,10 @@
                     <td>{{$product->name}}</td>
                 </tr>
                 <tr>
+                    <th scope="row">Nome abreviado</th>
+                    <td>{{$product->slug}}</td>
+                </tr>
+                <tr>
                     <th scope="row">Detalhes</th>
                     <td>{{$product->details}}</td>
                 </tr>

@@ -45,6 +45,7 @@ return [
         'client_id' => '47697994707-h0t0v9o8ph405j3fek4iausosrqp09io.apps.googleusercontent.com',
         'client_secret' => 'V1LvQpS6zhI3QJTFA7uGVXWB',
         'redirect' => 'http://localhost:8000/login/callback'
-    ]
+    ],
+
 
 ];

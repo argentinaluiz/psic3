@@ -186,10 +186,17 @@
                 </div>
             </div>
             <div class="row">
-                
-            </div>
-            <div class="text-center ">
-                <a href="{{ route('shop.index') }}" class="btn btn-sm btn-primary">View more products</a>
+                @forelse ($products as $product)
+                    <div class="col-md-4">
+                        <a href="{{ route('shop.show', $product->slug) }}"><img src="{{url("storage/products/{$product->image}")}}" alt="product"></a>
+                        <a href="{{ route('shop.show', $product->slug) }}"><div class="product-name">{{ $product->name }}</div></a>
+                        <div class="product">{{ $product->details }}</div>
+                        <div class="product">R$ {{number_format($product->price, 2, ',', '.')}}</div>
+                        <a class="btn btn-sm btn-primary" href="{{ route('shop.show', $product->slug) }}">Details</a>
+                    </div>
+                @empty
+                    <div style="text-align: left">No items found</div>
+                @endforelse             
             </div>
         </div>
     </section>

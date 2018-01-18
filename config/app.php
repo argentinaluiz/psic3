@@ -229,8 +229,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Socialite' => \Laravel\Socialite\Facades\Socialite::class,
         'Form' => Collective\Html\FormFacade::class,
-        'FormBuilder' => \Kris\LaravelFormBuilder\Facades\FormBuilder::class
-
+        'FormBuilder' => \Kris\LaravelFormBuilder\Facades\FormBuilder::class,
+        'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
     ],
 
 ];

@@ -8,6 +8,7 @@ class Product extends Model
 {
     protected $fillable = [
         'name',
+        'slug',
         'image',
         'details',
         'old_price',
@@ -42,12 +43,13 @@ class Product extends Model
 
     public function categories()
     {
-        return $this->belongsToMany('App\Models\Painel\Category');
+        return $this->belongsToMany('App\Models\Site\Category');
     }
+
 
     public function scopeMightAlsoLike($query)
     {
-        return $query->inRandomOrder()->take(4);
+        return $query->inRandomOrder();
     }
   
 }

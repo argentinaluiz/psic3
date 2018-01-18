@@ -3,6 +3,11 @@
     {{ Form::text('name',null,['class' => 'form-control']) }}
 @endcomponent
 
+@component('form._form_group',['field' => 'slug'])
+    {{ Form::label('slug','Nome abreviado',['class' => 'control-label']) }}
+    {{ Form::text('slug',null,['class' => 'form-control']) }}
+@endcomponent
+
 @component('form._form_group',['field' => 'image'])
     {{ Form::label('image', 'Imagem',['class' => 'control-label']) }}
     {{ Form::file('image', null,['class' => 'form-control'])}}
