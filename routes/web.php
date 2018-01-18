@@ -120,6 +120,6 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
     Route::get('products', 'ProductsController@index')->name('painel.products.index');
     Route::post('products', 'ProductsController@store')->name('painel.products.store');
 
-
-    Route::resource('coupons', 'DiscountCouponController');
+    Route::post('/coupon', 'CouponsController@store')->name('coupon.store');
+    Route::delete('/coupon', 'CouponsController@destroy')->name('coupon.destroy');
 });

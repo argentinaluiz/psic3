@@ -93,15 +93,7 @@
                     </div>
                     <div class="spacer"></div>
 
-                    <form class= '' method="POST" action="" style="float:right">
-                        <select class="form-control m-b" name="paymentType">
-                            <option value="pagSeguro">Pagseguro </option>
-                            <option value="mp">Mercado Pago </option>
-                            <option value="paypal">PayPal </option>
-                        </select>
-                        <div class="cleaner_h15"></div>
-                        <input class="btn btn-sm btn-primary float-right" type="submit" value="Finalizar Compra" class="button" />
-                    </form>
+                    <button type="submit" id="complete-order" class="button-primary full-width">Complete Order</button>
 
 
                 </form>
@@ -135,29 +127,47 @@
                 <div class="checkout-totals">
                     <div class="checkout-totals-left">
                         Subtotal <br>
-                        {{-- Discount (10OFF - 10%) <br> --}}
-                        Tax <br>
+                        @if (session()->has('coupon'))
+                            Discount ({{ session()->get('coupon')['name'] }}) :
+                            <form action="{{ route('coupon.destroy') }}" method="POST" style="display:inline">
+                                {{ csrf_field() }}
+                                {{ method_field('delete') }}
+                                <button type="submit" style="font-size:14px">Remove</button>
+                            </form>
+                            <br>
+                            <hr>
+                            New Subtotal <br>
+                        @endif
+                        Tax (13%)<br>
                         <span class="checkout-totals-total">Total</span>
 
                     </div>
 
                     <div class="checkout-totals-right">
                         {{ (Cart::subtotal()) }} <br>
-                        {{-- -$750.00 <br> --}}
-                        {{ (Cart::tax()) }} <br>
-                        <span class="checkout-totals-total">{{ (Cart::total()) }}</span>
+                        @if (session()->has('coupon'))
+                            -{{ ($discount) }} <br>
+                            <hr>
+                            {{ ($newSubtotal) }} <br>
+                        @endif
+                        {{ ($newTax) }} <br>
+                        <span class="checkout-totals-total">{{ ($newTotal) }}</span>
 
                     </div>
                 </div> <!-- end checkout-totals -->
 
+                @if (! session()->has('coupon'))
+
                 <a href="#" class="have-code">Have a Code?</a>
 
                 <div class="have-code-container">
-                    <form action="#">
-                        <input type="text">
+                    <form action="{{ route('coupon.store') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="text" name="coupon_code" id="coupon_code">
                         <button type="submit" class="button button-plain">Apply</button>
                     </form>
                 </div> <!-- end have-code-container -->
+                @endif
 
             </div>
 
