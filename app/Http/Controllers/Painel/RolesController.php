@@ -25,10 +25,11 @@ class RolesController extends Controller
      */
     public function index(Role $role)
     {
-        $totalRoles   = Role::count();
+       $totalRoles   = Role::count();
 
         \Session::flash('chave','valor');
-        $roles = $role->get();
+        $roles = Role::all();
+       // $roles = $role->get();
         //$roles = Role::paginate(10);
         return view('painel.roles.index', compact('roles', 'totalRoles'));
     }
@@ -53,8 +54,7 @@ class RolesController extends Controller
      */
     public function create(Request $request, Role $role)
     {    
-        $role = $role->create($request->all());
-        
+       
         return view('painel.roles.create', ['role'=> new Role()]);
     }
 
@@ -64,16 +64,13 @@ class RolesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RoleRequest $request, Role $role)
+    public function store(RoleRequest $request)
     {
-        // Cadastra o Role
-        $role = $role->create($request->all());
-
-        // Cadastra as permissões
-        $role->permissions()->attach($request->permissions);
+        $data = $request->only(array_keys($request->rules()));
+        Role::create($data);
 
         return redirect()->route('roles.index')
-                        ->with('message','Papel cadastrada com sucesso!');
+            ->with('message','Papel cadastrado com sucesso');
     }
 
     /**
