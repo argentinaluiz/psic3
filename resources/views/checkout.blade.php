@@ -143,18 +143,18 @@
 
                     </div>
 
-                    <div class="checkout-totals-right">
+                  <div class="checkout-totals-right">
                         {{ (Cart::subtotal()) }} <br>
                         @if (session()->has('coupon'))
-                            -{{ ($discount) }} <br>
+                            -{{ number_format($discount, 2, ',', '.') }} <br>
                             <hr>
                             {{ ($newSubtotal) }} <br>
                         @endif
                         {{ ($newTax) }} <br>
                         <span class="checkout-totals-total">{{ ($newTotal) }}</span>
 
-                    </div>
-                </div> <!-- end checkout-totals -->
+                    </div> 
+                </div> 
 
                 @if (! session()->has('coupon'))
 

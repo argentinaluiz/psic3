@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Painel;
+namespace App\Http\Controllers;
 
 use App\Models\Painel\Coupon;
 use Illuminate\Http\Request;
@@ -8,7 +8,18 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CouponsController extends Controller
 {
-   
+    const Type = [
+        1 => 'fixed',
+        2 => 'percent'
+    ];
+
+    protected $fillable = [
+        'code',
+        'type',
+        'value',
+        'percent_off'
+    ];
+
     /**
      * Store a newly created resource in storage.
      *

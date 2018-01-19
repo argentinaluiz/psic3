@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use App\Http\Requests\CheckoutRequest;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Cartalyst\Stripe\Laravel\Facades\Stripe;
 use Cartalyst\Stripe\Exception\CardErrorException;
+use App\Http\Controllers\Controller;
 
 class CheckoutController extends Controller
 {
@@ -68,16 +70,16 @@ class CheckoutController extends Controller
     {
         $tax = config('cart.tax') / 100;
         $discount = session()->get('coupon')['discount'] ?? 0;
-        $newSubtotal = (Cart::subtotal() - $discount);
-        $newTax = $newSubtotal * $tax;
-        $newTotal = $newSubtotal * (1 + $tax);
+       // $newSubtotal = (Cart::subtotal() - $discount);
+       // $newTax = $newSubtotal * $tax;
+       // $newTotal = $newSubtotal * (1 + $tax);
 
         return collect([
             'tax' => $tax,
             'discount' => $discount,
-            'newSubtotal' => $newSubtotal,
-            'newTax' => $newTax,
-            'newTotal' => $newTotal,
+          //  'newSubtotal' => $newSubtotal,
+          //  'newTax' => $newTax,
+          //  'newTotal' => $newTotal,
         ]);
     }
 }
