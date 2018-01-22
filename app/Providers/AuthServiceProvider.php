@@ -34,6 +34,14 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies($gate);
 
+        foreach ($this->listPermissions() as $permission) {
+            Gate::define($permission->name,function($user) use($permission){
+              return $user->existThisRole($permission->roles) || $user->eAdmin();
+            });
+          }
+
+
+
         /*
         Gate::define('view-call', function($user, Call $call){
             return $user->id == $call->user_id;
@@ -63,6 +71,5 @@ class AuthServiceProvider extends ServiceProvider
     {
       return Permission::with('roles')->get();
     }
-
 
 }

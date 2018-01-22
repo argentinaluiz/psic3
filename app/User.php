@@ -38,10 +38,11 @@ class User extends Authenticatable
         return $this->belongsToMany(\App\Models\Painel\Call::class);
     }
 
-    public function isSuperAdmin(){
-        return $this->id == 11;
+    public function eAdmin()
+    {
+      //return $this->id == 1;
+      return $this->existRole('Admin');
     }
-
     
     public function roles()
     {
@@ -77,7 +78,11 @@ class User extends Authenticatable
         return $this->roles()->detach($role);
     }
     
-   
+    public function existThisRole($roles)
+    {
+      $userRoles = $this->roles;
+      return $roles->intersect($userRoles)->count();
+    }
     
     
 
