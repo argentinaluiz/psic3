@@ -99,5 +99,26 @@ class PermissionsTableSeeder extends Seeder
             'name' =>'calls-delete',
             'description' =>'Acesso aos chamados'
         ]);
+        
+        $clients1 = Permission::firstOrCreate([
+            'name' =>'clients-view',
+            'description' =>'Acesso a lista de Clientes'
+        ]);
+        $clients2 = Permission::firstOrCreate([
+            'name' =>'clients-create',
+            'description' =>'Adicionar Clientes'
+        ]);
+        $clients3 = Permission::firstOrCreate([
+            'name' =>'clients-edit',
+            'description' =>'Editar Clientes'
+        ]);
+        $clients4 = Permission::firstOrCreate([
+            'name' =>'clients-delete',
+            'description' =>'Deletar Clientes'
+        ]);
+
+
+
+
     }
 }

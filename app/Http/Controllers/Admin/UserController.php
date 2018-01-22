@@ -12,13 +12,6 @@ use App\Models\Painel\Role;
 
 class UserController extends Controller
 {
-    private $user;
-
-    public function __construct(User $user)
-    {
-        $this->user = $user;
-    }
-
 
     public function index()
     {
@@ -42,14 +35,14 @@ class UserController extends Controller
     {
         if(Gate::denies('users-edit')){
             abort(403,"Não autorizado!");
-        }
-
+          }
+    
        $user = User::find($id);
        $role = Role::all();
        $paths = [
             ['url'=>'/admin','title'=>'Admin'],
-            ['url'=>route('users.index'),'title'=>'Users'],
-            ['url'=>'','title'=>'Role']
+            ['url'=>route('users.index'),'title'=>'Usuários'],
+            ['url'=>'','title'=>'Papéis']
         ];
        return view('admin.users.role', compact('user', 'role', 'paths'));
     }
@@ -59,7 +52,7 @@ class UserController extends Controller
     {
         if(Gate::denies('users-edit')){
             abort(403,"Não autorizado!");
-        }
+          }
 
         $user = User::find($id);
         $data = $request->all();
@@ -73,8 +66,8 @@ class UserController extends Controller
     {
         if(Gate::denies('users-edit')){
             abort(403,"Não autorizado!");
-        }
-
+          }
+        
         $user = User::find($id);
         $role = Role::find($role_id);
         $user->deleteRole($role);
@@ -85,11 +78,11 @@ class UserController extends Controller
     
     
     public function create(Request $request)
-    {
+    {   
         if(Gate::denies('users-create')){
             abort(403,"Não autorizado!");
         }
-
+        
         return view('admin.users.create');
     }
 
@@ -99,7 +92,7 @@ class UserController extends Controller
         if(Gate::denies('users-create')){
             abort(403,"Não autorizado!");
         }
-       
+
         $data = $request->only(array_keys($request->rules()));
         User::create($data);
         //\Session::flash('message','Usuário cadastrado com sucesso');
@@ -120,20 +113,13 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        if(Gate::denies('users-edit')){
-            abort(403,"Não autorizado!");
-        }
         
         return view('admin.users.edit', compact('user'));
     }
 
 
     public function update(UserRequest $request, User $user)
-    {
-        if(Gate::denies('users-edit')){
-            abort(403,"Não autorizado!");
-        }
-        
+    {      
         $data = $request->only(array_keys($request->rules()));
         $user->fill($data);
         $user->save();

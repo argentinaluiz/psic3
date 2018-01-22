@@ -9,9 +9,11 @@
 			<div class="col-md-12">
 				<h3>Listagem de papéis</h3>
 				<div class="cleaner_h25"></div>
-				<span class="pull-right small text-muted">Total de usuários: {{ $totalRoles }} </span>
+				<span class="pull-right small text-muted">Total de papéis: {{ $totalRoles }} </span>
 				<br/>
-				<a class="btn btn-sm btn-primary" href="{{route('roles.create')}}">Adicionar</a>
+				@can('role-create')
+					<a class="btn btn-sm btn-primary" href="{{route('roles.create')}}">Adicionar</a>
+				@endcan
 				<div class="cleaner_h15"></div>
 				<table class="table table-striped dataTables-users">
 					<thead>
@@ -19,7 +21,7 @@
 							<th>Id</th>
 							<th>Nome</th>
 							<th>Descrição</th>
-							<th>Permissões</th>
+							<th style="width: 250px;">Permissões</th>
 							<th>Ações</th>
 						</tr>
 					</thead>
@@ -35,13 +37,16 @@
 							</td>
 							<td>
 								<form action="{{route('roles.destroy',$registro->id)}}" method="post">
-								<a title="Editar" class="btn btn-sm btn-default" href="{{ route('roles.edit',$registro->id) }}">editar</a>
-								<a title="Permissões" class="btn btn-sm btn-primary" href="{{route('roles.permission',$registro->id)}}">permissões</a>
+									
+										<a title="Editar" class="btn btn-sm btn-default" href="{{ route('roles.edit',$registro->id) }}">editar</a>
+										<a title="Permissões" class="btn btn-sm btn-primary" href="{{route('roles.permission',$registro->id)}}">permissões</a>
+									
 
-
-									{{ method_field('DELETE') }}
-									{{ csrf_field() }}
-									<button title="Deletar" class="btn btn-sm btn-danger">deletar</button>
+									@can('role-delete')
+										{{ method_field('DELETE') }}
+										{{ csrf_field() }}
+										<button title="Deletar" class="btn btn-sm btn-danger">deletar</button>
+									@endcan
 							</form>
 							</td>
 						</tr>

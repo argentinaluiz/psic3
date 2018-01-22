@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Painel;
 
+use Illuminate\Support\Facades\Gate;
 use App\Models\Painel\Client;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Http\Request;
@@ -18,6 +19,10 @@ class ClientsController extends Controller //Controller resource
      */
     public function index()
     {
+        if(Gate::denies('clients-view')){
+            abort(403,"Não autorizado!");
+        }
+
         $totalClients   = Client::count();
 
         $countPacients = Client::where(['expertise' => 1])->count(); 
@@ -53,7 +58,7 @@ class ClientsController extends Controller //Controller resource
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
-    {
+    {        
         $clientType = Client::getClientType($request->client_type);
         return view('painel.clients.create', ['client' => new Client(), 'clientType' => $clientType]);
     }
@@ -83,6 +88,10 @@ class ClientsController extends Controller //Controller resource
      */
     public function show(Client $client)
     {
+        if(Gate::denies('clients-view')){
+            abort(403,"Não autorizado!");
+        }
+
         return view('painel.clients.show', compact('client'));
     }
 
@@ -94,6 +103,10 @@ class ClientsController extends Controller //Controller resource
      */
     public function edit(Client $client) //Route Model Binding Implicito
     {
+        if(Gate::denies('clients-edit')){
+            abort(403,"Não autorizado!");
+        }
+
         $clientType = $client->client_type;
         return view('painel.clients.edit', compact('client', 'clientType'));
     }
@@ -107,6 +120,10 @@ class ClientsController extends Controller //Controller resource
      */
     public function update(ClientRequest $request, Client $client)
     {
+        if(Gate::denies('clients-edit')){
+            abort(403,"Não autorizado!");
+        }
+
         $data = $request->only(array_keys($request->rules()));
         $data['defaulter'] = $request->has('defaulter');
         $client->fill($data);
@@ -124,6 +141,10 @@ class ClientsController extends Controller //Controller resource
      */
     public function destroy(Client $client)
     {
+        if(Gate::denies('clients-delete')){
+            abort(403,"Não autorizado!");
+        }
+
         $client->delete();
         return redirect()->route('clients.index')
             ->with('message','Cliente excluído com sucesso!');

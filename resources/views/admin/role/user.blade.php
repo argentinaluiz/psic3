@@ -7,6 +7,7 @@
         <div class="col-md-12">
             <h3>Usuários: <b>{{$role->name}}</h3>
             <br/>
+            
             <a class="btn btn-default" href="{{route('users.create') }}">Criar novo</a>
             <table class="table table-striped">
                 <thead>
