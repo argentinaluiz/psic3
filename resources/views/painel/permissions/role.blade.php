@@ -12,7 +12,7 @@
                 <thead>
                 <tr>
                     <th>Nome</th>
-                    <th>Label</th>
+                    <th>Descrição</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -20,7 +20,7 @@
                  @forelse( $roles as $role )
                     <tr>
                         <td>{{$role->name}}</td>
-                        <td>{{$role->label}}</td>
+                        <td>{{$role->description}}</td>
                         <td>
                             <a class="btn btn-sm btn-danger" href="{{ route('roles.destroy',['role' => $role->id]) }}"
                                 onclick="event.preventDefault();if(confirm('Deseja excluir este item?')){document.getElementById('form-delete').submit();}">Excluir</a>

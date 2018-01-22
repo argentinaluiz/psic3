@@ -3,14 +3,10 @@
 namespace App\Models\Painel;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Painel\Permission;
-use App\User;
 
 class Role extends Model
 {
-    
-    protected $fillable = ['name', 'label'];
-    protected $hidden = ['updated_at','created_at','deleted_at'];
+    protected $fillable = ['name', 'description'];
 
     public function users()
     {
@@ -20,6 +16,37 @@ class Role extends Model
     public function permissions()
     {
         return $this->belongsToMany(Permission::class);
+    }
+
+    public function addPermission($permission)
+    {
+        if (is_string($permission)) {
+            $permission = Permission::where('name','=',$permission)->firstOrFail();
+        }
+
+        if($this->existPermission($permission)){
+            return;
+        }
+
+        return $this->permissions()->attach($permission);
+
+    }
+    public function existPermission($permission)
+    {
+        if (is_string($permission)) {
+            $permission = Permission::where('name','=',$permission)->firstOrFail();
+        }
+
+        return (boolean) $this->permissions()->find($permission->id);
+
+    }
+    public function deletePermission($permission)
+    {
+        if (is_string($permission)) {
+            $permission = Permission::where('name','=',$permission)->firstOrFail();
+        }
+
+        return $this->permissions()->detach($permission);
     }
 
 }

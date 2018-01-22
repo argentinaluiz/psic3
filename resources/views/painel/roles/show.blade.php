@@ -20,8 +20,8 @@
                     <td>{{$role->name}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Label</th>
-                    <td>{{$role->label}}</td>
+                    <th scope="row">Descrição</th>
+                    <td>{{$role->description}}</td>
                 </tr>
                 </tbody>
             </table>

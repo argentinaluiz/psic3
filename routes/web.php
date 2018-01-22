@@ -50,6 +50,7 @@ Route::group(['prefix' => 'site', 'namespace' => 'Site'], function(){
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home/{id}', 'HomeController@detail');
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
@@ -97,6 +98,7 @@ Route::post('/checkout/{id}', function ($id) {
 
 Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['auth']], function(){    
     
+  /*
     Route::resource('permissions', 'PermissionsController');
     Route::get('permission/{id}/roles', 'PermissionsController@roles');
     
@@ -105,6 +107,7 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
 
     Route::resource('users', 'UsersController');
     Route::get('users', 'UsersController@index')->name('users.index');
+   */
 
     Route::resource('clients', 'ClientsController');
 
@@ -124,3 +127,21 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
     Route::post('products', 'ProductsController@store')->name('painel.products.store');
 
 });
+
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth']], function(){    
+
+    Route::get('/', 'AdminController@index');
+    Route::resource('users', 'UserController');
+  
+    Route::get('users/role/{id}', ['as'=>'users.role','uses'=>'UserController@role']);
+    Route::post('users/role/{role}', ['as'=>'users.role.store','uses'=>'UserController@roleStore']);
+    Route::delete('users/role/{user}/{role}', ['as'=>'users.role.destroy','uses'=>'UserController@roleDestroy']);
+  
+    Route::resource('roles', 'RoleController');
+  
+    Route::get('roles/permission/{id}', ['as'=>'roles.permission','uses'=>'RoleController@permission']);
+    Route::post('roles/permission/{permission}', ['as'=>'roles.permission.store','uses'=>'RoleController@permissionStore']);
+    Route::delete('roles/permission/{role}/{permission}', ['as'=>'roles.permission.destroy','uses'=>'RoleController@permissionDestroy']);
+  
+  
+  });

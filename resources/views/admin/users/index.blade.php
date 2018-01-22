@@ -1,35 +1,39 @@
 @extends('layouts.app')
-@section('pag_title', 'Papéis')
+@section('pag_title', 'Usuários')
 
 @section('content')
 <div class="container">
+	@include('admin._breadcrumb')
+	
     <div class="row">
-		
         <div class="col-md-12">
-            <h3>Listagem dos papéis</h3>
+            <h3>Listagem de usuários</h3>
             <div class="cleaner_h25"></div>
-            <span class="pull-right small text-muted">Total de papéis: {{ $totalRoles }} </span>
+            <span class="pull-right small text-muted">Total de usuários: {{ $totalUsers }} </span>
             <br/>
-            <a class="btn btn-default" href="{{route('roles.create') }}">Criar nova</a>
+            <a class="btn btn-default" href="{{route('users.create') }}">Criar novo</a>
             <div class="cleaner_h15"></div>
-            <table class="table table-striped dataTables-roles">
+            <table class="table table-striped dataTables-users">
                 <thead>
                 <tr>
-                    <th>Permissões do papel</th>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+					<th>Papéis</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($roles as $role)
+                @foreach($users as $user)
                     <tr>
-                        <td>{{ $role->name }}:</b>
-							@foreach ($role->permissions as $permission)
-								{{ $permission->name }} ,
-							@endforeach
-						</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+						<td>@foreach ($user->roles as $role)
+								{{ $role->name }} ,
+							@endforeach</td>
                         <td>
-                            <a href="{{route('roles.edit',['role' => $role->id])}}">Editar</a> |
-                            <a href="{{route('roles.show',['role' => $role->id])}}">Ver</a>
+							<a href="{{route('users.role',['user' => $user->id])}}">Papéis</a> |
+                            <a href="{{route('users.edit',['user' => $user->id])}}">Editar</a> |
+                            <a href="{{route('users.show',['user' => $user->id])}}">Ver</a>
                         </td>
                     </tr>
                 @endforeach
@@ -41,7 +45,7 @@
 
 <script>$(document).ready(function () {
     $.noConflict();
-		var table = $('.dataTables-roles').DataTable({
+		var table = $('.dataTables-users').DataTable({
 			pageLength: 10,
 			responsive: true,
 			dom: '<"html5buttons"B>lTfgitp',
@@ -67,8 +71,8 @@
 			buttons: [
 				{extend: 'copy'},
 				{extend: 'csv'},
-				{extend: 'excel', title: 'PapéisFile'},
-				{extend: 'pdf', title: 'PapéisFile'},
+				{extend: 'excel', title: 'UsuáriosFile'},
+				{extend: 'pdf', title: 'UsuáriosFile'},
 
 				{extend: 'print',
 					customize: function (win){

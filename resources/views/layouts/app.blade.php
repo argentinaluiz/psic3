@@ -11,6 +11,7 @@
     <title>Psicanalysis - @yield('pag_title')</title>
 
     <!-- Styles -->
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet">
 
@@ -48,7 +49,6 @@
                     <ul class="nav navbar-nav">
                         <li><a href="{{ route('users.index') }}">Usuários</a></li>
                         <li><a href="{{ route('roles.index') }}">Papéis</a></li>
-                        <li><a href="{{ route('permissions.index') }}">Permissões</a></li>
                         <li><a href="{{ route('clients.index') }}">Clientes</a></li>
                         <li><a href="{{ route('states.index') }}">Estados</a></li>
                         <li><a href="{{ route('painel.products.index') }}">Produtos</a></li>
@@ -95,6 +95,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script> 
+   <!-- <script src="{{ asset('js/app.js') }}"></script> -->
 </body>
 </html>

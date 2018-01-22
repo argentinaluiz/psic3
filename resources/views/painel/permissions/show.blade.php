@@ -20,8 +20,8 @@
                     <td>{{$permission->name}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Label</th>
-                    <td>{{$permission->label}}</td>
+                    <th scope="row">Descrição</th>
+                    <td>{{$permission->description}}</td>
                 </tr>
                 </tbody>
             </table>

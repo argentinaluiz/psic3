@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use App\User;
+use App\Models\Painel\Call;
 use App\Models\Painel\Permission;
 
 class AuthServiceProvider extends ServiceProvider
@@ -19,20 +20,11 @@ class AuthServiceProvider extends ServiceProvider
        /*
         'App\Model' => 'App\Policies\ModelPolicy',
         */
+        'App\Models\Painel\Call' => 'App\Policies\CallTestPolicy'
+
     ];
 
-    /*
-    protected function getPermissions()
-    {
-        try {
-            return Permission::with('roles')->get();
-        } catch (\Exception $e) {
-            if ( $user->hasAnyRoles('adm') )
-            return true;
-        }
-    }
-     */
-    
+        
     /**
      * Register any authentication / authorization services.
      *
@@ -42,7 +34,13 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies($gate);
 
-        if(!app()->runningInConsole()){
+        /*
+        Gate::define('view-call', function($user, Call $call){
+            return $user->id == $call->user_id;
+          });
+         }*/
+
+        /*if(!app()->runningInConsole()){
             $permissions = Permission::with('roles')->get();
             //dd($permissions);
             foreach( $permissions as $permission )
@@ -58,6 +56,13 @@ class AuthServiceProvider extends ServiceProvider
                     return true;
                 
             });
-        }
+        }*/
     }
+
+    public function listPermissions()
+    {
+      return Permission::with('roles')->get();
+    }
+
+
 }

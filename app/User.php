@@ -30,30 +30,55 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function roles()
-    {
-        return $this->belongsToMany(\App\Models\Painel\Role::class);
-    }
-    
-    public function hasPermission(Permission $permission)
-    {
-        return $this->hasAnyRoles($permission->roles);
-    }
-    
-    public function hasAnyRoles($roles)
-    {
-        if(is_array($roles) || is_object($roles) ) {
-            return !! $roles->intersect($this->roles)->count();
-        }
-        
-        return $this->roles->contains('name', $roles);
-    }
-
     public function sendPasswordResetNotification($token){
         $this->notify(new MyResetPasswordNotification($token));
     }
 
+    public function calls(){
+        return $this->belongsToMany(\App\Models\Painel\Call::class);
+    }
 
+    public function isSuperAdmin(){
+        return $this->id == 11;
+    }
+
+    
+    public function roles()
+    {
+        return $this->belongsToMany(\App\Models\Painel\Role::class);
+    }
+
+    public function addRole($role){
+        if (is_string($role)) {
+            $role = Role::where('name','=',$role)->firstOrFail();
+        }
+
+        if($this->existRole($role)){
+            return;
+        }
+        return $this->roles()->attach($role);
+
+    }
+
+    public function existRole($role)
+    {
+        if (is_string($role)) {
+            $role = Role::where('name','=',$role)->firstOrFail();
+        }
+        return (boolean) $this->roles()->find($role->id);
+
+    }
+
+    public function deleteRole($role)
+    {
+        if (is_string($role)) {
+            $role = Role::where('name','=',$role)->firstOrFail();
+        }
+        return $this->roles()->detach($role);
+    }
+    
+   
+    
     
 
 
