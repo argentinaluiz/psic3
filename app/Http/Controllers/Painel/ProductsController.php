@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Painel;
 
-use App\Models\Painel\Product;
-use App\Http\Requests\ProductRequest;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Painel\Product;
+use App\Http\Requests\ProductRequest;
 
 class ProductsController extends Controller
 {
@@ -23,6 +24,10 @@ class ProductsController extends Controller
      */
     public function index()
     {
+        if(Gate::denies('products-view')){
+            abort(403,"Não autorizado!");
+        }
+        
         $totalProducts   = Product::count();
 
         \Session::flash('chave','valor');
@@ -35,8 +40,11 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request)   
     {
+        if(Gate::denies('products-create')){
+            abort(403,"Não autorizado!");
+        }
         return view('painel.products.create', ['product' => new Product()]);
     }
 
@@ -48,6 +56,10 @@ class ProductsController extends Controller
      */
     public function store(ProductRequest $request)
     {        
+        if(Gate::denies('products-create')){
+            abort(403,"Não autorizado!");
+        }
+        
         $data = $request->only(array_keys($request->rules()));
         $data['featured'] = $request->has('featured');
         $data['active'] = $request->has('active');
@@ -82,6 +94,10 @@ class ProductsController extends Controller
      */
     public function show(Product $product)
     {
+        if(Gate::denies('products-view')){
+            abort(403,"Não autorizado!");
+        }
+
         return view('painel.products.show', compact('product'));
     }
 
@@ -93,6 +109,10 @@ class ProductsController extends Controller
      */
     public function edit(Product $product)
     {
+        if(Gate::denies('products-edit')){
+            abort(403,"Não autorizado!");
+        }
+        
         return view('painel.products.edit', compact('product'));
     }
 
@@ -105,6 +125,10 @@ class ProductsController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
+        if(Gate::denies('products-edit')){
+            abort(403,"Não autorizado!");
+        }
+        
         $data = $request->only(array_keys($request->rules()));
         $data['featured'] = $request->has('featured');
         $data['active'] = $request->has('active');
@@ -143,6 +167,10 @@ class ProductsController extends Controller
      */
     public function destroy(Product $product)
     {
+        if(Gate::denies('products-delete')){
+            abort(403,"Não autorizado!");
+        }
+
         $product->delete();
         return redirect()->route('painel.products.index')
             ->with('message','Produto excluído com sucesso!');

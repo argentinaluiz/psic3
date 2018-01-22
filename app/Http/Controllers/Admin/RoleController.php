@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Painel\Role;
@@ -16,6 +17,10 @@ class RoleController extends Controller
      */
     public function index()
     {
+      if(Gate::denies('role-view')){
+        abort(403,"Não autorizado!");
+      }
+
       $totalRoles = Role::count();
 
       $registros = Role::all();
@@ -28,6 +33,10 @@ class RoleController extends Controller
 
     public function permission($id)
     {
+      if(Gate::denies('role-edit')){
+        abort(403,"Não autorizado!");
+      }
+
       $role = Role::find($id);
       $permission = Permission::all();
       $paths = [
@@ -40,15 +49,23 @@ class RoleController extends Controller
 
     public function permissionStore(Request $request,$id)
     {
-        $role = Role::find($id);
-        $data = $request->all();
-        $permission = Permission::find($data['permission_id']);
-        $role->addPermission($permission);
-        return redirect()->back();
+      if(Gate::denies('role-edit')){
+        abort(403,"Não autorizado!");
+      }
+      
+      $role = Role::find($id);
+      $data = $request->all();
+      $permission = Permission::find($data['permission_id']);
+      $role->addPermission($permission);
+      return redirect()->back();
     }
 
     public function permissionDestroy($id,$permission_id)
     {
+      if(Gate::denies('role-edit')){
+        abort(403,"Não autorizado!");
+      }
+      
       $role = Role::find($id);
       $permission = Permission::find($permission_id);
       $role->deletePermission($permission);
@@ -64,6 +81,10 @@ class RoleController extends Controller
      */
     public function create()
     {
+      if(Gate::denies('role-create')){
+        abort(403,"Não autorizado!");
+      }
+
       $paths = [
       ['url'=>'/admin','title'=>'Admin'],
       ['url'=>route('roles.index'),'title'=>'Papéis'],
@@ -81,6 +102,10 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+      if(Gate::denies('role-create')){
+        abort(403,"Não autorizado!");
+      }
+      
       if($request['name'] && $request['name'] != "Admin"){
             Role::create($request->all());
 
@@ -109,6 +134,10 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
+      if(Gate::denies('role-edit')){
+        abort(403,"Não autorizado!");
+      }
+      
       if(Role::find($id)->name == "Admin"){
           return redirect()->route('roles.index');
       }
@@ -133,6 +162,10 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
+      if(Gate::denies('role-edit')){
+        abort(403,"Não autorizado!");
+      }
+
       if(Role::find($id)->name == "Admin"){
           return redirect()->route('roles.index');
       }
@@ -151,6 +184,10 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
+      if(Gate::denies('role-delete')){
+        abort(403,"Não autorizado!");
+      }
+
       if(Role::find($id)->name == "Admin"){
           return redirect()->route('roles.index');
       }

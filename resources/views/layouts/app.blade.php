@@ -55,7 +55,6 @@
                         <li><a href="{{ route('rooms.index') }}">Salas</a></li>
                         <li><a href="{{ route('agendas.index') }}">Agendas</a></li>
                         <li><a href="{{ route('reserves.index') }}">Reservas</a></li>
-                        <li><a href="{{ route('painel.index') }}">Relatórios</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

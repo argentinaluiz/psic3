@@ -18,6 +18,8 @@ class AgendasController extends Controller
      */
     public function index()
     {
+        
+        
         $totalAgendas  = Agenda::count();
 
         \Session::flash('chave','valor');
