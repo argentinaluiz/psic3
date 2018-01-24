@@ -109,8 +109,6 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
     
     Route::resource('reserves', 'ReservesController');
     
-    Route::resource('painel', 'PainelController');
-
     Route::resource('products', 'ProductsController');
     Route::get('products', 'ProductsController@index')->name('painel.products.index');
     Route::post('products', 'ProductsController@store')->name('painel.products.store');
@@ -132,5 +130,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
     Route::post('roles/permission/{permission}', ['as'=>'roles.permission.store','uses'=>'RoleController@permissionStore']);
     Route::delete('roles/permission/{role}/{permission}', ['as'=>'roles.permission.destroy','uses'=>'RoleController@permissionDestroy']);
   
+    Route::resource('permissions', 'PermissionController');
   
   });
