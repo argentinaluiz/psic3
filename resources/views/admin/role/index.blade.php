@@ -37,17 +37,16 @@
 							</td>
 							<td>
 								<form action="{{route('roles.destroy',$registro->id)}}" method="post">
-									
+									@can('role-edit')
 										<a title="Editar" class="btn btn-sm btn-default" href="{{ route('roles.edit',$registro->id) }}">editar</a>
 										<a title="Permissões" class="btn btn-sm btn-primary" href="{{route('roles.permission',$registro->id)}}">permissões</a>
-									
-
+									@endcan
 									@can('role-delete')
 										{{ method_field('DELETE') }}
 										{{ csrf_field() }}
-										<button title="Deletar" class="btn btn-sm btn-danger">deletar</button>
+										<button title="Deletar" class="btn btn-sm btn-danger">excluir</button>
 									@endcan
-							</form>
+								</form>
 							</td>
 						</tr>
 					@endforeach

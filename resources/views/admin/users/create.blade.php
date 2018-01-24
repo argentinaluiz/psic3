@@ -8,7 +8,7 @@
             <h3>Novo usuário</h3> 
             @include('form._form_errors')
             {{ Form::open(['route' => 'users.store']) }}
-                @include('painel.users._form')
+                @include('admin.users._form')
                 <button type="submit" class="btn btn-sm btn-default">Criar</button>
             {{ Form::close() }}
         </div>

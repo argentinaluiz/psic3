@@ -1,5 +1,5 @@
-@extends('layouts.app')
-@section('pag_title', 'Clientes - Cadastrar')
+@extends('painel.layouts.layout')
+@section('pag_title', 'Clientes: Cadastrar')
 
 @section('content')
 <div class="container">

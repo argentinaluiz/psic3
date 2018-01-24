@@ -27,5 +27,6 @@ class RolesTableSeeder extends Seeder
             'description' =>'Acesso ao site como usuário'
         ]);
 
+
     }
 }

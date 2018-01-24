@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('painel.layouts.layout')
 @section('pag_title', 'Clientes - Mostrar')
 
 @section('content')
@@ -6,12 +6,16 @@
     <div class="row">
         <div class="col-md-12">
 			<h3>Ver cliente</h3>
-			<a class="btn btn-sm btn-primary" href="{{ route('clients.edit',['client' => $client->id]) }}">Editar</a>
-			<a class="btn btn-sm btn-danger" href="{{ route('clients.destroy',['client' => $client->id]) }}"
-				onclick="event.preventDefault();if(confirm('Deseja excluir este item?')){document.getElementById('form-delete').submit();}">Excluir</a>
-			<!--<form id="form-delete"style="display: none" action="{{ route('clients.destroy',['client' => $client->id]) }}" method="post">-->
-			{{Form::open(['route' => ['clients.destroy',$client->id],'method' => 'DELETE', 'id' => 'form-delete'])}}
-			{{Form::close()}}
+			@can('clients-edit')
+				<a class="btn btn-sm btn-primary" href="{{ route('clients.edit',['client' => $client->id]) }}">Editar</a>
+			@endcan	
+			@can('clients-delete')	
+				<a class="btn btn-sm btn-danger" href="{{ route('clients.destroy',['client' => $client->id]) }}"
+					onclick="event.preventDefault();if(confirm('Deseja excluir este item?')){document.getElementById('form-delete').submit();}">Excluir</a>
+				<!--<form id="form-delete"style="display: none" action="{{ route('clients.destroy',['client' => $client->id]) }}" method="post">-->
+				{{Form::open(['route' => ['clients.destroy',$client->id],'method' => 'DELETE', 'id' => 'form-delete'])}}
+				{{Form::close()}}
+			@endcan
 			<br/>
 			<table class="table table-bordered">
 				<tbody>

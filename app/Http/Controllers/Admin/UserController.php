@@ -113,16 +113,27 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        
+        if(Gate::denies('users-edit')){
+            abort(403,"Não autorizado!");
+          }
+       // $user = User::find($id);
+       // dd($user);
         return view('admin.users.edit', compact('user'));
     }
 
 
     public function update(UserRequest $request, User $user)
-    {      
+    {  
+        if(Gate::denies('users-edit')){
+            abort(403,"Não autorizado!");
+          }
+        
         $data = $request->only(array_keys($request->rules()));
         $user->fill($data);
         $user->save();
+
+      //  $user = User::find($id)->update($request->all());
+
         return redirect()->route('users.index')
             ->with('message','Usuário alterado com sucesso');
     }

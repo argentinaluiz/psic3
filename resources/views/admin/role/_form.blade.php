@@ -1,11 +1,9 @@
-<div class="input-field">
-	<input type="text" name="nome" class="validade" value="{{ isset($registro->name) ? $registro->name : '' }}">
-	<label>Nome do papel</label>
-</div>
+@component('form._form_group',['field' => 'name'])
+    {{ Form::label('name','Nome',['class' => 'control-label']) }}
+    {{ Form::text('name',null,['class' => 'form-control']) }}
+@endcomponent
 
-<div class="input-field">
-	<input type="text" name="descricao" class="validade" value="{{ isset($registro->description) ? $registro->description : '' }}">
-	<label>Descrição</label>
-</div>
-
-
+@component('form._form_group',['field' => 'description'])
+    {{ Form::label('description', 'Descrição',['class' => 'control-label']) }}
+    {{ Form::text('description', null,['class' => 'form-control'])}}
+@endcomponent

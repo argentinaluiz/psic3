@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('painel.layouts.layout')
 @section('pag_title', 'Clientes - Reservas')
 
 @section('content')

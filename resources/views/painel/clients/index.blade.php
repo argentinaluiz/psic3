@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('painel.layouts.layout')
+@section('pag_title', 'Listagem de Clientes')
 
 @section('content')
 <div class="container">
-
     <div class="row">
         <div class="col-md-12">
 			<h3>Listagem de clientes</h3>
@@ -18,7 +18,9 @@
 			<div class="tab-content">
 				<div id="tab-1" class="tab-pane active">
 					<div class="cleaner_h25"></div>
-					<a class="btn btn-default" href="{{ route('clients.create') }}">Criar novo</a>
+					@can('clients-create')
+						<a class="btn btn-default" href="{{ route('clients.create') }}">Criar novo</a>
+					@endcan
 					<span class="pull-right small text-muted">Total de pacientes: {{ $countPacients }}</span>
 					<div class="cleaner_h25"></div>
 					<div class="table-responsive">
@@ -44,8 +46,12 @@
 									<td>{{ $pacient->phone }}</td>
 									<td>{{ $pacient->sex }}</td>
 									<td>
-										<a href="{{route('clients.edit',['pacient' => $pacient->id])}}">Editar</a> |
-										<a href="{{route('clients.show',['pacient' => $pacient->id])}}">Ver</a>
+										@can('clients-edit')
+											<a href="{{route('clients.edit',['pacient' => $pacient->id])}}">Editar</a> |
+										@endcan
+										@can('clients-view')	
+											<a href="{{route('clients.show',['pacient' => $pacient->id])}}">Ver</a>
+										@endcan
 									</td>
 								</tr>
 							@endforeach
@@ -55,7 +61,9 @@
 				</div>
 				<div id="tab-2" class="tab-pane">
 					<div class="cleaner_h25"></div>
-					<a class="btn btn-default" href="{{ route('clients.create') }}">Criar novo</a>
+					@can('clients-create')
+						<a class="btn btn-default" href="{{ route('clients.create') }}">Criar novo</a>
+					@endcan
 					<span class="pull-right small text-muted">Total de psicanalistas: {{ $countPsychoanalysts }}</span>
 					<div class="cleaner_h25"></div>
 					<div class="table-responsive">
@@ -81,8 +89,12 @@
 									<td>{{ $psychoanalyst->phone }}</td>
 									<td>{{ $psychoanalyst->sex }}</td>
 									<td>
-										<a href="{{route('clients.edit',['psychoanalyst' => $psychoanalyst->id])}}">Editar</a> |
-										<a href="{{route('clients.show',['psychoanalyst' => $psychoanalyst->id])}}">Ver</a>
+										@can('clients-edit')
+											<a href="{{route('clients.edit',['psychoanalyst' => $psychoanalyst->id])}}">Editar</a> |
+										@endcan
+										@can('clients-view')
+											<a href="{{route('clients.show',['psychoanalyst' => $psychoanalyst->id])}}">Ver</a>
+										@endcan
 									</td>
 								</tr>
 							@endforeach
@@ -92,7 +104,9 @@
 				</div>
 				<div id="tab-3" class="tab-pane">
 					<div class="cleaner_h25"></div>
-					<a class="btn btn-default" href="{{ route('clients.create') }}">Criar novo</a>
+					@can('clients-create')
+						<a class="btn btn-default" href="{{ route('clients.create') }}">Criar novo</a>
+					@endcan
 					<span class="pull-right small text-muted">Total de supervisores: {{ $countSupervisor }}</span>
 					<div class="cleaner_h25"></div>
 					<div class="table-responsive">
@@ -118,8 +132,12 @@
 									<td>{{ $supervisor->phone }}</td>
 									<td>{{ $supervisor->sex }}</td>
 									<td>
-										<a href="{{route('clients.edit',['supervisor' => $supervisor->id])}}">Editar</a> |
-										<a href="{{route('clients.show',['supervisor' => $supervisor->id])}}">Ver</a>
+										@can('clients-edit')
+											<a href="{{route('clients.edit',['supervisor' => $supervisor->id])}}">Editar</a> |
+										@endcan
+										@can('clients-view')
+											<a href="{{route('clients.show',['supervisor' => $supervisor->id])}}">Ver</a>
+										@endcan
 									</td>
 								</tr>
 							@endforeach
@@ -129,7 +147,9 @@
 				</div>
 				<div id="tab-4" class="tab-pane">
 					<div class="cleaner_h25"></div>
-					<a class="btn btn-default" href="{{ route('clients.create') }}">Criar novo</a>
+					@can('clients-create')
+						<a class="btn btn-default" href="{{ route('clients.create') }}">Criar novo</a>
+					@endcan
 					<span class="pull-right small text-muted">Total de clínicas: {{ $countClinics }}</span>
 					<div class="cleaner_h25"></div>
 					<div class="table-responsive">
@@ -155,8 +175,12 @@
 									<td>{{ $clinic->phone }}</td>
 									<td>{{ $clinic->sex }}</td>
 									<td>
-										<a href="{{route('clients.edit',['clinic' => $clinic->id])}}">Editar</a> |
-										<a href="{{route('clients.show',['clinic' => $clinic->id])}}">Ver</a>
+										@can('clients-edit')
+											<a href="{{route('clients.edit',['clinic' => $clinic->id])}}">Editar</a> |
+										@endcan
+										@can('clients-view')	
+											<a href="{{route('clients.show',['clinic' => $clinic->id])}}">Ver</a>
+										@endcan
 									</td>
 								</tr>
 							@endforeach
