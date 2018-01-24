@@ -98,17 +98,6 @@ Route::post('/checkout/{id}', function ($id) {
 
 Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['auth']], function(){    
     
-  /*
-    Route::resource('permissions', 'PermissionsController');
-    Route::get('permission/{id}/roles', 'PermissionsController@roles');
-    
-    Route::resource('roles', 'RolesController');
-    Route::get('role/{id}/permissions', 'RolesController@permissions');
-
-    Route::resource('users', 'UsersController');
-    Route::get('users', 'UsersController@index')->name('users.index');
-   */
-
     Route::resource('clients', 'ClientsController');
 
     Route::get('states', 'StatesController@index')->name('states.index');
