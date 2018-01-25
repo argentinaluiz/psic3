@@ -3,9 +3,10 @@
 
 @section('content')
 	<div class="container">
+		{!! Breadcrumb::withLinks(array('Home' => '/', 'Listar papéis' => route('roles.index'), 'Permissões' ))!!}
+		
 		<h2 class="center">Lista de Permissões para {{$role->name}}</h2>
 
-		@include('admin._breadcrumb')
 		<div class="cleaner_h25"></div>
 		<div class="row">
 			<div class="col-md-12">

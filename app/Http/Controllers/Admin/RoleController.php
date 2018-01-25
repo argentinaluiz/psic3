@@ -23,13 +23,9 @@ class RoleController extends Controller
       }
 
       $totalRoles = Role::count();
-
       $registros = Role::all();
-      $paths = [
-      ['url'=>'/admin','title'=>'Admin'],
-      ['url'=>'','title'=>'Papéis']
-      ];
-      return view('admin.role.index',compact('registros','paths', 'totalRoles'));
+      
+      return view('admin.role.index',compact('registros','totalRoles'));
     }
 
     public function permission($id)
@@ -40,12 +36,8 @@ class RoleController extends Controller
       
       $role = Role::find($id);
       $permission = Permission::all();
-      $paths = [
-          ['url'=>'/admin','title'=>'Admin'],
-          ['url'=>route('roles.index'),'title'=>'Papéis'],
-          ['url'=>'','title'=>'Permissões'],
-      ];
-      return view('admin.role.permission',compact('role','permission','paths'));
+
+      return view('admin.role.permission',compact('role','permission'));
     }
 
     public function permissionStore(Request $request,$id)
@@ -86,13 +78,7 @@ class RoleController extends Controller
         abort(403,"Não autorizado!");
       }
 
-      $paths = [
-      ['url'=>'/admin','title'=>'Admin'],
-      ['url'=>route('roles.index'),'title'=>'Papéis'],
-      ['url'=>'','title'=>'Adicionar']
-      ];
-
-      return view('admin.role.create',compact('paths'));
+      return view('admin.role.create');
     }
 
     /**
@@ -145,13 +131,7 @@ class RoleController extends Controller
 
       $registro = Role::find($id);
 
-      $paths = [
-      ['url'=>'/admin','title'=>'Admin'],
-      ['url'=>route('roles.index'),'title'=>'Papéis'],
-      ['url'=>'','title'=>'Editar']
-      ];
-
-      return view('admin.role.edit',compact('registro','paths'));
+      return view('admin.role.edit',compact('registro'));
     }
 
     /**

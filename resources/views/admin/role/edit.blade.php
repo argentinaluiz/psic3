@@ -3,9 +3,7 @@
 
 @section('content')
 <div class="container">
-
-	@include('admin._breadcrumb')
-	
+	{!! Breadcrumb::withLinks(array('Home' => '/', 'Listar papéis' => route('roles.index'), 'Editar papel' ))!!}	
 	<div class="row">
 		<div class="col-md-12">
             <h3>Editar Papel</h3>

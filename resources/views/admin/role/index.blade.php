@@ -3,8 +3,7 @@
 
 @section('content')
 	<div class="container">
-
-		@include('admin._breadcrumb')
+		{!! Breadcrumb::withLinks(array('Home' => '/', 'Listar papéis' => route('roles.index')))!!}		
 		<div class="row">
 			<div class="col-md-12">
 				<h3>Listagem de papéis</h3>
@@ -15,7 +14,7 @@
 					<a class="btn btn-sm btn-primary" href="{{route('roles.create')}}">Adicionar</a>
 				@endcan
 				<div class="cleaner_h15"></div>
-				<table class="table table-striped dataTables-users">
+				<table class="table table-striped">
 					<thead>
 						<tr>
 							<th>Id</th>

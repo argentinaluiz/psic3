@@ -2,12 +2,10 @@
 
 @section('content')
 <div class="container">
-
-	@include('admin._breadcrumb')
-
+	{!! Breadcrumb::withLinks(array('Home' => '/', 'Listar papéis' => route('roles.index'), 'Novo papel' ))!!}
 	<div class="row">
 		<div class="col-md-12">
-			<h3>Adicionar Papel</h3>
+			<h3>Novo Papel</h3>
 			<div class="cleaner_h25"></div>
 			<form action="{{ route('roles.store') }}" method="post">
 
