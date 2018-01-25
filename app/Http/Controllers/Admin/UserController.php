@@ -100,10 +100,8 @@ class UserController extends Controller
     }
 
     $data = $form->getFieldValues();
-    $password = str_random(6);
-    $data['password'] = $password;
-    User::create($data);
-
+    User::createFully($data);
+    $request->session()->flash('message','Usuário criado com sucesso');
     return redirect()->route('users.index');
     }
 
@@ -166,7 +164,7 @@ class UserController extends Controller
         }
         
         $user->delete();
-        return redirect()->route('users.index')
-            ->with('message','Usuário excluído com sucesso');
+        session()->flash('message','Usuário excluído com sucesso');
+        return redirect()->route('users.index');
     }
 }

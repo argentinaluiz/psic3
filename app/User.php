@@ -12,6 +12,9 @@ use App\Models\Painel\Role;
 class User extends Authenticatable implements TableInterface
 {
     use Notifiable;
+    const ROLE_ADMIN = 1;
+    const ROLE_PSYCHOANALYST = 2;
+    const ROLE_PATIENT = 3;
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +22,7 @@ class User extends Authenticatable implements TableInterface
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','enrolment'
     ];
 
     /**
@@ -30,6 +33,7 @@ class User extends Authenticatable implements TableInterface
     protected $hidden = [
         'password', 'remember_token',
     ];
+
 
     public function sendPasswordResetNotification($token){
         $this->notify(new MyResetPasswordNotification($token));
@@ -84,6 +88,35 @@ class User extends Authenticatable implements TableInterface
       $userRoles = $this->roles;
       return $roles->intersect($userRoles)->count();
     }
+
+    public static function createFully($data)
+    {
+        $password = str_random(6);
+        $data['password'] = bcrypt($password);
+        /** @var User $user */
+        $user = parent::create($data + ['enrolment' => str_random(6)]);
+        self::assignEnrolment($user, self::ROLE_ADMIN);
+      //  self::assingRole($user, $data['type']);
+        $user->save();
+     /*   if (isset($data['send_mail'])) {
+            $token = \Password::broker()->createToken($user);
+            $user->notify(new UserCreated($token));
+        }
+    */
+        return compact('user', 'password');
+    }
+
+    public static function assignEnrolment(User $user, $type)
+    {
+        $types = [
+            self::ROLE_ADMIN => 100000,
+            self::ROLE_PSYCHOANALYST => 400000,
+            self::ROLE_PATIENT => 700000,
+        ];
+        $user->enrolment = $types[$type] + $user->id;
+        return $user->enrolment;
+    }
+
     
      /**
      * A list of headers to be used when a table is displayed
