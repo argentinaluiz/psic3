@@ -60,7 +60,7 @@ class CheckoutController extends Controller
             Cart::instance('default')->destroy();
             session()->forget('coupon');
 
-            return redirect()->route('confirmation.index')->with('success_message', 'Thank you! Your payment has been successfully accepted!');
+            return redirect()->route('confirmation.index')->with('message', 'Obrigado! Seu pagamento foi aceito com sucesso!');
         } catch (CardErrorException $e) {
             return back()->withErrors('Error! ' . $e->getMessage());
         }

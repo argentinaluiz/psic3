@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Kris\LaravelFormBuilder\Form;
+use App\Forms\UserForm;
 use App\User;
-use App\Http\Requests\UserRequest;
 use App\Models\Painel\Role;
 
 
@@ -20,15 +21,9 @@ class UserController extends Controller
         }
         
         $totalUsers   = User::count();
-
-        \Session::flash('chave','valor');
-        $users = \App\User::all();
-        //$users = \App\User::paginate(10);
-        $paths = [
-            ['url'=>'/admin','title'=>'Admin'],
-            ['url'=>'','title'=>'Usuários']
-        ];
-        return view('admin.users.index', compact('users', 'title', 'totalUsers', 'paths'));
+        $users = \App\User::paginate(10); //Caso não use o método paginate, mas all... na view fica apenas Table::withContents($users()), sem o ->items
+        
+        return view('admin.users.index', compact('users', 'totalUsers'));
     }
 
     public function role($id)
@@ -39,12 +34,8 @@ class UserController extends Controller
     
        $user = User::find($id);
        $role = Role::all();
-       $paths = [
-            ['url'=>'/admin','title'=>'Admin'],
-            ['url'=>route('users.index'),'title'=>'Usuários'],
-            ['url'=>'','title'=>'Papéis']
-        ];
-       return view('admin.users.role', compact('user', 'role', 'paths'));
+
+       return view('admin.users.role', compact('user', 'role'));
     }
 
        
@@ -77,27 +68,43 @@ class UserController extends Controller
 
     
     
-    public function create(Request $request)
+    public function create()
     {   
         if(Gate::denies('users-create')){
             abort(403,"Não autorizado!");
         }
-        
-        return view('admin.users.create');
+
+        $form = \FormBuilder::create(UserForm::class, [
+            'url' => route('users.store'),
+            'method' => 'POST'
+        ]);
+
+        return view('admin.users.create', compact('form'));
     }
 
 
-    public function store(UserRequest $request)
+    public function store(Request $request)
     {
         if(Gate::denies('users-create')){
             abort(403,"Não autorizado!");
         }
 
-        $data = $request->only(array_keys($request->rules()));
-        User::create($data);
-        //\Session::flash('message','Usuário cadastrado com sucesso');
-        return redirect()->route('users.index')
-            ->with('message','Usuário cadastrado com sucesso');
+          /** @var Form $form */
+    $form = \FormBuilder::create(UserForm::class);
+
+    if(!$form->isValid()){
+        return redirect()
+            ->back()
+            ->withErrors($form->getErrors())
+            ->withInput();
+    }
+
+    $data = $form->getFieldValues();
+    $password = str_random(6);
+    $data['password'] = $password;
+    User::create($data);
+
+    return redirect()->route('users.index');
     }
 
 
@@ -116,26 +123,39 @@ class UserController extends Controller
         if(Gate::denies('users-edit')){
             abort(403,"Não autorizado!");
           }
-       // $user = User::find($id);
-       // dd($user);
-        return view('admin.users.edit', compact('user'));
+
+        $form = \FormBuilder::create(UserForm::class, [
+            'url' => route('users.update',['user' => $user->id]),
+            'method' => 'PUT',
+            'model' => $user
+        ]);
+
+        return view('admin.users.edit', compact('form'));
     }
 
 
-    public function update(UserRequest $request, User $user)
+    public function update(User $user)
     {  
         if(Gate::denies('users-edit')){
             abort(403,"Não autorizado!");
           }
         
-        $data = $request->only(array_keys($request->rules()));
-        $user->fill($data);
-        $user->save();
+          /** @var Form $form */
+          $form = \FormBuilder::create(UserForm::class, [
+            'data' => ['id' => $user->id]
+        ]);
 
-      //  $user = User::find($id)->update($request->all());
+        if (!$form->isValid()) {
+            return redirect()
+                ->back()
+                ->withErrors($form->getErrors())
+                ->withInput();
+        }
 
-        return redirect()->route('users.index')
-            ->with('message','Usuário alterado com sucesso');
+        $data = $form->getFieldValues();
+        $user->update($data);
+        session()->flash('message','Usuário editado com sucesso');
+        return redirect()->route('users.index');
     }
 
 

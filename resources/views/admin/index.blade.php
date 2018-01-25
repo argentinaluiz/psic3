@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
 
-    @include('admin._breadcrumb')
+     {!! Breadcrumb::withLinks(array('Home' => '/', 'Admin' ))!!}
 
       <div class="row">
 

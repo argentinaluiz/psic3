@@ -3,15 +3,32 @@
 
 @section('content')
 <div class="container">
+    {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar usuários' => route('users.index'), 'Detalhes dos usuários' ))!!}
     <div class="row">
         <div class="col-md-12">
             <h3>Ver usuário</h3>
-            <a class="btn btn-sm btn-primary" href="{{ route('users.edit',['user' => $user->id]) }}">Editar</a>
-            <a class="btn btn-sm btn-danger" href="{{ route('users.destroy',['user' => $user->id]) }}"
-                onclick="event.preventDefault();if(confirm('Deseja excluir este item?')){document.getElementById('form-delete').submit();}">Excluir</a>
-            <!--<form id="form-delete"style="display: none" action="{{ route('users.destroy',['user' => $user->id]) }}" method="post">-->
-            {{Form::open(['route' => ['users.destroy',$user->id],'method' => 'DELETE', 'id' => 'form-delete'])}}
-            {{Form::close()}}
+            <div class="cleaner_h25"></div>
+            @php
+                $linkEdit = route('users.edit',['user' => $user->id]);
+                $linkDelete = route('users.destroy',['user' => $user->id]);
+            @endphp
+            {!! Button::primary(Icon::pencil().' Editar')->asLinkTo($linkEdit) !!}
+            {!!
+            Button::danger(Icon::remove().' Excluir')->asLinkTo($linkDelete)
+                ->addAttributes([
+                    'onclick' => "event.preventDefault();document.getElementById(\"form-delete\").submit();"
+                ])
+            !!}
+            @php
+                $formDelete = FormBuilder::plain([
+                    'id' => 'form-delete',
+                    'url' => $linkDelete,
+                    'method' => 'DELETE',
+                    'style' => 'display:none'
+                ])
+            @endphp
+            {!! form($formDelete) !!}
+
             <br/><br/>
             <table class="table table-bordered">
                 <tbody>
