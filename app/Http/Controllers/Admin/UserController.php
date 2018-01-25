@@ -67,7 +67,6 @@ class UserController extends Controller
     }
 
     
-    
     public function create()
     {   
         if(Gate::denies('users-create')){
