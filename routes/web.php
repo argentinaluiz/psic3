@@ -118,8 +118,12 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth']], function(){    
 
     Route::get('/', 'AdminController@index');
+    Route::group(['prefix' => 'users', 'as' => 'users.'], function (){
+        Route::name('show_details')->get('show_details', 'UserController@showDetails'); 
+     });
+
     Route::resource('users', 'UserController');
-  
+      
     Route::get('users/role/{id}', ['as'=>'users.role','uses'=>'UserController@role']);
     Route::post('users/role/{role}', ['as'=>'users.role.store','uses'=>'UserController@roleStore']);
     Route::delete('users/role/{user}/{role}', ['as'=>'users.role.destroy','uses'=>'UserController@roleDestroy']);
@@ -131,5 +135,5 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
     Route::delete('roles/permission/{role}/{permission}', ['as'=>'roles.permission.destroy','uses'=>'RoleController@permissionDestroy']);
   
     Route::resource('permissions', 'PermissionController');
-  
+
   });

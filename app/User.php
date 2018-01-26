@@ -6,6 +6,7 @@ use Bootstrapper\Interfaces\TableInterface;
 use App\Notifications\MyResetPasswordNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Notifications\UserCreated;
 use App\Models\Painel\Permission;
 use App\Models\Painel\Role;
 
@@ -98,11 +99,11 @@ class User extends Authenticatable implements TableInterface
         self::assignEnrolment($user, self::ROLE_ADMIN);
       //  self::assingRole($user, $data['type']);
         $user->save();
-     /*   if (isset($data['send_mail'])) {
+        if (isset($data['send_mail'])) {
             $token = \Password::broker()->createToken($user);
             $user->notify(new UserCreated($token));
         }
-    */
+
         return compact('user', 'password');
     }
 
@@ -125,7 +126,7 @@ class User extends Authenticatable implements TableInterface
      */
     public function getTableHeaders()
     {
-        return ['ID', 'Nome', 'Email'];
+        return ['ID', 'Nome', 'Email', 'Papéis'];
     }
 
     /**
@@ -144,6 +145,8 @@ class User extends Authenticatable implements TableInterface
                 return $this->name;
             case 'Email':
                 return $this->email;
+            case 'Papéis':
+                return $this->roles->pluck('name')->implode(','); 
         }
     }
 

@@ -14,6 +14,9 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet">
+    <style type="text/css">
+        @media print{.hidden-print {display: none;} }
+    </style>
 
     <!-- Datatables files -->
     <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>

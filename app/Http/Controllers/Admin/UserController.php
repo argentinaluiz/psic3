@@ -99,9 +99,24 @@ class UserController extends Controller
     }
 
     $data = $form->getFieldValues();
-    User::createFully($data);
+    $result = User::createFully($data);
     $request->session()->flash('message','Usuário criado com sucesso');
-    return redirect()->route('users.index');
+    $request->session()->flash('user_created',[
+        'id' => $result['user']->id,
+        'password' => $result['password']
+    ]);
+    return redirect()->route('users.show_details');
+    }
+
+    public function showDetails(){
+        if(Gate::denies('users-create')){
+            abort(403,"Não autorizado!");
+        }
+
+        $userData = session('user_created');
+        $user = User::findOrFail($userData['id']);
+        $user->password = $userData['password'];
+        return view('admin.users.show_details',compact('user'));
     }
 
 
