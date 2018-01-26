@@ -37,6 +37,8 @@ class Client extends Model
         'client_type'
     ];
 
+   
+
     public static function getClientType($type)
     {
         return $type == Client::TYPE_LEGAL ? $type : Client::TYPE_INDIVIDUAL;
