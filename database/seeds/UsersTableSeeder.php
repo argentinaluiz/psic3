@@ -12,11 +12,12 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        /*  factory(\App\User::class)->create([
+          factory(\App\User::class)->create([
             'email' => 'admin@user.com',
             'enrolment' => 100001
         ]);
-        */
+        
+        /*  factory(\App\User::class)->create([
        
      
         factory(\App\User::class)->create([
@@ -44,7 +45,7 @@ class UsersTableSeeder extends Seeder
             }
         });
         
-      
+      */
         
       
        
