@@ -66,7 +66,7 @@ class User extends Authenticatable implements TableInterface
         /** @var User $user */
         $user = parent::create($data + ['enrolment' => str_random(6)]);
         self::assignEnrolment($user, self::ROLE_ADMIN);
-        self::assingRole($user, $data['type']);
+        self::assignRole($user, $data['type']);
         $user->save();
         if (isset($data['send_mail'])) {
             $token = \Password::broker()->createToken($user);
@@ -87,7 +87,7 @@ class User extends Authenticatable implements TableInterface
         return $user->enrolment;
     }
 
-    public static function assingRole(User $user, $type)
+    public static function assignRole(User $user, $type)
     {
         $types = [
             self::ROLE_ADMIN => Admin::class,

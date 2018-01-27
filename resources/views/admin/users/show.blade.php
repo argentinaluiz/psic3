@@ -16,7 +16,7 @@
             {!!
              Button::danger(Icon::remove().' Excluir')->asLinkTo($linkDelete)
                 ->addAttributes([
-                    'onclick' => "event.preventDefault();document.getElementById(\"form-delete\").submit();"
+                    'onclick' => 'event.preventDefault();if(confirm("Deseja excluir?")){document.getElementById("form-delete").submit();}'
                 ])
             !!}
             @php

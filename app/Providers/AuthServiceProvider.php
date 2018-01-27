@@ -41,6 +41,10 @@ class AuthServiceProvider extends ServiceProvider
             }
         }
 
+        \Gate::define('admin', function($user){
+            return $user->userable instanceof Admin;
+         });
+
 
         /*
         Gate::define('view-call', function($user, Call $call){
