@@ -118,6 +118,12 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth']], function(){    
 
     Route::get('/', 'AdminController@index');
+    
+    Route::group(['prefix' => 'users', 'as' => 'admin.users.'], function (){
+        Route::name('settings.edit')->get('settings', 'UserSettingsController@edit');
+        Route::name('settings.update')->put('update', 'UserSettingsController@update');
+    });
+
     Route::group(['prefix' => 'users', 'as' => 'users.'], function (){
         Route::name('show_details')->get('show_details', 'UserController@showDetails'); 
      });
@@ -135,5 +141,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
     Route::delete('roles/permission/{role}/{permission}', ['as'=>'roles.permission.destroy','uses'=>'RoleController@permissionDestroy']);
   
     Route::resource('permissions', 'PermissionController');
+
+
 
   });
