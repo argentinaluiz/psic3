@@ -126,6 +126,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
 
     Route::group(['prefix' => 'users', 'as' => 'users.'], function (){
         Route::name('show_details')->get('show_details', 'UserController@showDetails'); 
+        Route::group(['prefix' => '{user}/profile'], function () {
+            Route::name('profile.edit')->get('', 'UserProfileController@edit');
+            Route::name('profile.update')->put('', 'UserProfileController@update');
+        });
      });
 
     Route::resource('users', 'UserController');

@@ -12,6 +12,7 @@ use App\Models\Painel\Psychoanalyst;
 use App\Models\Painel\Admin;
 use App\Models\Painel\Patient;
 use App\Models\Painel\Role;
+use App\Models\Painel\UserProfile;
 
 class User extends Authenticatable implements TableInterface
 {
@@ -41,6 +42,11 @@ class User extends Authenticatable implements TableInterface
 
     public function sendPasswordResetNotification($token){
         $this->notify(new MyResetPasswordNotification($token));
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(UserProfile::class)->withDefault();
     }
 
     public function userable()
