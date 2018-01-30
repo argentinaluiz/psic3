@@ -3,7 +3,6 @@
 
 @section('extra-css')
     <link rel="stylesheet" href="{{asset('css/cart.css')}}"/>
-    <script src="https://js.stripe.com/v3/"></script>
 
 @endsection
 
@@ -112,7 +111,7 @@
                             <div class="checkout-item-details">
                                 <div class="checkout-table-item">{{ $item->model->name }}</div>
                                 <div class="checkout-table-description">{{ $item->model->details }}</div>
-                                <div class="checkout-table-price">{{ $item->model->price }}</div>
+                                <div class="checkout-table-price"> {{ $item->model->price }}</div>
                             </div>
                         </div> <!-- end checkout-table -->
 
@@ -144,14 +143,14 @@
                     </div>
 
                   <div class="checkout-totals-right">
-                        {{ (Cart::subtotal()) }} <br>
+                        R$ {{ (Cart::subtotal()) }} <br>
                         @if (session()->has('coupon'))
                             -{{ number_format($discount, 2, ',', '.') }} <br>
                             <hr>
-                            {{ ($newSubtotal) }} <br>
+                           R$ {{ number_format($newSubtotal, 2, ',', '.') }} <br>
                         @endif
-                        {{ ($newTax) }} <br>
-                        <span class="checkout-totals-total">{{ ($newTotal) }}</span>
+                      R$ {{ number_format($newTax, 2, ',', '.') }} <br>
+                        <span class="checkout-totals-total">R$ {{ number_format($newTotal, 2, ',', '.') }}</span>
 
                     </div> 
                 </div> 

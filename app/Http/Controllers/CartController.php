@@ -57,12 +57,12 @@ class CartController extends Controller
         ]);
 
         if ($validator->fails()) {
-            session()->flash('errors', collect(['Quantity must be between 1 and 5.']));
+            session()->flash('errors', collect(['A quantidade precisa ser entre 1 e 5.']));
             return response()->json(['success' => false], 400);
         }
 
         Cart::update($id, $request->quantity);
-        session()->flash('success_message', 'Quantity was updated successfully!');
+        session()->flash('message', 'A quantidade foi atualizada com sucesso!');
         return response()->json(['success' => true]);
     }
 
@@ -76,7 +76,7 @@ class CartController extends Controller
     {
         Cart::remove($id);
 
-        return back()->with('success_message', 'Item has been removed!');
+        return back()->with('message', 'Item foi removido!');
     }
 
     /**
@@ -96,12 +96,12 @@ class CartController extends Controller
         });
 
         if ($duplicates->isNotEmpty()) {
-            return redirect()->route('cart.index')->with('success_message', 'Item is already Saved For Later!');
+            return redirect()->route('cart.index')->with('message', 'O Item já foi salvo para ser visto depois!');
         }
 
         Cart::instance('saveForLater')->add($item->id, $item->name, 1, $item->price)
             ->associate('App\Models\Painel\Product');
 
-        return redirect()->route('cart.index')->with('success_message', 'Item has been Saved For Later!');
+        return redirect()->route('cart.index')->with('message', 'O Item foi salvo para ser visto depois!');
     }
 }

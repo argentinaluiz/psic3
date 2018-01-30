@@ -39,7 +39,7 @@ class CouponsController extends Controller
             'discount' => $coupon->discount(Cart::subtotal()),
         ]);
 
-        return redirect()->route('checkout.index')->with('success_message', 'Coupon has been applied!');
+        return redirect()->route('checkout.index')->with('message', 'O Cupom foi aplicado!');
     }
 
 
@@ -53,6 +53,6 @@ class CouponsController extends Controller
     {
         session()->forget('coupon');
 
-        return redirect()->route('checkout.index')->with('success_message', 'Coupon has been removed.');
+        return redirect()->route('checkout.index')->with('message', 'O Cupom foi removido.');
     }
 }
