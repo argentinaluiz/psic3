@@ -177,4 +177,5 @@ class User extends Authenticatable implements TableInterface
       return $roles->intersect($userRoles)->count();
     }
 
+
 }

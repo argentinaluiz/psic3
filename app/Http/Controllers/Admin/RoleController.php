@@ -128,7 +128,6 @@ class RoleController extends Controller
       if(Role::find($id)->name == "Admin"){
           return redirect()->route('roles.index');
       }
-
       $registro = Role::find($id);
 
       return view('admin.role.edit',compact('registro'));

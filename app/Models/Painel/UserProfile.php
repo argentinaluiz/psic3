@@ -15,4 +15,9 @@ class UserProfile extends Model
         'neighborhood',
         'state'
     ];
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
 }

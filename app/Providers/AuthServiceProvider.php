@@ -45,6 +45,13 @@ class AuthServiceProvider extends ServiceProvider
             return $user->userable instanceof Admin;
          });
 
+         \Gate::before(function($user, $ability){
+            if($user ->eAdmin()){
+               return true; //não retorne false, pois isto bloqueia a execução da regra original chamada
+            }
+         });
+
+
 
         /*
         Gate::define('view-call', function($user, Call $call){

@@ -11,7 +11,7 @@ class CallPolicy
     use HandlesAuthorization;
 
     public function before($user, $ability){
-        if ($user->isSuperAdmin()) {
+        if ($user->eAdmin()) {
             return true;
         }
     }

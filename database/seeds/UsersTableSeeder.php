@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use App\Models\Painel\UserProfile;
 
 class UsersTableSeeder extends Seeder
 {
@@ -12,10 +13,44 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-          factory(\App\User::class)->create([
+        factory(\App\User::class)->create([
+            'email' => 'admin@user.com',
+            'enrolment' => 100001,
+            'password' => bcrypt('trinity')
+        ])->each(function(User $user){
+            $profile = factory(UserProfile::class)->make();
+            $user->profile()->create($profile->toArray());
+            User::assignRole($user, User::ROLE_ADMIN);
+            $user->save();
+        });
+    
+        factory(User::class,10)->create()->each(function(User $user){
+            if(!$user->userable) {
+                $profile = factory(UserProfile::class)->make();
+                $user->profile()->create($profile->toArray());
+                User::assignRole($user, User::ROLE_PSYCHOANALYST);
+                User::assignEnrolment(new User(), User::ROLE_PSYCHOANALYST);
+                $user->save();
+            }
+        });
+    
+        factory(User::class,10)->create()->each(function(User $user){
+            if(!$user->userable) {
+                $profile = factory(UserProfile::class)->make();
+                $user->profile()->create($profile->toArray());
+                User::assignRole($user, User::ROLE_PATIENT);
+                User::assignEnrolment(new User(), User::ROLE_PATIENT);
+                $user->save();
+            }
+        });
+
+       /*
+        factory(\App\User::class)->create([
             'email' => 'admin@user.com',
             'enrolment' => 100001
         ]);
+
+        */
         
         /*  factory(\App\User::class)->create([
        

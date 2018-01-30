@@ -7,10 +7,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Forms\UserProfileForm;
 use App\User;
+use App\Models\Painel\State;
+use App\Models\Painel\City;
 
 class UserProfileController extends Controller
 {
-     /**
+    
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  \SON\Models\User  $user

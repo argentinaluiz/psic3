@@ -42,6 +42,8 @@
                     $arrayLinks = [
                         ['link' => route('users.index'), 'title' => 'Usuários'],
                         ['link' => route('roles.index'), 'title' => 'Papéis'],
+                        ['link' => route('specialties.index'), 'title' => 'Especialidade'],
+                        ['link' => route('class_informations.index'), 'title' => 'Classe'],
                         ['link' => route('clients.index'), 'title' => 'Clientes'],
                         ['link' => route('states.index'), 'title' => 'Estados'],
                         ['link' => route('painel.products.index'), 'title' => 'Produtos'],

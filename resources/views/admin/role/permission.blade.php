@@ -18,7 +18,7 @@
 					<label>Permissões</label><br/>
 					<select name="permission_id">
 						@foreach($permission as $value)
-						<option value="{{$value->id}}">{{$value->name}}</option>
+							<option value="{{$value->id}}">{{$value->name}}</option>
 						@endforeach
 					</select>
 				</div>

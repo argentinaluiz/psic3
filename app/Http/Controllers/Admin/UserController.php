@@ -89,23 +89,23 @@ class UserController extends Controller
         }
 
           /** @var Form $form */
-    $form = \FormBuilder::create(UserForm::class);
+        $form = \FormBuilder::create(UserForm::class);
 
-    if(!$form->isValid()){
-        return redirect()
-            ->back()
-            ->withErrors($form->getErrors())
-            ->withInput();
-    }
+        if(!$form->isValid()){
+            return redirect()
+                ->back()
+                ->withErrors($form->getErrors())
+                    ->withInput();
+        }
 
-    $data = $form->getFieldValues();
-    $result = User::createFully($data);
-    $request->session()->flash('message','Usuário criado com sucesso');
-    $request->session()->flash('user_created',[
-        'id' => $result['user']->id,
-        'password' => $result['password']
-    ]);
-    return redirect()->route('users.show_details');
+        $data = $form->getFieldValues();
+        $result = User::createFully($data);
+        $request->session()->flash('message','Usuário criado com sucesso');
+        $request->session()->flash('user_created',[
+            'id' => $result['user']->id,
+            'password' => $result['password']
+        ]);
+        return redirect()->route('users.show_details');
     }
 
     public function showDetails(){

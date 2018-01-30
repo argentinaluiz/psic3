@@ -24,3 +24,20 @@ $factory->define(App\User::class, function (Faker $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(\App\Models\Painel\UserProfile::class, function (Faker $faker) {
+
+    return [
+        'address' => $faker->address,
+        'cep' => function() use($faker){
+            $cep = preg_replace('/[^0-9]/','',$faker->postcode());
+            return $cep;
+        },
+        'number' => rand(1,100),
+        'complement' => rand(1,10)%2==0?null:$faker->sentence,
+        'city' => $faker->city,
+        'neighborhood' => $faker->city,
+        'state' => collect(\App\Models\Painel\State::$states)->random(),
+       // 'state' => collect(\App\Models\Painel\State::pluck('state_id'))->random(),
+    ];
+});

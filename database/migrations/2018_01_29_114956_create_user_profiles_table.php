@@ -20,10 +20,13 @@ class CreateUserProfilesTable extends Migration
             $table->string('number');
             $table->string('complement')->nullable();
             $table->string('city');
+          //  $table->integer('city_id')->unsigned();
             $table->string('neighborhood');
             $table->string('state', 2);
             $table->integer('user_id')->unsigned();
+            
             $table->foreign('user_id')->references('id')->on('users');
+          //  $table->foreign('city_id')->references('id')->on('cities');
             $table->timestamps();
         });
     }
