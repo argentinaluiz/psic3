@@ -47,9 +47,6 @@
                         ['link' => route('clients.index'), 'title' => 'Clientes'],
                         ['link' => route('states.index'), 'title' => 'Estados'],
                         ['link' => route('painel.products.index'), 'title' => 'Produtos'],
-                        ['link' => route('rooms.index'), 'title' => 'Salas'],
-                        ['link' => route('agendas.index'), 'title' => 'Agendas'],
-                        ['link' => route('reserves.index'), 'title' => 'Reservas'],
                     ];
                     $navbar->withContent(Navigation::links($arrayLinks));
                 
