@@ -102,7 +102,9 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
     Route::resource('clients', 'ClientsController');
 
     Route::get('states', 'StatesController@index')->name('states.index');
-    Route::get('state/{initials}/cities', 'CitiesController@index')->name('state.cities');
+    Route::get('state/{siglas}/cities', 'CitiesController@index')->name('state.cities');
+
+    Route::get('get-cities/{idState}', 'CitiesController@getCities');
 
     Route::resource('rooms', 'RoomsController');
 
@@ -119,8 +121,7 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth']], function(){    
 
     Route::get('/', 'AdminController@index');
-    Route::get('get-cities/{idState}', 'CityController@getCities');
-    
+
     Route::group(['prefix' => 'users', 'as' => 'admin.users.'], function (){
         Route::name('settings.edit')->get('settings', 'UserSettingsController@edit');
         Route::name('settings.update')->put('update', 'UserSettingsController@update');

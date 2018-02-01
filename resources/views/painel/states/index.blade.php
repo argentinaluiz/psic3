@@ -11,7 +11,7 @@
             <table class="table table-striped dataTables-states">
                 <thead>
                 <tr>
-                    <th>Nome</th>
+                    <th>Estado</th>
                     <th>Sigla</th>
                     <th>Ações</th>
                 </tr>
@@ -19,10 +19,10 @@
                 <tbody>
                 @foreach($states as $state)
                     <tr>
-                        <td>{{ $state->name }}</td>
-                        <td>{{ $state->initials }}</td>
+                        <td>{{ $state->state }}</td>
+                        <td>{{ $state->sigla }}</td>
                         <td>
-                            <a href="{{route('state.cities', $state->initials)}}"><i class="fa fa-map-marker" aria-hidden="true"></i> Cidades</a> 
+                            <a href="{{route('state.cities', $state->sigla)}}"><i class="fa fa-map-marker" aria-hidden="true"></i> Cidades</a> 
                         </td>
                     </tr>
                 @endforeach

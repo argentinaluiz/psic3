@@ -18,19 +18,18 @@ class CitiesController extends Controller
     }
 
     
-    public function index($siglas)
+    public function index($sigla)
     {
         
         $totalCities    = City::count();
-
-        \Session::flash('chave','valor');
-        $state = State::where('siglas', $siglas)->with('cities')->get()->first();
+        
+        $state = State::where('sigla', $sigla)->with('cities')->get()->first();
         if(!$state)
             return redirect()->back();
         //dd($state);
 
         $cities   = $state->cities;
-        return view('painel.cities.index', compact('cities', 'title', 'totalCities', 'state'));
+        return view('painel.cities.index', compact('cities', 'totalCities', 'state'));
     }
 
     public function getCities($idState)
