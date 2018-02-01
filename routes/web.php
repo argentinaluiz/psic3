@@ -14,6 +14,7 @@ Auth::routes();
 
   Route::get('/', 'SiteController@index')->name('site.home.index');
 
+
  //Carrinho de compra 
  Route::get('/shop', 'ShopController@index')->name('shop.index');
  Route::get('/shop/{product}', 'ShopController@show')->name('shop.show');
@@ -118,6 +119,7 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth']], function(){    
 
     Route::get('/', 'AdminController@index');
+    Route::get('get-cities/{idState}', 'CityController@getCities');
     
     Route::group(['prefix' => 'users', 'as' => 'admin.users.'], function (){
         Route::name('settings.edit')->get('settings', 'UserSettingsController@edit');

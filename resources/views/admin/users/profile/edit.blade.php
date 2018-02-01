@@ -21,5 +21,20 @@
                 @endcomponent
             </div> 
         </div>
+		<div class="cleaner_h25"></div>
     </div>
+@endsection
+
+@section('extra-js')
+    <script type="text/javascript">
+        $('select[name=state]').change(function () {
+            var idState = $(this).val();
+            $.get('get-cities/' + idState, function (cities) {
+                $('select[name=city]').empty();
+                $.each(cities, function (key, value) {
+                    $('select[name=city]').append('<option value=' + value.id + '>' + value.city + '</option>');
+                });
+            });
+        });
+    </script>
 @endsection

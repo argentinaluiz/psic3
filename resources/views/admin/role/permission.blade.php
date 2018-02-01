@@ -56,5 +56,6 @@
 				</table>
 			</div>
 		</div>
+		<div class="cleaner_h25"></div>
 	</div>
 @endsection

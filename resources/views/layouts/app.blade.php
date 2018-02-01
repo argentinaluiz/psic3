@@ -97,5 +97,6 @@
     <!-- Scripts -->
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
    <!-- <script src="{{ asset('js/app.js') }}"></script> conflito, quando atualizo o botão do logout deixa de funcionar-->
+   @yield('extra-js')
 </body>
 </html>
