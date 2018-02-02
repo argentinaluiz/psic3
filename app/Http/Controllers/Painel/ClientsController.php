@@ -25,14 +25,14 @@ class ClientsController extends Controller //Controller resource
 
         $totalClients   = Client::count();
 
-        $countPacients = Client::where(['expertise' => 1])->count(); 
+        $countPatients = Client::where(['expertise' => 1])->count(); 
         $countPsychoanalysts = Client::where(['expertise' => 2])->count();
         $countSupervisor = Client::where(['expertise' => 3])->count();
         $countClinics = Client::where(['expertise' => 4])->count(); 
 
         \Session::flash('chave','valor');
         $clients = Client::all();
-        $pacients = Client::where(['expertise' => 1])->get();
+        $patients = Client::where(['expertise' => 1])->get();
         $psychoanalysts = Client::where(['expertise' => 2])->get();
         $supervisors = Client::where(['expertise' => 3])->get();
         $clinics= Client::where(['expertise' => 4])->get();
@@ -41,11 +41,11 @@ class ClientsController extends Controller //Controller resource
             'clients', 
             'title', 
             'totalClients', 
-            'countPacients', 
+            'countPatients', 
             'countPsychoanalysts', 
             'countSupervisor' ,
             'countClinics',
-            'pacients',
+            'patients',
             'psychoanalysts',
             'supervisors',
             'clinics')

@@ -21,10 +21,10 @@
 					@can('clients-create')
 						<a class="btn btn-default" href="{{ route('clients.create') }}">Criar novo</a>
 					@endcan
-					<span class="pull-right small text-muted">Total de pacientes: {{ $countPacients }}</span>
+					<span class="pull-right small text-muted">Total de pacientes: {{ $countPatients }}</span>
 					<div class="cleaner_h25"></div>
 					<div class="table-responsive">
-						<table class="table table-striped dataTables-pacients">
+						<table class="table table-striped dataTables-patients">
 							<thead>
 							<tr>
 								<th>Nome</th>
@@ -37,20 +37,20 @@
 							</tr>
 							</thead>
 							<tbody>
-							@foreach($pacients as $pacient)
+							@foreach($patients as $patient)
 								<tr>
-									<td>{{ $pacient->name }}</td>
-									<td>{{ $pacient->document_number_formatted }}</td>
-									<td>{{ $pacient->date_birth_formatted }}</td>
-									<td>{{ $pacient->email }}</td>
-									<td>{{ $pacient->phone }}</td>
-									<td>{{ $pacient->sex }}</td>
+									<td>{{ $patient->name }}</td>
+									<td>{{ $patient->document_number_formatted }}</td>
+									<td>{{ $patient->date_birth_formatted }}</td>
+									<td>{{ $patient->email }}</td>
+									<td>{{ $patient->phone }}</td>
+									<td>{{ $patient->sex }}</td>
 									<td>
 										@can('clients-edit')
-											<a href="{{route('clients.edit',['pacient' => $pacient->id])}}">Editar</a> |
+											<a href="{{route('clients.edit',['patient' => $patient->id])}}">Editar</a> |
 										@endcan
 										@can('clients-view')	
-											<a href="{{route('clients.show',['pacient' => $pacient->id])}}">Ver</a>
+											<a href="{{route('clients.show',['patient' => $patient->id])}}">Ver</a>
 										@endcan
 									</td>
 								</tr>
@@ -196,7 +196,7 @@
 
 <script>$(document).ready(function () {
     $.noConflict();
-		var table = $('.dataTables-pacients').DataTable({
+		var table = $('.dataTables-patients').DataTable({
 			pageLength: 10,
 			responsive: true,
 			dom: '<"html5buttons"B>lTfgitp',

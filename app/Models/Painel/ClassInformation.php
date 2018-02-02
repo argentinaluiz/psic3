@@ -27,6 +27,16 @@ class ClassInformation extends Model implements TableInterface
         'date_end'
     ];
 
+    public function patients()
+    {
+        return $this->belongsToMany(Patient::class);
+    }
+
+    public function sessions()
+    {
+        return $this->hasMany(ClassSessions::class);
+    }
+
     /**
      * A list of headers to be used when a table is displayed
      *
@@ -38,7 +48,7 @@ class ClassInformation extends Model implements TableInterface
             'ID',
             'Data Início',
             'Data Fim',
-            'Nome',
+            'Tipo',
             'Semestre',
             'Ano'
         ];
@@ -60,7 +70,7 @@ class ClassInformation extends Model implements TableInterface
                 return $this->date_start->format('d/m/Y'); //Carbon
             case 'Data Fim':
                 return $this->date_end->format('d/m/Y'); 
-            case 'Nome':
+            case 'Tipo':
                 return $this->name;
             case 'Semestre':
                 return $this->semester;

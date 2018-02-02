@@ -9,8 +9,8 @@
                 <h3>Ver classe</h3>
                 <div class="cleaner_h25"></div>
                 @php
-                    $linkEdit = route('class_pacients.edit',['class_pacients' => $class_information->id]);
-                    $linkDelete = route('class_pacients.destroy',['class_pacients' => $class_information->id]);
+                    $linkEdit = route('class_patients.edit',['class_patients' => $class_information->id]);
+                    $linkDelete = route('class_patients.destroy',['class_patients' => $class_information->id]);
                 @endphp
                 {!! Button::primary(Icon::pencil().' Editar')->asLinkTo($linkEdit) !!}
                 {!!

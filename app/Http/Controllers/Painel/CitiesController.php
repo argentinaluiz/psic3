@@ -35,7 +35,7 @@ class CitiesController extends Controller
     public function getCities($idState)
     {
         $state = $this->stateModel->find($idState);
-        $cities = $state->cities()->getQuery()->get(['id', 'city']);
+        $cities = $state->cities()->getQuery()->get(['id', 'name']);
         return Response::json($cities);
     }
 }
