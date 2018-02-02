@@ -14,6 +14,11 @@ return [
     */
 
     'name' => env('APP_NAME', 'Psicanalysis'),
+    'corSite' => 'blue',
+    'corSiteCodigo' => '#00397D',
+    'corHoverSiteCodigo' => '#012754',
+    'descricaoSite' => 'Sistema para a psicanálise',
+    'autorSite' => 'Mendruveit: Marisa Endruveit',
 
     /*
     |--------------------------------------------------------------------------
@@ -171,6 +176,8 @@ return [
         \Laravel\Socialite\SocialiteServiceProvider::class,
         \Kris\LaravelFormBuilder\FormBuilderServiceProvider::class,
         Bootstrapper\BootstrapperL5ServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -256,7 +263,7 @@ return [
         'Tabbable' => Bootstrapper\Facades\Tabbable::class,
         'Table' => Bootstrapper\Facades\Table::class,
         'Thumbnail' => Bootstrapper\Facades\Thumbnail::class,
-
+        'Image' => Intervention\Image\Facades\Image::class,
 
 
     ],

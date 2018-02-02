@@ -6,8 +6,6 @@
 		{!! Breadcrumb::withLinks(array('Home' => '/', 'Listar papéis' => route('roles.index'), 'Permissões' ))!!}
 		
 		<h2 class="center">Lista de Permissões para {{$role->name}}</h2>
-
-		<div class="cleaner_h25"></div>
 		<div class="row">
 			<div class="col-md-12">
 				<form action="{{route('roles.permission.store',$role->id)}}" method="post">

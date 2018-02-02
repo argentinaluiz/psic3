@@ -14,6 +14,8 @@ Auth::routes();
 
   Route::get('/', 'SiteController@index')->name('site.home.index');
 
+  
+
 
  //Carrinho de compra 
  Route::get('/shop', 'ShopController@index')->name('shop.index');
@@ -115,6 +117,12 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
     Route::resource('products', 'ProductsController');
     Route::get('products', 'ProductsController@index')->name('painel.products.index');
     Route::post('products', 'ProductsController@store')->name('painel.products.store');
+
+    Route::get("teste1","testeImagemController@teste1");
+    Route::post("teste1","testeImagemController@teste1Post");
+
+    Route::get("teste2","testeImagemController@teste2");
+    Route::post("teste2","testeImagemController@teste2Post");
 
 });
 

@@ -7,7 +7,6 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h3>Listagem de papéis</h3>
-				<div class="cleaner_h25"></div>
 				<span class="pull-right small text-muted">Total de papéis: {{ $totalRoles }} </span>
 				<br/>
 				@can('role-create')
