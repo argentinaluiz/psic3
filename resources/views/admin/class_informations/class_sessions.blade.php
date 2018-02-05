@@ -1,16 +1,18 @@
 @extends('layouts.app')
 @section('pag_title', 'Especialidade - adicionar')
 
+@section('breadcrumb')
+    <h2>Configurações</h2>
+    {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar classes' => route('class_informations.index'), 'Nova especialidade e psicanalista' ))!!}
+@endsection
+
+@section('h5-title')
+     <h5>Adicionar especialidade e psicanalista na classe</h5>
+@endsection
+
+
 @section('content')
-    <div class="container">
-        {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar classes' => route('class_informations.index'), 'Nova especialidade e psicanalista' ))!!}
-        <div class="row">
-            <div class="col-md-12">
-                <h3>Adicionar especialidade e psicanalista na classe</h3>
-                <div class="cleaner_h25"></div>
-                <class-session class-information="{{$class_information->id}}"></class-session>
-                <br/><br/>
-            </div>
-        </div>
-    </div>
+
+    <class-session class-information="{{$class_information->id}}"></class-session>
+
 @endsection

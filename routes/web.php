@@ -14,8 +14,6 @@ Auth::routes();
 
   Route::get('/', 'SiteController@index')->name('site.home.index');
 
-  
-
 
  //Carrinho de compra 
  Route::get('/shop', 'ShopController@index')->name('shop.index');

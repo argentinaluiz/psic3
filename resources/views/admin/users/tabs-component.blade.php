@@ -5,7 +5,6 @@
     ]
 @endphp
 
-<h3>Gerenciar usuário</h3>
 <div class="text-right">
     {!! Button::link('Listar usuários')->asLinkTo(route('users.index')) !!}
 </div>

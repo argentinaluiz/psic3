@@ -1,12 +1,18 @@
 @extends('layouts.app')
 @section('pag_title', 'Página do Administrador')
 
+@section('breadcrumb')
+    <h2>Configurações</h2>
+   {!! Breadcrumb::withLinks(array('Home' => '/', 'Admin' ))!!}
+@endsection
+
+@section('h5-title')
+     <h5>Painel administrativo</h5>
+@endsection
+
+
+
 @section('content')
-<div class="container">
-
-     {!! Breadcrumb::withLinks(array('Home' => '/', 'Admin' ))!!}
-
-      <div class="row">
 
       @can('users-view')
         <div class="col-sm-3">
@@ -64,7 +70,5 @@
         </div>
       @endCan
 
-      </div>
-</div>
 @endsection
 

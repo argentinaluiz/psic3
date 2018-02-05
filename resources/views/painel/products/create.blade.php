@@ -1,17 +1,19 @@
 @extends('layouts.app')
 @section('pag_title', 'Produto - Cadastrar')
 
+@section('breadcrumb')
+    <h2>Configurações</h2>
+    {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar produtos' => route('painel.products.index'), 'Novo produto' ))!!}
+@endsection
+
+@section('h5-title')
+     <h5>Novo produto</h5>
+@endsection
+ 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h3>Novo produto</h3> 
-            @include('form._form_errors')
-            {{ Form::open(['route' => 'painel.products.store', 'class' => 'form form-search form-ds', 'files' => true]) }}
-                @include('painel.products._form')
-                <button type="submit" class="btn btn-sm btn-default">Criar</button>
-            {{ Form::close() }}
-        </div>
-    </div>
-</div>
+    @include('form._form_errors')
+    {{ Form::open(['route' => 'painel.products.store', 'class' => 'form form-search form-ds', 'files' => true]) }}
+        @include('painel.products._form')
+        <button class="btn btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;&nbsp;Inserir</button>
+    {{ Form::close() }}
 @endsection
