@@ -99,11 +99,11 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
     Route::resource('clients', 'ClientsController');
 
     Route::get('states', 'StatesController@index')->name('states.index');
-    Route::get('state/{siglas}/cities', 'CitiesController@index')->name('state.cities');
+    Route::get('state/{state}/cities', 'CitiesController@index')->name('state.cities');
 
-   // Route::get('get-cities/{idState}', 'CitiesController@getCities');
+    //Route::get('get-cities/{idState}', 'CitiesController@getCities');
 
-    Route::get('states/{state}/cities', 'CitiesController@getCities');
+    //Route::get('states/{state}/cities', 'CitiesController@getCities');
 
     Route::resource('rooms', 'RoomsController');
 

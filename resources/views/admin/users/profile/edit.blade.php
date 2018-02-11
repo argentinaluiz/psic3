@@ -27,12 +27,12 @@
 
 @section('extra-js')
     <script type="text/javascript">
-        $('select[name=state]').change(function () {
+        $('select[name=estados]').change(function () {
             var idState = $(this).val();
-            $.get('get-cities/' + idState, function (cities) {
-                $('select[name=city]').empty();
+            $.get('state/' + idState, function (cities) {
+                $('select[name=cidades]').empty();
                 $.each(cities, function (key, value) {
-                    $('select[name=city]').append('<option value=' + value.id + '>' + value.city + '</option>');
+                    $('select[name=cidades]').append('<option value=' + value.id + '>' + value.city + '</option>');
                 });
             });
         });
