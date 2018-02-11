@@ -10,10 +10,7 @@
             </div>
             <ul class="nav navbar-top-links navbar-right">
                 <li>
-                    <span class="m-r-sm text-muted welcome-message">15:10</span>
-                </li>
-                <li>
-                    <span class="m-r-sm text-muted welcome-message">30/12/2016</span>
+                    <span class="m-r-sm text-muted welcome-message"><?php $dataHora = date("d/m/Y \à\s H:i"); echo $dataHora; ?></span>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
@@ -23,7 +20,7 @@
                         <li>
                             <div class="dropdown-messages-box">
                                 <a href="" class="pull-left">
-                                    <img alt="image" class="img-circle" src="img/a7.jpg">
+                                    <img alt="image" class="img-circle" src="{{ asset('img/a7.jpg')}}">
                                 </a>
                                 <div class="media-body">
                                     <small class="pull-right">46h atrás</small>
@@ -36,7 +33,7 @@
                         <li>
                             <div class="dropdown-messages-box">
                                 <a href="profile.html" class="pull-left">
-                                    <img alt="image" class="img-circle" src="img/a4.jpg">
+                                    <img alt="image" class="img-circle" src="{{ asset('img/a4.jpg')}} ">
                                 </a>
                                 <div class="media-body ">
                                     <small class="pull-right text-navy">5h atrás</small>
@@ -49,7 +46,7 @@
                         <li>
                             <div class="dropdown-messages-box">
                                 <a href="profile.html" class="pull-left">
-                                    <img alt="image" class="img-circle" src="img/profile.jpg">
+                                    <img alt="image" class="img-circle" src="{{ asset('img/profile.jpg')}}">
                                 </a>
                                 <div class="media-body ">
                                     <small class="pull-right">23h atrás</small>

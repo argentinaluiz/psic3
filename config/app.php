@@ -19,6 +19,9 @@ return [
     'corHoverSiteCodigo' => '#012754',
     'descricaoSite' => 'Sistema para a psicanálise',
     'autorSite' => 'Mendruveit: Marisa Endruveit',
+    'imagemPequena' => '300x200',
+    'imagemGaleria' => '465x418',
+    'imagemSlide' => '1920x580',
 
     /*
     |--------------------------------------------------------------------------

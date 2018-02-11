@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('pag_title', 'Pacotes')
+@section('pag_title', 'Produtos')
 
 @section('breadcrumb')
     <h2>Produtos</h2>
@@ -7,7 +7,7 @@
 @endsection
 
 @section('h5-title')
-     <h5>Novo produto</h5>
+     <h5>Listagem de produtos</h5>
 @endsection
 
 

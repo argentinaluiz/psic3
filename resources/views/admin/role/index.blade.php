@@ -41,13 +41,13 @@
 				<td>
 					<form action="{{route('roles.destroy',$registro->id)}}" method="post">
 						@can('role-edit')
-							<a title="Editar"  href="{{ route('roles.edit',$registro->id) }}"><span class="glyphicon glyphicon-pencil"></span> editar</a> |
+							<a title="Editar"  href="{{ route('roles.edit',$registro->id) }}"><span class="glyphicon glyphicon-pencil"></span> Editar</a> |
 							<a title="Permissões" class="btn btn-sm btn-primary" href="{{route('roles.permission',$registro->id)}}">permissões</a>
 						@endcan
 						@can('role-delete')
 							{{ method_field('DELETE') }}
 							{{ csrf_field() }}
-							<button title="Deletar" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> excluir</button>
+							<button title="Deletar" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Excluir</button>
 						@endcan
 					</form>
 				</td>

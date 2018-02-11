@@ -32,9 +32,9 @@ class CitiesController extends Controller
         return view('painel.cities.index', compact('cities', 'totalCities', 'state'));
     }
 
-    public function getCities($idState)
+    public function states($state)
     {
-        $state = $this->stateModel->find($idState);
+        $state = $this->stateModel->find($state);
         $cities = $state->cities()->getQuery()->get(['id', 'name']);
         return Response::json($cities);
     }

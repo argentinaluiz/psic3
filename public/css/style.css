@@ -692,13 +692,14 @@ div.dt-button-info {z-index: 100;}
 .pace .pace-progress {background: #00397D;position: fixed;z-index: 2040;top: 0;right: 100%;width: 100%;height: 2px;}
 .pace-inactive {display: none;}
 /* WIDGETS */
-.widget {border-radius: 5px;padding: 15px 20px;margin-bottom: 10px;margin-top: 10px;}
+.widget {border-radius: 0px;padding: 15px 20px;margin-bottom: 10px;margin-top: 10px;border-color: #e7eaec;border: 1px solid #e7eaec;}
 .widget.style1 h2 {font-size: 30px;}
 .widget h2,
 .widget h3 {margin-top: 5px;margin-bottom: 0;}
 .widget-text-box {padding: 20px;border: 1px solid #e7eaec;background: #fff;}
 .widget-head-color-box {border-radius: 5px 5px 0 0;margin-top: 10px;}
 .widget .flot-chart {height: 100px;}
+.widget a{color:#676A6C;}
 .vertical-align div {display: inline-block;vertical-align: middle;}
 .vertical-align h2,
 .vertical-align h3 {margin: 0;}
@@ -1165,7 +1166,7 @@ body.canvas-menu .footer.fixed {margin: 0 !important;}
 body.fixed-sidebar.body-small.mini-navbar .footer.fixed {margin: 0 0 0 220px;}
 body.body-small .footer.fixed {margin-left: 0;}
 /* PANELS */
-.page-heading {border-top: 0;padding: 0 10px 20px 10px;}
+.page-heading {border-top: 0;padding: 0 10px 20px 20px;}
 .panel-heading h1,
 .panel-heading h2 {margin-bottom: 5px;}
 /* TABLES */
@@ -2495,3 +2496,5 @@ body.md-skin {font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-se
 
 @media (max-width: 1000px) {.welcome-message {  display: none;}}
 @media print {nav.navbar-static-side {  display: none;}body {  overflow: visible !important;}#page-wrapper {  margin: 0;}}
+
+.file-path-wrapper{display: none;}

@@ -13,62 +13,66 @@
 
 
 @section('content')
+  <div class="row">
+      @can('images-view')
+        <div class="col-sm-3">
+          <div class="widget p-lg text-center">
+                <i class="fa fa-camera fa-4x"></i>
+                <div class="cleaner_h15"></div>
+                <h3 class="font-bold no-margins"> Biblioteca de Imagens</h3>
+                <div class="cleaner_h15"></div>
+                <a href="{{ route('imagens.index')}}">Visualizar</a>
+            </div>
+        </div>
+      @endCan
 
       @can('users-view')
         <div class="col-sm-3">
-          <div class="card purple darken-2">
-            <div class="card-content white-text">
-              <span class="card-title">Usuários</span>
-              <p>Usuários do sistema</p>
+          <div class="widget p-lg text-center">
+                <i class="fa fa-user fa-4x"></i>
+                <div class="cleaner_h15"></div>
+                <h3 class="font-bold no-margins"> Usuários</h3>
+                <div class="cleaner_h15"></div>
+                <a href="{{ route('users.index')}}">Visualizar</a>
             </div>
-            <div class="card-action">
-              <a href="{{ route('users.index')}}">Visualizar</a>
-            </div>
-          </div>
         </div>
       @endCan
 
       @can('favorites-view')
         <div class="col-sm-3">
-          <div class="card blue">
-            <div class="card-content white-text">
-              <span class="card-title">Favoritos</span>
-              <p>Lista de produtos favoritos</p>
+          <div class="widget p-lg text-center">
+                <i class="fa fa-star fa-4x"></i>
+                <div class="cleaner_h15"></div>
+                <h3 class="font-bold no-margins"> Favoritos</h3>
+                <div class="cleaner_h15"></div>
+                <a href="">Visualizar</a>
             </div>
-            <div class="card-action">
-              <a href="#">Visualizar</a>
-            </div>
-          </div>
         </div>
       @endCan
 
       @can('perfil-view')
-       <div class="col-sm-3">
-          <div class="card green">
-            <div class="card-content white-text">
-              <span class="card-title">Perfil</span>
-              <p>Alterar dados do perfil</p>
+        <div class="col-sm-3">
+          <div class="widget p-lg text-center">
+                <i class="fa fa-tag fa-4x"></i>
+                <div class="cleaner_h15"></div>
+                <h3 class="font-bold no-margins"> Perfil</h3>
+                <div class="cleaner_h15"></div>
+                <a href="">Visualizar</a>
             </div>
-            <div class="card-action">
-              <a href="#">Visualizar</a>
-            </div>
-          </div>
         </div>
       @endCan
 
       @can('products-view')
         <div class="col-sm-3">
-          <div class="card orange darken-4">
-            <div class="card-content white-text">
-              <span class="card-title">Papéis</span>
-              <p>Listar papéis do sistema</p>
+          <div class="widget p-lg text-center">
+                <i class="fa fa-shield fa-4x"></i>
+                <div class="cleaner_h15"></div>
+                <h3 class="font-bold no-margins"> Papéis</h3>
+                <div class="cleaner_h15"></div>
+                <a href="{{ route('roles.index')}}">Visualizar</a>
             </div>
-            <div class="card-action">
-              <a href="{{ route('roles.index')}}">Visualizar</a>
-            </div>
-          </div>
         </div>
       @endCan
-
+  </div>
 @endsection
 

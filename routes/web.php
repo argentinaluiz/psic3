@@ -59,7 +59,6 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::post('/login/social', 'Auth\LoginController@loginSocial');
 Route::get('/login/callback', 'Auth\LoginController@loginCallback');
-
    
 Route::get('/checkout/{id}', function ($id) {
     return view('site.store.checkout', compact('id'));
@@ -95,8 +94,6 @@ Route::post('/checkout/{id}', function ($id) {
     return $data;
 });
 
-
-
 Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['auth']], function(){    
     
     Route::resource('clients', 'ClientsController');
@@ -104,17 +101,26 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
     Route::get('states', 'StatesController@index')->name('states.index');
     Route::get('state/{siglas}/cities', 'CitiesController@index')->name('state.cities');
 
-    Route::get('get-cities/{idState}', 'CitiesController@getCities');
+   // Route::get('get-cities/{idState}', 'CitiesController@getCities');
+
+    Route::get('states/{state}/cities', 'CitiesController@getCities');
 
     Route::resource('rooms', 'RoomsController');
 
     Route::resource('agendas', 'AgendasController');
     
     Route::resource('reserves', 'ReservesController');
-    
+
     Route::resource('products', 'ProductsController');
     Route::get('products', 'ProductsController@index')->name('painel.products.index');
     Route::post('products', 'ProductsController@store')->name('painel.products.store');
+
+    Route::get('imagens/excluidas', ['as'=>'imagens.excluidas','uses'=>'ImagensController@excluidas']);
+    Route::put('imagens/recupera/{id}', ['as'=>'imagens.recupera','uses'=>'ImagensController@recupera']);
+    
+    Route::resource('imagens', 'ImagensController');
+    Route::get('imagens', 'ImagensController@index')->name('imagens.index');
+    Route::post('imagens', 'ImagensController@store')->name('imagens.store');
 
     Route::get("teste1","testeImagemController@teste1");
     Route::post("teste1","testeImagemController@teste1Post");

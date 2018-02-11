@@ -35,7 +35,7 @@
 				 <ul class="nav metismenu" id="side-menu">
 					<li class="nav-header">
 						<div class="dropdown profile-element"> <span>
-							<img alt="image" class="img-circle" src="img/profile_small.jpg" />
+							<img alt="image" class="img-circle" src="{{ asset('img/profile_small.jpg')}} " />
 							 </span>
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 							<span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Vestibulum ante</strong>
@@ -120,9 +120,16 @@
 					</li>
 
 					<li>
-						<a href=""><i class="fa fa-comments-o"></i> <span class="nav-label">Produtos</span><span class="fa arrow"></span></a>
+						<a href=""><i class="fa fa-qrcode"></i> <span class="nav-label">Produtos</span><span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level collapse">
 							<li><a href="{{ route('painel.products.index') }}"> Adicionar </a></li>
+						</ul>
+					</li>
+
+					<li>
+						<a href=""><i class="fa fa-picture-o"></i> <span class="nav-label">Imagens</span><span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+							<li><a href="{{ route('imagens.index') }}"> Biblioteca de imagens </a></li>
 						</ul>
 					</li>
 					

@@ -117,7 +117,22 @@ class PermissionsTableSeeder extends Seeder
             'description' =>'Deletar Clientes'
         ]);
 
-
+        $imagens1 = Permission::firstOrCreate([
+            'name' =>'imagens-view',
+            'description' =>'Acesso a lista de Imagens'
+        ]);
+        $imagens2 = Permission::firstOrCreate([
+            'name' =>'imagens-create',
+            'description' =>'Adicionar Imagens'
+        ]);
+        $imagens3 = Permission::firstOrCreate([
+            'name' =>'imagens-edit',
+            'description' =>'Editar Imagens'
+        ]);
+        $imagens4 = Permission::firstOrCreate([
+            'name' =>'imagens-delete',
+            'description' =>'Deletar Imagens'
+        ]);
 
 
     }
