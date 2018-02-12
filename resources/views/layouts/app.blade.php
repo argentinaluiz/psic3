@@ -102,7 +102,7 @@
 						<a href=""><i class="fa fa-address-book-o"></i> <span class="nav-label">Agendas</span>  </a>
 					</li>
 					<li>
-						<a href=""><i class="fa fa-pie-chart"></i> <span class="nav-label">Pesquisa</span>  </a>
+						<a href="{{ route('researches.index') }}"><i class="fa fa-pie-chart"></i> <span class="nav-label">Pesquisa</span>  </a>
 					</li>
 					<li>
 						<a href=""><i class="fa fa-comments-o"></i> <span class="nav-label">Recursos</span><span class="fa arrow"></span></a>
@@ -120,10 +120,7 @@
 					</li>
 
 					<li>
-						<a href=""><i class="fa fa-qrcode"></i> <span class="nav-label">Produtos</span><span class="fa arrow"></span></a>
-						<ul class="nav nav-second-level collapse">
-							<li><a href="{{ route('painel.products.index') }}"> Adicionar </a></li>
-						</ul>
+						<a href="{{ route('painel.products.index') }}"><i class="fa fa-qrcode"></i> <span class="nav-label">Produtos</span></a>
 					</li>
 
 					<li>

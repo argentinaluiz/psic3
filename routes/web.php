@@ -122,6 +122,8 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
     Route::get('imagens', 'ImagensController@index')->name('imagens.index');
     Route::post('imagens', 'ImagensController@store')->name('imagens.store');
 
+    Route::resource('researches', 'ResearchesController');
+
     Route::get("teste1","testeImagemController@teste1");
     Route::post("teste1","testeImagemController@teste1Post");
 

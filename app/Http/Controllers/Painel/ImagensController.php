@@ -24,7 +24,7 @@ class ImagensController extends Controller
         if(Gate::denies('imagens-view')){
             abort(403,"Não autorizado!");
           }
-          $totalImagens   = Imagem::count();
+          $totalImagens = Imagem::where('deleted','=','N')->count();
           $registros = Imagem::where('deleted','=','N')->orderBy('id','DESC')->paginate(10);
 
           return view('painel.imagens.index',compact('registros', 'totalImagens'));

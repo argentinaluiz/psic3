@@ -175,4 +175,128 @@ class ProductsController extends Controller
         return redirect()->route('painel.products.index')
             ->with('message','Produto excluído com sucesso!');
     }
+
+
+    public function indexGallery(Product $product)
+    {
+      if(Gate::denies('products-edit')){
+        abort(403,"Não autorizado!");
+      }
+
+      $registros = $product->imagens()->where('deleted','=','N')->orderBy('ordem')->paginate(5);
+
+      return view('painel.products.gallery',compact('registros','product'));
+    }
+
+    public function createGallery(Product $product)
+    {
+      if(Gate::denies('products-edit')){
+        abort(403,"Não autorizado!");
+      }
+
+      if($product->imagens()->where('deleted','=','N')->count()){
+        $imagensProduct = $product->imagens()->where('deleted','=','N')->get();
+      }else{
+        $imagensProduct = null;
+      }
+
+      $imagens = Imagem::where('deleted','=','N')->orderBy('id','DESC')->paginate(6);
+
+      return view('painel.products.imagens',compact('imagens','product','imagensProduct'));
+    }
+
+    public function storeGaleria(Request $request)
+    {
+      if(Gate::denies('products-edit')){
+        abort(403,"Não autorizado!");
+      }
+
+      $data = $request->all();
+
+      $product = Product::find($data['product']);
+      $imagem = Imagem::find($data['id']);
+
+      $ordem= 1;
+      if($product->imagens()->where('deleted','=','N')->count()){
+        $aux = $product->imagens()->where('deleted','=','N')->orderBy('ordem','DESC')->first();
+        $ordem = $aux->ordem + 1;
+      }
+
+      if($product->imagens()->where('imagem_id','=',$imagem->id)->count()){
+        $aux = $product->imagens()->where('imagem_id','=',$imagem->id)->first();
+        $aux->update(['deleted'=>'N','ordem'=>$ordem]);
+      }else{
+        $product->imagens()->create(['imagem_id'=>$imagem->id ,'url'=>$imagem->galeriaUrl(), 'ordem'=> $ordem]);
+      }
+
+      return $product->imagens;
+    }
+
+    public function removeGallery(Request $request)
+    {
+      if(Gate::denies('products-edit')){
+        abort(403,"Não autorizado!");
+      }
+      $data = $request->all();
+
+      $product = Product::find($data['product']);
+      $imagem = Imagem::find($data['id']);
+
+      if($product->imagens()->where('imagem_id','=',$imagem->id)->count() > 1){
+        $galleries = $product->imagens()->where('imagem_id','=',$imagem->id)->get();
+        foreach ($galleries as $gallery) {
+          $gallery->update(['deleted'=>'S']);
+        }
+      }else{
+        $gallery = $product->imagens()->where('imagem_id','=',$imagem->id)->first();
+        $gallery->update(['deleted'=>'S']);
+      }
+
+      return $product->imagens;
+    }
+
+    public function editGallery(Gallery $gallery)
+    {
+      if(Gate::denies('products-edit')){
+        abort(403,"Não autorizado!");
+      }
+      $registro = $gallery;
+
+      $product = $gallery->product;
+
+      return view('painel.products.editgallery',compact('registro'));
+    }
+
+    public function updateGallery(Request $request, Gallery $gallery)
+    {
+      if(Gate::denies('products-edit')){
+        abort(403,"Não autorizado!");
+      }
+
+      $this->validate($request, [
+            'ordem' => 'required|numeric',
+
+      ]);
+
+      $data = $request->all();
+      $registro = $gallery;
+      $product = $gallery->product;
+
+      $registro->update($request->all());
+
+      return redirect()->route('products.gallery.index',$product);
+
+    }
+
+    public function deleteGaleria(Request $request,Gallery $gallery)
+    {
+      if(Gate::denies('products-edit')){
+        abort(403,"Não autorizado!");
+      }
+
+      $gallery->update(['deleted'=>'S']); 
+
+      return redirect()->back();
+    }
+
 }

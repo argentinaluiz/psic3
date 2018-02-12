@@ -134,6 +134,23 @@ class PermissionsTableSeeder extends Seeder
             'description' =>'Deletar Imagens'
         ]);
 
+        $researches1 = Permission::firstOrCreate([
+            'name' =>'researches-view',
+            'description' =>'Acesso a lista de Pesquisas'
+        ]);
+        $researches2 = Permission::firstOrCreate([
+            'name' =>'researches-create',
+            'description' =>'Adicionar Pesquisa'
+        ]);
+        $researches3 = Permission::firstOrCreate([
+            'name' =>'researches-edit',
+            'description' =>'Editar Pesquisa'
+        ]);
+        $researches4 = Permission::firstOrCreate([
+            'name' =>'researches-delete',
+            'description' =>'Deletar Pesquisas'
+        ]);
+
 
     }
 }
