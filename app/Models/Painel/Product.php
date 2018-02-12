@@ -9,7 +9,6 @@ class Product extends Model
     protected $fillable = [
         'name',
         'slug',
-        'image',
         'details',
         'old_price',
         'price',
@@ -18,7 +17,7 @@ class Product extends Model
         'active'
     ];
 
-    public function newProduct($request, $nameFile = '')
+    public function newProduct($request)
     {
         /*
         $data = $request->all();
@@ -27,16 +26,14 @@ class Product extends Model
         $data = $request->all();
         $data['featured'] = $request->has('featured');
         $data['active'] = $request->has('active');
-        $data['image'] = $nameFile;
         return $this->create($data);
     }
 
-    public function updateProduct($request, $nameFile = '')
+    public function updateProduct($request)
     {
         $data = $request->all();
         $data['featured'] = $request->has('featured');
         $data['active'] = $request->has('active');
-        $data['image'] = $nameFile;
         
         return $this->update($data);
     }

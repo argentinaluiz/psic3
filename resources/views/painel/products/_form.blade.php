@@ -8,11 +8,6 @@
     {{ Form::text('slug',null,['class' => 'form-control']) }}
 @endcomponent
 
-@component('form._form_group',['field' => 'image'])
-    {{ Form::label('image', 'Imagem',['class' => 'control-label']) }}
-    {{ Form::file('image', null,['class' => 'form-control'])}}
-@endcomponent
-
 @component('form._form_group',['field' => 'details'])
     {{ Form::label('details', 'Detalhes',['class' => 'control-label']) }}
     {{ Form::text('details', null,['class' => 'form-control'])}}
