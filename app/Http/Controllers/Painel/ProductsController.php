@@ -183,7 +183,7 @@ class ProductsController extends Controller
         abort(403,"Não autorizado!");
       }
 
-      $registros = $product->imagens()->where('deleted','=','N')->orderBy('ordem')->paginate(5);
+      $registros = $product->imagens()->where('deleted','=','N')->orderBy('order')->paginate(5);
 
       return view('painel.products.gallery',compact('registros','product'));
     }
@@ -205,7 +205,7 @@ class ProductsController extends Controller
       return view('painel.products.imagens',compact('imagens','product','imagensProduct'));
     }
 
-    public function storeGaleria(Request $request)
+    public function storeGallery(Request $request)
     {
       if(Gate::denies('products-edit')){
         abort(403,"Não autorizado!");
@@ -216,17 +216,17 @@ class ProductsController extends Controller
       $product = Product::find($data['product']);
       $imagem = Imagem::find($data['id']);
 
-      $ordem= 1;
+      $order= 1;
       if($product->imagens()->where('deleted','=','N')->count()){
-        $aux = $product->imagens()->where('deleted','=','N')->orderBy('ordem','DESC')->first();
-        $ordem = $aux->ordem + 1;
+        $aux = $product->imagens()->where('deleted','=','N')->orderBy('order','DESC')->first();
+        $order = $aux->order + 1;
       }
 
       if($product->imagens()->where('imagem_id','=',$imagem->id)->count()){
         $aux = $product->imagens()->where('imagem_id','=',$imagem->id)->first();
-        $aux->update(['deleted'=>'N','ordem'=>$ordem]);
+        $aux->update(['deleted'=>'N','order'=>$order]);
       }else{
-        $product->imagens()->create(['imagem_id'=>$imagem->id ,'url'=>$imagem->galeriaUrl(), 'ordem'=> $ordem]);
+        $product->imagens()->create(['imagem_id'=>$imagem->id ,'url'=>$imagem->galleryUrl(), 'order'=> $order]);
       }
 
       return $product->imagens;
@@ -274,7 +274,7 @@ class ProductsController extends Controller
       }
 
       $this->validate($request, [
-            'ordem' => 'required|numeric',
+            'order' => 'required|numeric',
 
       ]);
 
@@ -288,7 +288,7 @@ class ProductsController extends Controller
 
     }
 
-    public function deleteGaleria(Request $request,Gallery $gallery)
+    public function deleteGallery(Request $request,Gallery $gallery)
     {
       if(Gate::denies('products-edit')){
         abort(403,"Não autorizado!");
