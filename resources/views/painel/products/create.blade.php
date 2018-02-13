@@ -3,7 +3,7 @@
 
 @section('breadcrumb')
     <h2>Produtos</h2>
-    {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar produtos' => route('painel.products.index'), 'Novo produto' ))!!}
+    {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar produtos' => route('products.index'), 'Novo produto' ))!!}
 @endsection
 
 @section('h5-title')
@@ -11,9 +11,11 @@
 @endsection
  
 @section('content')
-    @include('form._form_errors')
-    {{ Form::open(['route' => 'painel.products.store', 'class' => 'form form-search form-ds', 'files' => true]) }}
-        @include('painel.products._form')
-        <button class="btn btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;&nbsp;Adicionar</button>
-    {{ Form::close() }}
+    {!!
+    form($form->add('insert','submit', [
+        'attr'  => ['class' => 'btn btn-primary btn-block'],
+        'label' => Icon::create('floppy-disk').'&nbsp;&nbsp;Inserir'
+    ]))
+    !!}
+    
 @endsection

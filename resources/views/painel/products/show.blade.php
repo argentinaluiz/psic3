@@ -3,7 +3,7 @@
 
 @section('breadcrumb')
     <h2>Produtos</h2>
-     {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar produtos' => route('painel.products.index'), 'Ver Produto' ))!!}
+     {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar produtos' => route('products.index'), 'Ver Produto' ))!!}
 @endsection
 
 @section('h5-title')
@@ -11,13 +11,29 @@
 @endsection
 
 @section('content')
-    <a class="btn btn-sm btn-primary" href="{{ route('products.edit',['product' => $product->id]) }}"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
-    <a class="btn btn-sm btn-danger" href="{{ route('products.destroy',['product' => $product->id]) }}"
-        onclick="event.preventDefault();if(confirm('Deseja excluir este item?')){document.getElementById('form-delete').submit();}"><span class="glyphicon glyphicon-remove"></span> Excluir</a>
-    
-    {{Form::open(['route' => ['products.destroy',$product->id],'method' => 'DELETE', 'id' => 'form-delete'])}}
-    {{Form::close()}}
+     @php
+        $linkEdit = route('products.edit',['product' => $product->id]);
+        $linkDelete = route('products.destroy',['product' => $product->id]);
+    @endphp
+    {!! Button::primary(Icon::pencil().' Editar')->asLinkTo($linkEdit) !!}
+    {!!
+        Button::danger(Icon::remove().' Excluir')->asLinkTo($linkDelete)
+        ->addAttributes([
+            'onclick' => 'event.preventDefault();if(confirm("Deseja excluir?")){document.getElementById("form-delete").submit();}'
+        ])
+    !!}
+    @php
+        $formDelete = FormBuilder::plain([
+            'id' => 'form-delete',
+            'url' => $linkDelete,
+            'method' => 'DELETE',
+            'style' => 'display:none'
+        ])
+    @endphp
+    {!! form($formDelete) !!}
+
     <br/><br/>
+
     <table class="table table-bordered">
         <tbody>
         <tr>
@@ -33,12 +49,16 @@
             <td>{{$product->details}}</td>
         </tr>
             <tr>
-            <th scope="row">Valor anterior</th>
-            <td>R$ {{number_format($product->old_price, 2, ',', '.')}}</td>
+            <th scope="row">Preço anterior</th>
+            <td> {{$product->textOldPrice}}</td>
         </tr>
         <tr>
-            <th scope="row">Valor Atual</th>
-            <td> R$ {{number_format($product->price, 2, ',', '.')}}</td>
+            <th scope="row">Preço</th>
+            <td> {{$product->textPrice}}</td>
+        </tr>
+         <tr>
+            <th scope="row">Categorias</th>
+            <td> {{$product->textCategories}}</td>
         </tr>
         <tr>
             <th scope="row">Descrição</th>

@@ -110,8 +110,17 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
     Route::resource('agendas', 'AgendasController');
     
     Route::resource('reserves', 'ReservesController');
+   
+    Route::get('products', 'ProductsController@index')->name('products.index');
+    Route::post('products', 'ProductsController@store')->name('products.store');
+    Route::get('products', 'ProductsController@edit')->name('products.edit');
+    Route::resource('products', 'ProductsController');
 
-    Route::get('products/gallery/{product}', ['as'=>'products.gallery.index','uses'=>'ProductsController@indexGallery']);
+    Route::get('products/category/{id}', ['as'=>'products.category','uses'=>'ProductsController@category']);
+    Route::post('products/category/{category}', ['as'=>'category.store','uses'=>'ProductsController@categoryStore']);
+    Route::delete('products/category/{product}/{category}', ['as'=>'category.destroy','uses'=>'ProductsController@categoryDestroy']);
+
+    Route::get('products/gallery/{product}', ['as'=>'products.gallery','uses'=>'ProductsController@indexGallery']);
     Route::get('products/gallery/create/{product}', ['as'=>'products.gallery.create','uses'=>'ProductsController@createGallery']);
     Route::post('products/gallery/store', ['as'=>'products.gallery.store','uses'=>'ProductsController@storeGallery']);
     Route::delete('products/gallery/remove', ['as'=>'products.gallery.remove','uses'=>'ProductsController@removeGallery']);
@@ -119,11 +128,7 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
     Route::get('products/gallery/edit/{gallery}', ['as'=>'products.gallery.edit','uses'=>'ProductsController@editGallery']);
     Route::put('products/gallery/update/{gallery}', ['as'=>'products.gallery.update','uses'=>'ProductsController@updateGallery']);
     Route::delete('products/gallery/delete/{gallery}', ['as'=>'products.gallery.delete','uses'=>'ProductsController@deleteGallery']);
-
-    Route::resource('products', 'ProductsController');
-    Route::get('products', 'ProductsController@index')->name('painel.products.index');
-    Route::post('products', 'ProductsController@store')->name('painel.products.store');
-
+   
     Route::get('imagens/excluidas', ['as'=>'imagens.excluidas','uses'=>'ImagensController@excluidas']);
     Route::put('imagens/recupera/{id}', ['as'=>'imagens.recupera','uses'=>'ImagensController@recupera']);
     

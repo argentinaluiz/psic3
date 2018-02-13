@@ -120,7 +120,11 @@
 					</li>
 
 					<li>
-						<a href="{{ route('painel.products.index') }}"><i class="fa fa-qrcode"></i> <span class="nav-label">Produtos</span></a>
+						<a href=""><i class="fa fa-qrcode"></i> <span class="nav-label">Produtos</span><span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+							<li><a href="{{ route('products.index') }}"> Produtos </a></li>
+							<li><a href=""> Galeria de imagens </a></li>
+						</ul>
 					</li>
 
 					<li>

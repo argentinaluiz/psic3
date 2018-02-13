@@ -3,7 +3,7 @@
 
 @section('breadcrumb')
     <h2>Produtos</h2>
-     {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar produtos' => route('painel.products.index'), 'Editar produto' ))!!}
+     {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar produtos' => route('products.index'), 'Editar produto' ))!!}
 @endsection
 
 @section('h5-title')
@@ -11,11 +11,16 @@
 @endsection
 
 @section('content')
-
-    @include('form._form_errors')
-    {{ Form::model($product,['route' => ['products.update',$product->id], 'class' => 'form form-search form-ds', 'files' => true, 'method' => 'PUT' ]) }}
-        @include('painel.products._form')
-        <button class="btn btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Salvar</button>
-    {{ Form::close() }}
-
+     @component('painel.products.tabs-component',['product' => $form->getModel()])
+        <div class="col-md-12">
+            <div class="cleaner_h25"></div>
+            <?php $icon = Icon::create('pencil');?>
+            {!!
+                form($form->add('salve', 'submit', [
+                    'attr' => ['class' => 'btn btn-primary btn-block'],
+                    'label' => $icon.'&nbsp;&nbsp;Salvar'
+                ]))
+            !!}
+        </div>
+    @endcomponent
 @endsection

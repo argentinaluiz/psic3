@@ -5,17 +5,15 @@ namespace App\Http\Controllers\Painel;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Kris\LaravelFormBuilder\Form;
+use App\Forms\ProductForm;
 use App\Models\Painel\Product;
-use App\Http\Requests\ProductRequest;
+use App\Models\Painel\Category;
+use App\Models\Painel\Imagem;
+use App\Models\Painel\Gallery;
 
 class ProductsController extends Controller
 {
-    private $product;
-
-    public function __construct(Product $product)
-    {
-        $this->product = $product;
-    }
     
     /**
      * Display a listing of the resource.
@@ -30,9 +28,53 @@ class ProductsController extends Controller
         
         $totalProducts   = Product::count();
 
-        \Session::flash('chave','valor');
-        $products = Product::all();
-        return view('painel.products.index', compact('products', 'title', 'totalProducts'));
+        $products = Product::paginate(10); //Caso não use o método paginate, mas all... na view fica apenas Table::withContents($users()), sem o ->items 
+        return view('painel.products.index', compact('products', 'totalProducts'));
+    }
+
+    public function category($id)
+    {
+        if(Gate::denies('products-edit')){
+            abort(403,"Não autorizado!");
+          }
+      
+       $product = Product::find($id);
+       $category = Category::all();
+
+       $form = \FormBuilder::create(ProductForm::class, [
+        'url' => route('products.update',['product' => $product->id]),
+        'method' => 'PUT',
+        'model' => $product
+      ]);
+
+       return view('painel.products.category', compact('product', 'category', 'form'));
+    }
+
+    public function categoryStore(Request $request, $id)
+    {
+        if(Gate::denies('products-edit')){
+            abort(403,"Não autorizado!");
+          }
+
+        $product = Product::find($id);
+        $data = $request->all();
+        $category = Category::find($data['category_id']);
+        $product->addCategory($category);
+
+        return redirect()->back();
+    }
+
+    public function categoryDestroy($id, $category_id)
+    {
+        if(Gate::denies('products-edit')){
+            abort(403,"Não autorizado!");
+          }
+        
+        $product = Product::find($id);
+        $category = Category::find($category_id);
+        $product->deleteCategory($category);
+
+        return redirect()->back();
     }
 
     /**
@@ -40,12 +82,19 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)   
+    public function create()   
     {
         if(Gate::denies('products-create')){
             abort(403,"Não autorizado!");
         }
-        return view('painel.products.create', ['product' => new Product()]);
+
+        $form = \FormBuilder::create(ProductForm::class, [
+          'url' => route('products.store'),
+          'method' => 'POST'
+        ]);
+        $categories = Category::all();
+        
+      return view('painel.products.create', compact('form', 'categories'));
     }
 
     /**
@@ -54,36 +103,26 @@ class ProductsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductRequest $request)
+    public function store(Request $request)
     {        
         if(Gate::denies('products-create')){
             abort(403,"Não autorizado!");
         }
-        
-        $data = $request->only(array_keys($request->rules()));
-        $data['featured'] = $request->has('featured');
-        $data['active'] = $request->has('active');
+        /** @var Form $form */
+        $form = \FormBuilder::create(ProductForm::class);
 
-        $nameFile = '';
-        if ($request->hasFile('image') && $request->file('image')->isValid()) { 
-            $nameFile = uniqid(date('HisYmd')).'.'.$request->image->extension();
-            if (!$request->image->storeAs('products', $nameFile))
-                return redirect()
-                            ->back()
-                            ->with('error', 'Falha ao fazer upload')
-                            ->withInput();
-        }
-        if ( $this->product->newProduct($request, $nameFile) )
+        if(!$form->isValid()){
             return redirect()
-                     ->route('painel.products.index')
-                     ->with('message', 'Produto cadastrado com sucesso!');
-            else
-                return redirect()
-                            ->back()
-                            ->with('error', 'Falha ao cadastrar')
-                            ->withInput();
+                ->back()
+                ->withErrors($form->getErrors())
+                    ->withInput();
+        }
 
-        //Product::create($request->all() + ['image'=>$nameFile] );
+        $data = $form->getFieldValues();
+        $result = Product::create($data);
+        $request->session()->flash('message','Produto criado com sucesso');
+
+        return redirect()->route('products.index');
     }
 
     /**
@@ -112,8 +151,14 @@ class ProductsController extends Controller
         if(Gate::denies('products-edit')){
             abort(403,"Não autorizado!");
         }
-        
-        return view('painel.products.edit', compact('product'));
+        $form = \FormBuilder::create(ProductForm::class, [
+          'url' => route('products.update',['product' => $product->id]),
+          'method' => 'PUT',
+          'model' => $product
+        ]);
+
+      return view('painel.products.edit', compact('form'));
+
     }
 
     /**
@@ -123,40 +168,28 @@ class ProductsController extends Controller
      * @param  \App\Models\Painel\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductRequest $request, Product $product)
+    public function update(Product $product)
     {
         if(Gate::denies('products-edit')){
             abort(403,"Não autorizado!");
         }
         
-        $data = $request->only(array_keys($request->rules()));
-        $data['featured'] = $request->has('featured');
-        $data['active'] = $request->has('active');
+          /** @var Form $form */
+        $form = \FormBuilder::create(ProductForm::class, [
+            'data' => ['id' => $product->id]
+        ]);
 
-        $nameFile = $product->image;
-        if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            if($product->image)
-                $nameFile = $product->image;
-            else
-                $nameFile = uniqid(date('HisYmd')).'.'.$request->image->extension();
-
-            if (!$request->image->storeAs('products', $nameFile))
-                return redirect()
-                            ->back()
-                            ->with('error', 'Falha ao fazer upload')
-                            ->withInput();
-
+        if (!$form->isValid()) {
+            return redirect()
+                ->back()
+                ->withErrors($form->getErrors())
+                ->withInput();
         }
 
-        if ( $product->updateProduct($request, $nameFile) )
-            return redirect()
-                            ->route('painel.products.index')
-                            ->with('message', 'Produto alterado com sucesso!');
-            else
-                return redirect()
-                            ->back()
-                            ->with('error', 'Falha ao atualizar')
-                            ->withInput();
+        $data = $form->getFieldValues();
+        $product->update($data);
+        session()->flash('message','Produto editado com sucesso');
+        return redirect()->route('products.index');
     }
 
     /**
@@ -172,10 +205,11 @@ class ProductsController extends Controller
         }
 
         $product->delete();
-        return redirect()->route('painel.products.index')
-            ->with('message','Produto excluído com sucesso!');
+        session()->flash('message','Produto excluído com sucesso');
+        return redirect()->route('products.index');
     }
 
+   
 
     public function indexGallery(Product $product)
     {
@@ -183,9 +217,10 @@ class ProductsController extends Controller
         abort(403,"Não autorizado!");
       }
 
+      $totalGalleries   = Gallery::count();
       $registros = $product->imagens()->where('deleted','=','N')->orderBy('order')->paginate(5);
 
-      return view('painel.products.gallery',compact('registros','product'));
+      return view('painel.products.gallery',compact('registros','product', 'totalGalleries'));
     }
 
     public function createGallery(Product $product)

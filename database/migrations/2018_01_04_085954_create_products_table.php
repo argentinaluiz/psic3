@@ -21,8 +21,8 @@ class CreateProductsTable extends Migration
             $table->decimal('old_price',10,2);
             $table->decimal('price', 10, 2);
             $table->text('description')->nullable();
-            $table->boolean('featured')->default(false);
-            $table->boolean('active')->default(true); //s ou n
+            $table->boolean('featured')->nullable();
+            $table->boolean('active')->nullable(); 
             $table->timestamps();
         });
     }

@@ -29,7 +29,6 @@ class ProductRequest extends FormRequest
 
         $rules = [
             'name'          => 'required|min:3|max:50',
-            'image'         => 'image',
             'description'   => 'min:3|max:1000',
             'old_price'     => 'required',
             'price'         => 'required'

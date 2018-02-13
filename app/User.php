@@ -64,6 +64,10 @@ class User extends Authenticatable implements TableInterface
       return $this->existRole('Admin');
     }
    
+    public function products()
+    {
+      return $this->belongsToMany(App\Models\Painel\Product::class);
+    }
 
     public static function createFully($data)
     {

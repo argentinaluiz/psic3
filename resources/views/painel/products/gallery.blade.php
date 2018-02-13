@@ -3,7 +3,7 @@
 
 @section('breadcrumb')
     <h2>Produtos</h2>
-     {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar produtos' => route('painel.products.index'), 'Galeria' ))!!}
+     {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar produtos' => route('products.index'), 'Galeria' ))!!}
 @endsection
 
 @section('h5-title')

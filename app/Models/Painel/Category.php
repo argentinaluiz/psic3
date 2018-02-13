@@ -10,8 +10,13 @@ class Category extends Model
         'name', 'slug'
     ];
 
+    public function products()
+    {
+      return $this->belongsToMany(App\Models\Painel\Product::class);
+    }
+
     public function researches()
     {
-      return $this->belongsToMany('App\Models\Search');
+      return $this->belongsToMany(App\Models\Painel\Search::class);
     }
 }

@@ -13,8 +13,9 @@
 @section('content')      
     <span class="pull-right small text-muted">Total de usuários: {{ $totalUsers }} </span>
     <br/>
-    {!! Button::primary(Icon::create('plus').' Novo usuário')->asLinkTo(route('users.create')) !!}
-    
+    @can('users-create')
+        {!! Button::primary(Icon::create('plus').' Novo usuário')->asLinkTo(route('users.create')) !!}
+    @endcan
     <div class="cleaner_h15"></div>
     {!!
     Table::withContents($users->items())
