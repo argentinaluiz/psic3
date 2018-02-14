@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Kris\LaravelFormBuilder\Form;
 use App\Forms\ProductForm;
+use App\Forms\GalleryForm;
 use App\Models\Painel\Product;
 use App\Models\Painel\Category;
 use App\Models\Painel\Imagem;
@@ -204,6 +205,14 @@ class ProductsController extends Controller
             abort(403,"Não autorizado!");
         }
 
+        foreach ($product->categories as $key => $value) {
+          $product->categories()->detach($value);
+        }
+  
+        foreach ($product->imagens as $key => $value) {
+          $value->delete();
+        }
+
         $product->delete();
         session()->flash('message','Produto excluído com sucesso');
         return redirect()->route('products.index');
@@ -217,10 +226,14 @@ class ProductsController extends Controller
         abort(403,"Não autorizado!");
       }
 
-      $totalGalleries   = Gallery::count();
-      $registros = $product->imagens()->where('deleted','=','N')->orderBy('order')->paginate(5);
+      $form = \FormBuilder::create(ProductForm::class, [
+        'url' => route('products.update',['product' => $product->id]),
+        'method' => 'PUT',
+        'model' => $product
+      ]);
+      $registros = $product->imagens()->where('deleted','=','N')->orderBy('order')->paginate(10);
 
-      return view('painel.products.gallery',compact('registros','product', 'totalGalleries'));
+      return view('painel.products.gallery',compact('registros','product', 'form'));
     }
 
     public function createGallery(Product $product)
@@ -235,7 +248,7 @@ class ProductsController extends Controller
         $imagensProduct = null;
       }
 
-      $imagens = Imagem::where('deleted','=','N')->orderBy('id','DESC')->paginate(6);
+      $imagens = Imagem::where('deleted','=','N')->orderBy('id','DESC')->paginate(10);
 
       return view('painel.products.imagens',compact('imagens','product','imagensProduct'));
     }
@@ -261,7 +274,7 @@ class ProductsController extends Controller
         $aux = $product->imagens()->where('imagem_id','=',$imagem->id)->first();
         $aux->update(['deleted'=>'N','order'=>$order]);
       }else{
-        $product->imagens()->create(['imagem_id'=>$imagem->id ,'url'=>$imagem->galleryUrl(), 'order'=> $order]);
+        $product->imagens()->create(['imagem_id'=>$imagem->id ,'url'=>$imagem->galeriaUrl(), 'order'=> $order]);
       }
 
       return $product->imagens;
@@ -295,11 +308,11 @@ class ProductsController extends Controller
       if(Gate::denies('products-edit')){
         abort(403,"Não autorizado!");
       }
-      $registro = $gallery;
 
+      $registro = $gallery;
       $product = $gallery->product;
 
-      return view('painel.products.editgallery',compact('registro'));
+      return view('painel.products.gallery.edit',compact('registro', 'form'));
     }
 
     public function updateGallery(Request $request, Gallery $gallery)
@@ -308,20 +321,19 @@ class ProductsController extends Controller
         abort(403,"Não autorizado!");
       }
 
-      $this->validate($request, [
-            'order' => 'required|numeric',
+        $this->validate($request, [
+          'order' => 'required|numeric',
+         ]);
 
-      ]);
+          $dados = $request->all();
+          $registro = $gallery;
+          $product = $gallery->product;
 
-      $data = $request->all();
-      $registro = $gallery;
-      $product = $gallery->product;
+          $registro->update($request->all());
+          session()->flash('message','Galeria editada com sucesso');
+          return redirect()->route('products.gallery', $product);
 
-      $registro->update($request->all());
-
-      return redirect()->route('products.gallery.index',$product);
-
-    }
+      }
 
     public function deleteGallery(Request $request,Gallery $gallery)
     {
@@ -330,7 +342,7 @@ class ProductsController extends Controller
       }
 
       $gallery->update(['deleted'=>'S']); 
-
+      session()->flash('message','Galeria excluída com sucesso');
       return redirect()->back();
     }
 

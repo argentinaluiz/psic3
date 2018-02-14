@@ -1,9 +1,9 @@
 @extends('layouts.app')
-@section('pag_title', 'Pesquisas - Cadastrar')
+@section('pag_title', 'Pesquisas - Imagens')
 
 @section('breadcrumb')
     <h2>Pesquisas</h2>
-    {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar pesquisas' => route('researches.index'), 'Nova pesquisa' ))!!}
+    {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar pesquisas' => route('researches.index'), 'Imagens' ))!!}
 @endsection
 
 @section('h5-title')
@@ -72,32 +72,32 @@
               'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
           },
           type: 'POST',
-          url: "{{route('carros.galeria.store')}}",
-          data: 'id='+id+'&carro={{$carro->id}}',
+          url: "{{route('researches.gallery.store')}}",
+          data: 'id='+id+'&search={{$search->id}}',
           success: function(data){
               console.log(data);
-              $('#'+divID).html('<button onclick="removeImagem('+id+',\''+divID+'\')" class="btn green">Remover imagem</button>');
+              $('#'+divID).html('<button onclick="removeImagem('+id+',\''+divID+'\')" class="btn btn-sm btn-danger">Remover imagem</button>');
           },
           error: function(){
-              $('#'+divID).html('<a onclick="selecionaImagem('+id+',\''+divID+'\')" class="btn blue">Selecionar imagem</a>');
+              $('#'+divID).html('<a onclick="selecionaImagem('+id+',\''+divID+'\')" class="btn btn-sm btn-primary">Selecionar imagem</a>');
           }
       });
     }
     function removeImagem(id,divID){
-        $('#'+divID).html('<button class="btn orange">Processando..</button>');
+        $('#'+divID).html('<button class="btn btn-sm btn-danger">Processando..</button>');
         $.ajax({
             headers: {
                 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
             },
             type: 'DELETE',
-            url: "{{route('carros.galeria.delete')}}",
-            data: 'id='+id+'&carro={{$carro->id}}',
+            url: "{{route('researches.gallery.delete')}}",
+            data: 'id='+id+'&search={{$search->id}}',
             success: function(data){
                 console.log(data);
-                $('#'+divID).html('<a onclick="selecionaImagem('+id+',\''+divID+'\')" class="btn blue">Selecionar imagem</a>');
+                $('#'+divID).html('<a onclick="selecionaImagem('+id+',\''+divID+'\')" class="btn btn-sm btn-primary">Selecionar imagem</a>');
             },
             error: function(){
-                $('#'+divID).html('<button onclick="removeImagem('+id+',\''+divID+'\')" class="btn green">Remover imagem</button>');
+                $('#'+divID).html('<button onclick="removeImagem('+id+',\''+divID+'\')" class="btn btn-sm btn-danger">Remover imagem</button>');
             }
         });
     }

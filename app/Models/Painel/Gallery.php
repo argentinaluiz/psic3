@@ -46,18 +46,12 @@ class Gallery extends Model
         }
     }
 
-
   
     public function product()
     {
       return $this->belongsTo(Product::class);
     }
-
-    public function categories()
-    {
-        return $this->belongsToMany(Category::class);
-    }
-  
+ 
     public function imagem()
     {
       return $this->belongsTo(Imagem::class);

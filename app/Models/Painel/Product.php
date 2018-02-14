@@ -104,7 +104,7 @@ class Product extends Model implements TableInterface
 
     public function imagens()
     {
-      return $this->hasMany(Imagem::class);
+      return $this->hasMany(Gallery::class);
     }
 
     public function getTextPriceAttribute($value)
@@ -133,7 +133,6 @@ class Product extends Model implements TableInterface
         }
         return $text;
     }
-
 
     public function scopeMightAlsoLike($query)
     {
