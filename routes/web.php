@@ -13,6 +13,9 @@
 Auth::routes();
 
   Route::get('/', 'SiteController@index')->name('site.home.index');
+  Route::get('perfil', ['as'=>'site.perfil','uses'=>'SiteController@perfil']);
+  Route::put('perfil', ['as'=>'site.perfil.update','uses'=>'SiteController@perfilUpdate']);
+
   Route::get('/product/{id}/{name?}', 'SiteController@detail')->name('site.detail');
  
  //Carrinho de compra 
@@ -45,9 +48,7 @@ Route::group(['prefix' => 'site', 'namespace' => 'Site'], function(){
         'before'=> 'csrf',
         'as'    => 'language-chooser',
         'uses'  => 'LanguageController@chooser',
-    ));
-
-
+    ));    
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -140,7 +141,7 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
     Route::delete('slides/remove/ajax', ['as'=>'slides.remove.ajax','uses'=>'SlidesController@removeSlide']);
     Route::resource('slides', 'SlidesController');
 
-    Route::resource('researches', 'ResearchesController');
+      Route::resource('researches', 'ResearchesController');
 
     Route::get("teste1","testeImagemController@teste1");
     Route::post("teste1","testeImagemController@teste1Post");

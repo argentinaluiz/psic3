@@ -2,8 +2,6 @@
 @section('pag_title', 'HOME')
 
 @section('content')
-    @component('components.slide',['list'=>$slides])
-  @endcomponent
   <section class="hero-slider" style="background-image: url({{ asset('site/img/hero-slider/main-bg.jpg') }});">
     <div class="owl-carousel large-controls dots-inside" data-owl-carousel="{ &quot;nav&quot;: true, &quot;dots&quot;: true, &quot;loop&quot;: true, &quot;autoplay&quot;: true, &quot;autoplayTimeout&quot;: 7000 }">
       <div class="item">

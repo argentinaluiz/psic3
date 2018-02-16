@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Kris\LaravelFormBuilder\Form;
+use Illuminate\Support\Facades\Gate;
+
 use App\Forms\SlideForm;
 use App\Models\Painel\Product;
 use App\Models\Painel\Imagem;
@@ -33,6 +35,43 @@ class SiteController extends Controller
 
     }
 
+    public function perfil()
+    {
+      if(Gate::denies('perfil-view')){
+        abort(403,"Não autorizado!");
+      }
+
+      $user = Auth()->user();
+      return view('site.perfil',compact('user'));
+
+    }
+
+    public function perfilUpdate(Request $request)
+    {
+      if(Gate::denies('perfil-edit')){
+        abort(403,"Não autorizado!");
+      }
+      $user = Auth()->user();
+
+      $this->validate($request,[
+        'name'=>'required',
+        'email'=>'required|email|unique:users,email,'.$user->id
+      ]);
+
+      $data = $request->all();
+
+      if(isset($dados['password']) && $data['password'] != ''){
+        $this->validate($request, [
+          'password' => 'required|min:6|confirmed',
+        ]);
+        $data['password'] = bcrypt($data['password']);
+      }else{
+        unset($data['password']);
+      }
+
+      $user->update($data);
+      return redirect()->route('site.perfil')->with('status', 'Perfil atualizado!');
+    }
 
        
 }

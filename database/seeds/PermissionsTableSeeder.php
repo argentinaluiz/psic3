@@ -52,9 +52,24 @@ class PermissionsTableSeeder extends Seeder
             'description' =>'Acesso aos favoritos'
         ]);
 
+        $favorites2 = Permission::firstOrCreate([
+            'name' =>'favorites-create',
+            'description' =>'Adicionar favoritos'
+        ]);
+  
+        $favorites3 = Permission::firstOrCreate([
+            'name' =>'favorites-delete',
+            'description' =>'Deletar favoritos'
+        ]);
+
         $perfil1 = Permission::firstOrCreate([
             'name' =>'perfil-view',
             'description' =>'Acesso ao perfil'
+        ]);
+
+        $perfil2 = Permission::firstOrCreate([
+            'name' =>'perfil-edit',
+            'description' =>'Atualizar perfil'
         ]);
 
         $products1 = Permission::firstOrCreate([
