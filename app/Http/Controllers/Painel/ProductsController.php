@@ -312,7 +312,7 @@ class ProductsController extends Controller
       $registro = $gallery;
       $product = $gallery->product;
 
-      return view('painel.products.gallery.edit',compact('registro', 'form'));
+      return view('painel.products.gallery.edit',compact('registro'));
     }
 
     public function updateGallery(Request $request, Gallery $gallery)
@@ -325,7 +325,7 @@ class ProductsController extends Controller
           'order' => 'required|numeric',
          ]);
 
-          $dados = $request->all();
+          $data = $request->all();
           $registro = $gallery;
           $product = $gallery->product;
 

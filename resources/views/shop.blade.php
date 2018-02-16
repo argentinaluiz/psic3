@@ -6,9 +6,9 @@
         <div class="row">
             @forelse ($products as $product)
                 <div class="col-md-4">
-                    <a href="{{ route('shop.show', $product->slug) }}"><img src="{{url("storage/products/{$product->image}")}}" alt="{{$product->id}}"></a>
+                    <a href="{{ route('shop.show', $product->slug) }}"><img src="{{url("media/img/products/{$product->image}")}}" alt="{{$product->id}}"></a>
                     <a href="{{ route('shop.show', $product->slug) }}"><div class="product-name">{{ $product->name }}</div></a>
-                    <div class="product-price">R$ {{number_format($product->price, 2, ',', '.')}}</div>
+                    <div class="product-price">{{ $product->textPrice }}</div>
                     <div class="product">{{ $product->details }}</div>
                     <div class="product">{{ $product->slug }}</div>
                 </div>

@@ -7,29 +7,62 @@
 
 @section('content')
     <section class="container padding-top-3x">
-        <div class="container">
-    		<div class="row">
-                <div class="col-sm-4">
-                    <img src="{{url("storage/products/{$product->image}")}}" alt="{{$product->id}}">
-                </div>
-                <div class="col-sm-8">
-                    <h1 class="product-section-title">{{ $product->name }}</h1>
-                    <div class="product-section-subtitle">{{ $product->details }}</div>
-                    <div class="product-section-price">R$ {{number_format($product->price, 2, ',', '.')}}</div>
-                    <p>
-                        {{ $product->description }}
-                    </p>
+		<div class="row">
+            <div class="col-lg-12">
+                <div class="ibox product-detail">
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <img src="{{url("media/img/products/{$product->image}")}}" alt="{{$product->id}}">
+                            </div>
+                            <div class="col-md-7">
+                                <h2 class="font-bold m-b-xs">{{ $product->name }}</h2>
+                                <small>{{ $product->slug }}</small>
+                                <div class="m-t-md">
+                                    <h2 class="product-main-price">{{ $product->textPrice }}</h2>
+                                </div>
+                                <hr>
 
-                    <form action="{{ route('cart.store') }}" method="POST">
-                        {{ csrf_field() }}
-                        <input type="hidden" name="id" value="{{ $product->id }}">
-                        <input type="hidden" name="name" value="{{ $product->name }}">
-                        <input type="hidden" name="price" value="{{ $product->price }}">
-                        <button type="submit" class="btn btn-sm btn-primary">Add to Cart</button>
-                    </form>
+                                <h4>Descrição</h4>
+
+                                <div class="small text-muted">
+                                     {{ $product->description }}
+                                </div>
+                                
+                                <div class="small text-muted">
+                                     {{ $product->details }}
+                                </div>
+                                
+                                <dl class="small m-t-md">
+                                    <dt>Categorias</dt>
+                                    <dd>A description list is perfect for defining terms.</dd>
+                                    <dt>Euismod</dt>
+                                    <dd>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</dd>
+                                    <dd>Donec id elit non mi porta gravida at eget metus.</dd>
+                                    <dt>Malesuada porta</dt>
+                                    <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
+                                </dl>
+                                <hr>
+
+                                <div>
+                                    <div class="btn-group">
+                                        <form action="{{ route('cart.store') }}" method="POST">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="id" value="{{ $product->id }}">
+                                            <input type="hidden" name="name" value="{{ $product->name }}">
+                                            <input type="hidden" name="price" value="{{ $product->price }}">
+                                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-cart-plus"></i> Add to cart</button>
+                                        </form>
+                                        <button class="btn btn-white btn-sm"><i class="fa fa-star"></i> Add to wishlist </button>
+                                        <button class="btn btn-white btn-sm"><i class="fa fa-envelope"></i> Contact with author </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-         </div>    
+        </div>   
     </section>
     <section class="container padding-bottom-2x">
         @include('partials.might-like')

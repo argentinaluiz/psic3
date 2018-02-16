@@ -13,8 +13,8 @@
 Auth::routes();
 
   Route::get('/', 'SiteController@index')->name('site.home.index');
-
-
+  Route::get('/product/{id}/{name?}', 'SiteController@detail')->name('site.detail');
+ 
  //Carrinho de compra 
  Route::get('/shop', 'ShopController@index')->name('shop.index');
  Route::get('/shop/{product}', 'ShopController@show')->name('shop.show');
@@ -135,6 +135,10 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
     Route::resource('imagens', 'ImagensController');
     Route::get('imagens', 'ImagensController@index')->name('imagens.index');
     Route::post('imagens', 'ImagensController@store')->name('imagens.store');
+
+    Route::post('slides/store/ajax', ['as'=>'slides.store.ajax','uses'=>'SlidesController@storeSlide']);
+    Route::delete('slides/remove/ajax', ['as'=>'slides.remove.ajax','uses'=>'SlidesController@removeSlide']);
+    Route::resource('slides', 'SlidesController');
 
     Route::resource('researches', 'ResearchesController');
 

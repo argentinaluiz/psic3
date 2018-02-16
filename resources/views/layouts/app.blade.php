@@ -120,11 +120,7 @@
 					</li>
 
 					<li>
-						<a href=""><i class="fa fa-qrcode"></i> <span class="nav-label">Produtos</span><span class="fa arrow"></span></a>
-						<ul class="nav nav-second-level collapse">
-							<li><a href="{{ route('products.index') }}"> Produtos </a></li>
-							<li><a href=""> Galeria de imagens </a></li>
-						</ul>
+						<a href="{{ route('products.index') }}"><i class="fa fa-qrcode"></i> <span class="nav-label">Produtos</span></a>
 					</li>
 
 					<li>
@@ -132,6 +128,10 @@
 						<ul class="nav nav-second-level collapse">
 							<li><a href="{{ route('imagens.index') }}"> Biblioteca de imagens </a></li>
 						</ul>
+					</li>
+
+					<li>
+						<a href="{{ route('slides.index') }}"><i class="fa fa-sliders"></i> <span class="nav-label">Slides</span></a>
 					</li>
 					
 					<li>

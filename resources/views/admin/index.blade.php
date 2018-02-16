@@ -14,7 +14,7 @@
 
 @section('content')
   <div class="row">
-       @can('researches-view')
+      @can('researches-view')
         <div class="col-sm-3">
           <div class="widget p-lg text-center">
                 <i class="fa fa-pie-chart fa-4x"></i>
@@ -22,6 +22,17 @@
                 <h3 class="font-bold no-margins"> Pesquisas</h3>
                 <div class="cleaner_h15"></div>
                 <a href="{{ route('researches.index')}}">Visualizar</a>
+            </div>
+        </div>
+      @endCan
+      @can('slides-view')
+        <div class="col-sm-3">
+          <div class="widget p-lg text-center">
+                <i class="fa fa-sliders fa-4x"></i>
+                <div class="cleaner_h15"></div>
+                <h3 class="font-bold no-margins"> Slides</h3>
+                <div class="cleaner_h15"></div>
+                <a href="{{ route('slides.index')}}">Visualizar</a>
             </div>
         </div>
       @endCan

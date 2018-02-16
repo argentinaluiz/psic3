@@ -2,6 +2,8 @@
 @section('pag_title', 'HOME')
 
 @section('content')
+    @component('components.slide',['list'=>$slides])
+  @endcomponent
   <section class="hero-slider" style="background-image: url({{ asset('site/img/hero-slider/main-bg.jpg') }});">
     <div class="owl-carousel large-controls dots-inside" data-owl-carousel="{ &quot;nav&quot;: true, &quot;dots&quot;: true, &quot;loop&quot;: true, &quot;autoplay&quot;: true, &quot;autoplayTimeout&quot;: 7000 }">
       <div class="item">
@@ -37,7 +39,7 @@
               <div class="from-bottom">
                 <div class="h2 text-body text-normal mb-2 pt-1">Nullam id dolor id nibh</div>
                 <div class="h2 text-body text-normal mb-4 pb-1">for only <span class="text-bold">$299.99</span></div>
-              </div><a class="btn btn-primary scale-up delay-1" href="shop-single.html">Shop Now</a>
+              </div><a class="btn btn-primary scale-up delay-1" href="">Shop Now</a>
             </div>
             <div class="col-md-6 padding-bottom-2x mb-3"><img class="d-block mx-auto" src="{{ asset('site/img/hero-slider/03.png') }}"></div>
           </div>
@@ -186,17 +188,8 @@
                 </div>
             </div>
             <div class="row">
-                @forelse ($products as $product)
-                    <div class="col-md-4">
-                        <a href="{{ route('shop.show', $product->slug) }}"><img src="{{url("storage/products/{$product->image}")}}" alt="product"></a>
-                        <a href="{{ route('shop.show', $product->slug) }}"><div class="product-name">{{ $product->name }}</div></a>
-                        <div class="product">{{ $product->details }}</div>
-                        <div class="product">R$ {{number_format($product->price, 2, ',', '.')}}</div>
-                        <a class="btn btn-sm btn-primary" href="{{ route('shop.show', $product->slug) }}">Details</a>
-                    </div>
-                @empty
-                    <div style="text-align: left">No items found</div>
-                @endforelse             
+                @component('components.list_product',['list'=>$products,'size'=>'4'])
+                @endcomponent
             </div>
         </div>
     </section>

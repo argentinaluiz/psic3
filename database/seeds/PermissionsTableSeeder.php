@@ -151,6 +151,23 @@ class PermissionsTableSeeder extends Seeder
             'description' =>'Deletar Pesquisas'
         ]);
 
+        $slides1 = Permission::firstOrCreate([
+            'name' =>'slides-view',
+            'description' =>'Acesso a lista de Slides'
+        ]);
+        $slides2 = Permission::firstOrCreate([
+            'name' =>'slides-create',
+            'description' =>'Adicionar Slide'
+        ]);
+        $slides3 = Permission::firstOrCreate([
+            'name' =>'slides-edit',
+            'description' =>'Editar Slide'
+        ]);
+        $slides4 = Permission::firstOrCreate([
+            'name' =>'slides-delete',
+            'description' =>'Deletar Slide'
+        ]);
+
 
     }
 }
