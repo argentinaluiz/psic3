@@ -53,6 +53,5 @@
 			</tbody>
 		</table>
 		{{ $registros->links() }}
-	</div>
 
 @endsection

@@ -16,6 +16,10 @@ Auth::routes();
   Route::get('perfil', ['as'=>'site.perfil','uses'=>'SiteController@perfil']);
   Route::put('perfil', ['as'=>'site.perfil.update','uses'=>'SiteController@perfilUpdate']);
 
+  Route::get('favorites', ['as'=>'site.favorites','uses'=>'SiteController@favorites']);
+  Route::post('favorites/{product}', ['as'=>'site.favorites.create','uses'=>'SiteController@favoritesCreate']);
+  Route::delete('favorites/{product}', ['as'=>'site.favorites.delete','uses'=>'SiteController@favoritesDelete']);
+
   Route::get('/product/{id}/{name?}', 'SiteController@detail')->name('site.detail');
  
  //Carrinho de compra 

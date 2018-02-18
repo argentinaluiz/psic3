@@ -67,7 +67,7 @@
                 <div class="cleaner_h15"></div>
                 <h3 class="font-bold no-margins"> Favoritos</h3>
                 <div class="cleaner_h15"></div>
-                <a href="">Visualizar</a>
+                <a href="{{ route('site.favorites')}}">Visualizar</a>
             </div>
         </div>
       @endCan

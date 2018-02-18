@@ -40,10 +40,9 @@ class SiteController extends Controller
       if(Gate::denies('perfil-view')){
         abort(403,"Não autorizado!");
       }
-
+      //Vai trazer as informações do usuário logado
       $user = Auth()->user();
       return view('site.perfil',compact('user'));
-
     }
 
     public function perfilUpdate(Request $request)
@@ -72,6 +71,36 @@ class SiteController extends Controller
       $user->update($data);
       return redirect()->route('site.perfil')->with('status', 'Perfil atualizado!');
     }
+    
+    public function favorites()
+    {
+      if(Gate::denies('favorites-view')){
+        abort(403,"Não autorizado!");
+      }
+      $user = Auth()->user();
+      $products = $user->products;
+      return view('site.favorites',compact('products'));
+    }
 
-       
+    public function favoritesCreate(Product $product)
+    {
+      if(Gate::denies('favorites-create')){
+        abort(403,"Não autorizado!");
+      }
+      $user = Auth()->user();
+      $user->products()->attach($product);
+
+      return redirect()->back();
+    }
+
+    public function favoritesDelete(Product $product)
+    {
+      if(Gate::denies('favorites-delete')){
+        abort(403,"Não autorizado!");
+      }
+      $user = Auth()->user();
+      $user->products()->detach($product);
+
+      return redirect()->back();
+    }
 }

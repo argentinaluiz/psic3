@@ -66,7 +66,7 @@ class User extends Authenticatable implements TableInterface
    
     public function products()
     {
-      return $this->belongsToMany(App\Models\Painel\Product::class);
+      return $this->belongsToMany(\App\Models\Painel\Product::class);
     }
 
     public static function createFully($data)

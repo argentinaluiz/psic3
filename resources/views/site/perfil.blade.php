@@ -43,7 +43,7 @@
 					<input type="password" name="password" class="form-control">
 			</div>
 
-			<div class="form-group"><label>Confirmar senha</label> 
+			<div class="form-group"><label>Confirme a senha</label> 
 					<input type="password" name="password_confirmation" class="form-control">
 			</div>
 
