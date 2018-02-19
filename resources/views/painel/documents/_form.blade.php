@@ -12,7 +12,7 @@
 
 <div class="file-field input-field">
   <div class="btn">
-    <span>Carregar imagens</span>
+    <span>Carregar documentos</span>
     <input type="file" multiple name="imagens[]">
   </div>
   <div class="file-path-wrapper">

@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Painel;
 
-use App\Models\Painel\Document;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
+use App\Models\Painel\Document;
+use Illuminate\Support\Facades\Gate;
+use Intervention\Image\ImageManagerStatic as Image;
+use Validator;
 
 class DocumentsController extends Controller
 {
@@ -15,7 +19,14 @@ class DocumentsController extends Controller
      */
     public function index()
     {
-        //
+        if(Gate::denies('documents-view')){
+            abort(403,"Não autorizado!");
+        }
+
+          $totalDocuments = Document::where('deleted','=','N')->count();
+          $registros = Document::where('deleted','=','N')->orderBy('id','DESC')->paginate(10);
+
+          return view('painel.documents.index',compact('registros', 'totalDocuments'));
     }
 
     /**
@@ -23,9 +34,13 @@ class DocumentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        if(Gate::denies('documents-create')){
+            abort(403,"Não autorizado!");
+          }
+  
+          return view('painel.documents.create') ;
     }
 
     /**
@@ -36,7 +51,11 @@ class DocumentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(Gate::denies('documents-create')){
+            abort(403,"Não autorizado!");
+          }
+  
+
     }
 
     /**

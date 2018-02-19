@@ -1,19 +1,19 @@
 @extends('layouts.app')
-@section('pag_title', 'Imagem- Cadastrar')
+@section('pag_title', 'Documentos - Cadastrar')
 
 @section('breadcrumb')
-    <h2>Imagens</h2>
-    {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar imagens' => route('imagens.index'), 'Nova imagem' ))!!}
+    <h2>Bibliotecas</h2>
+    {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar documentos' => route('documents.index'), 'Novo documento' ))!!}
 @endsection
 
 @section('h5-title')
-     <h5>Nova imagem</h5>
+     <h5>Novo documento</h5>
 @endsection
  
 @section('content')
     @include('form._form_errors')
-    {{ Form::open(['route' => 'imagens.store', 'class' => 'form form-search form-ds', 'files' => true]) }}
-        @include('painel.imagens._form')
+    {{ Form::open(['route' => 'documents.store', 'class' => 'form form-search form-ds', 'files' => true]) }}
+        @include('painel.documents._form')
         <div class="cleaner_h15"></div>
         <button class="btn btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;&nbsp;Adicionar</button>
     {{ Form::close() }}

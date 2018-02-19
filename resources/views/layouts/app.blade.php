@@ -128,9 +128,10 @@
 					</li>
 
 					<li>
-						<a href=""><i class="fa fa-picture-o"></i> <span class="nav-label">Imagens</span><span class="fa arrow"></span></a>
+						<a href=""><i class="fa fa-book"></i> <span class="nav-label">Bibliotecas</span><span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level collapse">
-							<li><a href="{{ route('imagens.index') }}"> Biblioteca de imagens </a></li>
+							<li><a href="{{ route('imagens.index') }}"> Imagens </a></li>
+							<li><a href="{{ route('documents.index') }}"> Documentos </a></li>
 						</ul>
 					</li>
 

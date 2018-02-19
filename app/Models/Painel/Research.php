@@ -17,7 +17,7 @@ class Research extends Model implements TableInterface
 
     public function getTableHeaders()
     {
-        return ['ID', 'Título', 'Ano', 'Categorias', 'Descrição', 'Ativa'];
+        return ['ID','Imagem', 'Título', 'Ano', 'Categorias', 'Descrição', 'Ativa'];
     }
 
     public function getValueForHeader($header)
@@ -25,6 +25,8 @@ class Research extends Model implements TableInterface
         switch ($header) {
             case 'ID':
                 return $this->id;
+            case 'Imagem':
+                return $this->image;
             case 'Título':
                 return $this->title;
             case 'Ano':

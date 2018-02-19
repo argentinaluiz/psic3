@@ -16,6 +16,7 @@ class CreateResearchesTable extends Migration
         Schema::create('researches', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
+            $table->string('image', 200)->nullable();
             $table->string('description');
             $table->integer('year')->nullable();
             $table->boolean('active')->nullable(); 

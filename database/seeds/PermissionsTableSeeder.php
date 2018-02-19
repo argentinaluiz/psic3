@@ -183,6 +183,23 @@ class PermissionsTableSeeder extends Seeder
             'description' =>'Deletar Slide'
         ]);
 
+        $documents1 = Permission::firstOrCreate([
+            'name' =>'documents-view',
+            'description' =>'Acesso a lista de Documentos'
+        ]);
+        $documents2 = Permission::firstOrCreate([
+            'name' =>'documents-create',
+            'description' =>'Adicionar Documento'
+        ]);
+        $documents3 = Permission::firstOrCreate([
+            'name' =>'documents-edit',
+            'description' =>'Editar Documento'
+        ]);
+        $documents4 = Permission::firstOrCreate([
+            'name' =>'documents-delete',
+            'description' =>'Deletar Documento'
+        ]);
+
 
     }
 }

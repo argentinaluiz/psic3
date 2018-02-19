@@ -2,7 +2,7 @@
 @section('pag_title', 'Imagens - Excluídas')
 
 @section('breadcrumb')
-    <h2>Imagens</h2>
+    <h2>Bibliotecas</h2>
     {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar imagens' => route('imagens.index'), 'Imagens Excluídas' ))!!}
 @endsection
 
@@ -29,7 +29,7 @@
 						<td>{{ $registro->id }}</td>
 						<td>{{ $registro->title }}</td>
 						<td>{{ $registro->description }}</td>
-						<td><img width="50" src="{{$registro->galeriaUrl()}}" alt="{{$registro->titulo}}"></td>
+						<td><img width="50" src="{{$registro->textoUrl()}}" alt="{{$registro->title}}"></td>
 
 						<td>
 							<form action="{{route('imagens.recupera',$registro->id)}}" method="post">

@@ -2,7 +2,7 @@
 @section('pag_title', 'Imagem- Cadastrar')
 
 @section('breadcrumb')
-    <h2>Imagens</h2>
+    <h2>Bibliotecas</h2>
     {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar imagens' => route('imagens.index'), 'Nova imagem' ))!!}
 @endsection
 

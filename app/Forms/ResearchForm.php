@@ -11,6 +11,12 @@ class ResearchForm extends Form
     {
         $id = $this->getData('id');
         $this
+            ->add('image', 'file', [
+                'label' => 'Imagem',
+                'rules' => 'image'
+            ])
+
+        
             ->add('title', 'text', [
                 'label' => 'Título',
                 'rules' => 'required|min:3|max:50'

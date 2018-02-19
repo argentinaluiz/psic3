@@ -1,13 +1,13 @@
 @extends('layouts.app')
-@section('pag_title', 'Imagens - Excluídas')
+@section('pag_title', 'Documentos - Excluídos')
 
 @section('breadcrumb')
-    <h2>Imagens</h2>
-    {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar imagens' => route('imagens.index'), 'Imagens Excluídas' ))!!}
+    <h2>Bibliotecas</h2>
+    {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar documentos' => route('documents.index'), 'Documentos Excluídos' ))!!}
 @endsection
 
 @section('h5-title')
-     <h5>Lista de Imagens Excluídas</h5>
+     <h5>Lista de Documentos Excluídos</h5>
 @endsection
 
 @section('content')
@@ -32,8 +32,8 @@
 						<td><img width="50" src="{{$registro->galeriaUrl()}}" alt="{{$registro->titulo}}"></td>
 
 						<td>
-							<form action="{{route('imagens.recupera',$registro->id)}}" method="post">
-								@can('imagens-delete')
+							<form action="{{route('documents.recupera',$registro->id)}}" method="post">
+								@can('documents-delete')
 									{{ method_field('PUT') }}
 									{{ csrf_field() }}
 									<button title="Recuperar" class="btn btn-sm btn-warning"><i class="fa fa-refresh"></i> restaurar</button>

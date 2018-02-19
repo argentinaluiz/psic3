@@ -1,9 +1,9 @@
 @extends('layouts.app')
-@section('pag_title', 'Imagem - Editar')
+@section('pag_title', 'Documentos - Editar')
 
 @section('breadcrumb')
-    <h2>Imagens</h2>
-    {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar imagens' => route('imagens.index'), 'Editar Imagem' ))!!}
+    <h2>Bibliotecas</h2>
+    {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar documentos' => route('documents.index'), 'Editar Documento' ))!!}
 @endsection
 
 @section('h5-title')
@@ -16,7 +16,7 @@
 	
 	<div class="row">
 		<div class="col-sm-12">
-			<form role="form" action="{{ route('imagens.update',$registro->id) }}" method="post" enctype="multipart/form-data">
+			<form role="form" action="{{ route('documents.update',$registro->id) }}" method="post" enctype="multipart/form-data">
 				{{csrf_field()}}
                 {{ method_field('PUT') }}
 				<div class="form-group"><label>Título</label> 
