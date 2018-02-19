@@ -151,6 +151,12 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
 
     Route::resource('researches', 'ResearchesController');
 
+    Route::get('documents/excluidas', ['as'=>'documents.excluidas','uses'=>'DocumentsController@excluidas']);
+    Route::put('documents/recupera/{id}', ['as'=>'documents.recupera','uses'=>'DocumentsController@recupera']);
+    
+    Route::resource('documents', 'DocumentsController');
+    Route::get('documents', 'DocumentsController@index')->name('documents.index');
+    Route::post('documents', 'DocumentsController@store')->name('documents.store');
 
     Route::get("teste1","testeImagemController@teste1");
     Route::post("teste1","testeImagemController@teste1Post");

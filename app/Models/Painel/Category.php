@@ -17,6 +17,6 @@ class Category extends Model
 
     public function researches()
     {
-      return $this->belongsToMany(App\Models\Painel\Search::class);
+      return $this->belongsToMany(App\Models\Painel\Research::class);
     }
 }

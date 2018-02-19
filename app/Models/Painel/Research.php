@@ -75,8 +75,8 @@ class Research extends Model implements TableInterface
     
     public function existThisCategory($category)
     {
-      $searchCategories = $this->categories;
-      return $categories->intersect($searchCategories)->count();
+      $researchCategories = $this->categories;
+      return $categories->intersect($researchCategories)->count();
     }
 
     public function users()

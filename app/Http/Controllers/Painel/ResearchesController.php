@@ -109,7 +109,7 @@ class ResearchesController extends Controller
         $research = Research::create($request->all());
         if(isset($data['novasCategorias'])){
             foreach ($data['novasCategorias'] as $key => $value) {
-            $search->categories()->save(Category::find($value));
+            $research->categories()->save(Category::find($value));
             }
         }
 
@@ -153,7 +153,7 @@ class ResearchesController extends Controller
         }
 
         $form = \FormBuilder::create(ResearchForm::class, [
-            'data' => ['id' => $search->id]
+            'data' => ['id' => $research->id]
         ]);
 
         if(!$form->isValid()){
