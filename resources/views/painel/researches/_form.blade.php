@@ -45,9 +45,10 @@
     </select>
     <label>Categorias</label>
   </div>
-
+<div class="cleaner_h15"></div>
 <div class="checkbox">
     <label>
-        {{ Form::checkbox('active') }} Ativo?
+        {{ Form::checkbox('active') }} Ativa?
     </label>
 </div>
+<div class="cleaner_h15"></div>

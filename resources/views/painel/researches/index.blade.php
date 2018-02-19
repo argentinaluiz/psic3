@@ -13,45 +13,25 @@
 @section('content')
 	<span class="pull-right small text-muted">Total de pesquisas: {{ $totalResearches}}</span>
 	<br/>
-	<a class="btn btn-sm btn-primary" href="{{route('researches.create') }}"><span class="glyphicon glyphicon-plus"></span> Criar nova</a>
+	@can('researches-create')
+		<a class="btn btn-sm btn-primary" href="{{route('researches.create') }}"><span class="glyphicon glyphicon-plus"></span> Criar nova</a>
+	@endcan
 	<div class="cleaner_h15"></div>
-	<table class="table table-striped">
-		<thead>
-		<tr>
-			<th>Id</th>
-			<th>Título</th>
-			<th>Descrição</th>
-			<th>Ano</th>
-			<th>Categoria</th>
-			<th>Ativo?</th>
-		</tr>
-		</thead>
-		<tbody>
-			@foreach($registros as $registro)
-				<tr>
-					<td>{{ $registro->id }}</td>
-					<td>{{ $registro->title }}</td>
-					<td>{{ $registro->description }}</td>
-					<td>{{ $registro->year }}</td>
-					<td>{{ $registro->active?'Sim': 'Não'}}</td>
-					<td>{{ $registro->textoCategories }}</td>
-					<td>
-						<form action="{{route('researches.destroy',$registro->id)}}" method="post">
-							@can('researches-edit')
-								<a href="{{route('researches.edit',['search' => $search->registro])}}"><span class="glyphicon glyphicon-pencil"></span> Editar</a> |
-								<a title="Galeria" class="btn btn-sm btn-primary" href="{{ route('researches.gallery.index',$registro) }}"><span class="glyphicon glyphicon-picture"></span> Imagem</a>
-							@endcan
-							@can('researches-delete')
-								{{ method_field('DELETE') }}
-								{{ csrf_field() }}
-								<button title="Deletar" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Excluir</button>
-							@endcan
-						</form>
-					</td>
-				</tr>
-			@endforeach
-			</tbody>
-		</table>
-		{{ $registros->links() }}
+	 {!!
+    Table::withContents($researches->items())
+    ->striped()
+    ->callback('Ações', function($field,$model){
+		$linkCategory = route('researches.category',['research' => $model->id]);
+        $linkEdit = route('researches.edit',['research' => $model->id]);
+        $linkShow = route('researches.show',['research' => $model->id]);
+        
+        return 
+			Button::link(Icon::create('certificate').' Categorias')->asLinkTo($linkCategory).'&nbsp;&nbsp'.'|'.
+            Button::link(Icon::create('pencil').' Editar')->asLinkTo($linkEdit).'&nbsp;&nbsp'.'|'.
+            Button::link(Icon::create('folder-open').'&nbsp;&nbsp;Ver')->asLinkTo($linkShow);
+    })
+    !!}
+	<div class="cleaner_h15"></div>
+    {!! $researches->links() !!}
 
 @endsection

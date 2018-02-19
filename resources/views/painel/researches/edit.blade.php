@@ -1,9 +1,9 @@
 @extends('layouts.app')
-@section('pag_title', 'Pesquisas - Cadastrar')
+@section('pag_title', 'Pesquisa - Editar')
 
 @section('breadcrumb')
     <h2>Pesquisas</h2>
-    {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar pesquisas' => route('researches.index'), 'Editar Pesquisa' ))!!}
+    {!! Breadcrumb::withLinks(array('Home' => '/', 'Listar pesquisas' => route('researches.index'), 'Editar pesquisa' ))!!}
 @endsection
 
 @section('h5-title')
@@ -11,14 +11,16 @@
 @endsection
 
 @section('content')
-    @include('form._form_errors')	
-
-		<div class="row">
-			<div class="col-sm-12">
-				 {{ Form::model($search,['route' => ['researches.update',$researches->registro], 'class' => 'form form-search form-ds', 'files' => true, 'method' => 'PUT' ]) }}
-							@include('painel.researches._form')
-							<button class="btn btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Atualizar</button>
-					{{ Form::close() }}
-			</div>
-		</div>
+	@component('painel.researches.tabs-component',['research' => $form->getModel()])
+		<div class="col-md-12">
+            <div class="cleaner_h25"></div>
+            <?php $icon = Icon::create('pencil');?>
+            {!!
+                form($form->add('salve', 'submit', [
+                    'attr' => ['class' => 'btn btn-primary btn-block'],
+                    'label' => $icon.'&nbsp;&nbsp;Salvar'
+                ]))
+            !!}
+        </div>
+	@endcomponent
 @endsection

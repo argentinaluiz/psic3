@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCategorySearchTable extends Migration
+class CreateCategoryResearchTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateCategorySearchTable extends Migration
      */
     public function up()
     {
-        Schema::create('category_search', function (Blueprint $table) {
+        Schema::create('category_research', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('search_id')->unsigned()->default(1);
             $table->integer('category_id')->unsigned()->default(1);
+            $table->integer('research_id')->unsigned()->default(1);
 
-            $table->foreign('search_id')->references('id')->on('researches')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('research_id')->references('id')->on('researches');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateCategorySearchTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category_search');
+        Schema::dropIfExists('category_research');
     }
 }

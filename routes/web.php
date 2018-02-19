@@ -145,7 +145,12 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
     Route::delete('slides/remove/ajax', ['as'=>'slides.remove.ajax','uses'=>'SlidesController@removeSlide']);
     Route::resource('slides', 'SlidesController');
 
-      Route::resource('researches', 'ResearchesController');
+    Route::get('researches/category/{id}', ['as'=>'researches.category','uses'=>'ResearchesController@category']);
+    Route::post('researches/category/{category}', ['as'=>'category.store','uses'=>'ResearchesController@categoryStore']);
+    Route::delete('researches/category/{search}/{category}', ['as'=>'category.destroy','uses'=>'ResearchesController@categoryDestroy']);
+
+    Route::resource('researches', 'ResearchesController');
+
 
     Route::get("teste1","testeImagemController@teste1");
     Route::post("teste1","testeImagemController@teste1Post");

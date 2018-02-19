@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Painel;
 
-use App\Models\Painel\Search;
-use App\Models\Painel\Imagem;
-use App\Models\Painel\Category;
-use App\Http\Requests\SearchRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Kris\LaravelFormBuilder\Form;
+use App\Forms\ResearchForm;
+
+use App\Models\Painel\Research;
+use App\Models\Painel\Category;
 
 class ResearchesController extends Controller
 {
@@ -23,104 +24,150 @@ class ResearchesController extends Controller
             abort(403,"Não autorizado!");
           }
           
-          $totalResearches   = Search::count();
-          $registros = Search::orderBy("id","DESC")->paginate(10);
+          $totalResearches   = Research::count();
+          $researches = Research::orderBy("id","DESC")->paginate(10);
          
-          return view('painel.researches.index',compact('registros', 'totalResearches'));
+          return view('painel.researches.index',compact('researches', 'totalResearches'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function category($id)
+    {
+        if(Gate::denies('researches-edit')){
+            abort(403,"Não autorizado!");
+          }
+      
+       $research = Research::find($id);
+       $category = Category::all();
+
+       $form = \FormBuilder::create(ResearchForm::class, [
+        'url' => route('researches.update',['research' => $research->id]),
+        'method' => 'PUT',
+        'model' => $research
+      ]);
+
+       return view('painel.researches.category', compact('research', 'category', 'form'));
+    }
+
+    public function categoryStore(Request $request, $id)
+    {
+        if(Gate::denies('researches-edit')){
+            abort(403,"Não autorizado!");
+          }
+
+        $research = Research::find($id);
+        $data = $request->all();
+        $category = Category::find($data['category_id']);
+        $research->addCategory($category);
+
+        return redirect()->back();
+    }
+
+    public function categoryDestroy($id, $category_id)
+    {
+        if(Gate::denies('researches-edit')){
+            abort(403,"Não autorizado!");
+          }
+        
+        $research = Research::find($id);
+        $category = Category::find($category_id);
+        $research->deleteCategory($category);
+
+        return redirect()->back();
+    }
+
     public function create()
     {
         if(Gate::denies('researches-create')){
             abort(403,"Não autorizado!");
           }
     
+          $form = \FormBuilder::create(ResearchForm::class, [
+            'url' => route('researches.store'),
+            'method' => 'POST'
+          ]);
           $categories = Category::all();
     
-          return view('painel.researches.create',compact('categories'));
+          return view('painel.researches.create',compact('form', 'categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(SearchRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->only(array_keys($request->rules()));
-        $data['active'] = $request->has('active');
-
-        Search::create($data);
-        if(isset($data['novasCategorias'])){
-          foreach ($data['novasCategorias'] as $key => $value) {
-            $search->categories()->save(Category::find($value));
-          }
+        if(Gate::denies('researches-create')){
+            abort(403,"Não autorizado!");
         }
+        /** @var Form $form */
+        $form = \FormBuilder::create(ResearchForm::class);
+
+        if(!$form->isValid()){
+            return redirect()
+                ->back()
+                ->withErrors($form->getErrors())
+                    ->withInput();
+        }
+
+        $data = $request->all();
+        $research = Research::create($request->all());
+        if(isset($data['novasCategorias'])){
+            foreach ($data['novasCategorias'] as $key => $value) {
+            $search->categories()->save(Category::find($value));
+            }
+        }
+
+        $request->session()->flash('message','Pesquisa criada com sucesso');
   
         return redirect()->route('researches.index');
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Search  $search
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Search $search)
+    public function show(Research $research)
     {
-        //
+        if(Gate::denies('researches-view')){
+            abort(403,"Não autorizado!");
+        }
+
+        return view('painel.researches.show', compact('research'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Search  $search
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Search $search)
+    public function edit(Research $research)
     {
         if(Gate::denies('researches-edit')){
             abort(403,"Não autorizado!");
           }
 
-          $registro = $search;
+          $form = \FormBuilder::create(ResearchForm::class, [
+            'url' => route('researches.update',['research' => $research->id]),
+            'method' => 'PUT',
+            'model' => $research
+          ]);
 
-          $categories = Category::all(); 
+          $categories = Category::all();
 
-          return view('painel.researches.edit',compact('registro','categories'));
+          return view('painel.researches.edit',compact('form', 'categories', 'research'));
 
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Search  $search
-     * @return \Illuminate\Http\Response
-     */
-    public function update(SearchRequest $request, Search $search)
+    public function update(Request $request, Research $research)
     {
         if(Gate::denies('researches-edit')){
             abort(403,"Não autorizado!");
         }
 
-        $data = $request->only(array_keys($request->rules()));
-        $registro = $search;
+        $form = \FormBuilder::create(ResearchForm::class, [
+            'data' => ['id' => $search->id]
+        ]);
 
-        $registro->update($request->all());
-        foreach ($registro->categories as $key => $value) {
-            $registro->categories()->detach($value);
+        if(!$form->isValid()){
+            return redirect()
+                ->back()
+                ->withErrors($form->getErrors())
+                    ->withInput();
         }
-        if(isset($dados['novasCategorias'])){
-            foreach ($dados['novasCategorias'] as $key => $value) {
-            $registro->categories()->save(Category::find($value));
+
+        $data = $request->all();
+        $research = Research::create($request->all());
+        if(isset($data['novasCategorias'])){
+            foreach ($data['novasCategorias'] as $key => $value) {
+            $research->categories()->save(Category::find($value));
             }
         }
 
@@ -128,27 +175,21 @@ class ResearchesController extends Controller
             ->with('message','Pesquisa alterada com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Search  $search
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Search $search)
+    public function destroy(Research $research)
     {
         if(Gate::denies('researches-delete')){
             abort(403,"Não autorizado!");
           }
     
-          foreach ($search->categories as $key => $value) {
-            $search->categories()->detach($value);
+          foreach ($research->categories as $key => $value) {
+            $research->categories()->detach($value);
           }
     
-          foreach ($search->imagens as $key => $value) {
+          foreach ($research->imagens as $key => $value) {
             $value->delete();
           }
     
-          $search->delete();
+          $research->delete();
           return redirect()->route('researches.index');
     }
 
