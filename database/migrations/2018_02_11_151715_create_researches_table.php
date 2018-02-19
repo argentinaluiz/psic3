@@ -18,7 +18,7 @@ class CreateResearchesTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->integer('year')->nullable();
-            $table->boolean('active')->default(true); //s ou n
+            $table->boolean('active')->nullable(); 
             $table->timestamps();
         });
     }

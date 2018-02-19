@@ -85,9 +85,8 @@ class ResearchesController extends Controller
             'url' => route('researches.store'),
             'method' => 'POST'
           ]);
-          $categories = Category::all();
     
-          return view('painel.researches.create',compact('form', 'categories'));
+          return view('painel.researches.create',compact('form'));
     }
 
     public function store(Request $request)
@@ -98,23 +97,16 @@ class ResearchesController extends Controller
         /** @var Form $form */
         $form = \FormBuilder::create(ResearchForm::class);
 
-        if(!$form->isValid()){
+        if (!$form->isValid()) {
             return redirect()
                 ->back()
                 ->withErrors($form->getErrors())
-                    ->withInput();
+                ->withInput();
         }
 
-        $data = $request->all();
-        $research = Research::create($request->all());
-        if(isset($data['novasCategorias'])){
-            foreach ($data['novasCategorias'] as $key => $value) {
-            $research->categories()->save(Category::find($value));
-            }
-        }
-
+        $data = $form->getFieldValues();
+        Research::create($data);
         $request->session()->flash('message','Pesquisa criada com sucesso');
-  
         return redirect()->route('researches.index');
 
     }
@@ -134,19 +126,17 @@ class ResearchesController extends Controller
             abort(403,"Não autorizado!");
           }
 
-          $form = \FormBuilder::create(ResearchForm::class, [
+        $form = \FormBuilder::create(ResearchForm::class, [
             'url' => route('researches.update',['research' => $research->id]),
             'method' => 'PUT',
             'model' => $research
-          ]);
+        ]);
 
-          $categories = Category::all();
-
-          return view('painel.researches.edit',compact('form', 'categories', 'research'));
+          return view('painel.researches.edit',compact('form', 'research'));
 
     }
 
-    public function update(Request $request, Research $research)
+    public function update(Research $research)
     {
         if(Gate::denies('researches-edit')){
             abort(403,"Não autorizado!");
@@ -156,23 +146,18 @@ class ResearchesController extends Controller
             'data' => ['id' => $research->id]
         ]);
 
-        if(!$form->isValid()){
+        if (!$form->isValid()) {
             return redirect()
                 ->back()
                 ->withErrors($form->getErrors())
-                    ->withInput();
+                ->withInput();
         }
 
-        $data = $request->all();
-        $research = Research::create($request->all());
-        if(isset($data['novasCategorias'])){
-            foreach ($data['novasCategorias'] as $key => $value) {
-            $research->categories()->save(Category::find($value));
-            }
-        }
 
-        return redirect()->route('researches.index')
-            ->with('message','Pesquisa alterada com sucesso!');
+        $data = $form->getFieldValues();
+        $research->update($data);
+        session()->flash('message','Pesquisa editada com sucesso');
+        return redirect()->route('researches.index');
     }
 
     public function destroy(Research $research)
