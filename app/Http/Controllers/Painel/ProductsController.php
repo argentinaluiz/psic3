@@ -9,7 +9,6 @@ use Kris\LaravelFormBuilder\Form;
 use App\Forms\ProductForm;
 use App\Forms\GalleryForm;
 use App\Models\Painel\Product;
-use App\Models\Painel\Category;
 use App\Models\Painel\Imagem;
 use App\Models\Painel\Gallery;
 
@@ -33,51 +32,7 @@ class ProductsController extends Controller
         return view('painel.products.index', compact('products', 'totalProducts'));
     }
 
-    public function category($id)
-    {
-        if(Gate::denies('products-edit')){
-            abort(403,"Não autorizado!");
-          }
-      
-       $product = Product::find($id);
-       $category = Category::all();
-
-       $form = \FormBuilder::create(ProductForm::class, [
-        'url' => route('products.update',['product' => $product->id]),
-        'method' => 'PUT',
-        'model' => $product
-      ]);
-
-       return view('painel.products.category', compact('product', 'category', 'form'));
-    }
-
-    public function categoryStore(Request $request, $id)
-    {
-        if(Gate::denies('products-edit')){
-            abort(403,"Não autorizado!");
-          }
-
-        $product = Product::find($id);
-        $data = $request->all();
-        $category = Category::find($data['category_id']);
-        $product->addCategory($category);
-
-        return redirect()->back();
-    }
-
-    public function categoryDestroy($id, $category_id)
-    {
-        if(Gate::denies('products-edit')){
-            abort(403,"Não autorizado!");
-          }
-        
-        $product = Product::find($id);
-        $category = Category::find($category_id);
-        $product->deleteCategory($category);
-
-        return redirect()->back();
-    }
-
+   
     /**
      * Show the form for creating a new resource.
      *
@@ -93,9 +48,8 @@ class ProductsController extends Controller
           'url' => route('products.store'),
           'method' => 'POST'
         ]);
-        $categories = Category::all();
         
-      return view('painel.products.create', compact('form', 'categories'));
+      return view('painel.products.create', compact('form'));
     }
 
     /**
@@ -204,11 +158,7 @@ class ProductsController extends Controller
         if(Gate::denies('products-delete')){
             abort(403,"Não autorizado!");
         }
-
-        foreach ($product->categories as $key => $value) {
-          $product->categories()->detach($value);
-        }
-  
+ 
         foreach ($product->imagens as $key => $value) {
           $value->delete();
         }

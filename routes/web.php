@@ -121,10 +121,6 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
     Route::get('products', 'ProductsController@edit')->name('products.edit');
     Route::resource('products', 'ProductsController');
 
-    Route::get('products/category/{id}', ['as'=>'products.category','uses'=>'ProductsController@category']);
-    Route::post('products/category/{category}', ['as'=>'category.store','uses'=>'ProductsController@categoryStore']);
-    Route::delete('products/category/{product}/{category}', ['as'=>'category.destroy','uses'=>'ProductsController@categoryDestroy']);
-
     Route::get('products/gallery/{product}', ['as'=>'products.gallery','uses'=>'ProductsController@indexGallery']);
     Route::get('products/gallery/create/{product}', ['as'=>'products.gallery.create','uses'=>'ProductsController@createGallery']);
     Route::post('products/gallery/store', ['as'=>'products.gallery.store','uses'=>'ProductsController@storeGallery']);

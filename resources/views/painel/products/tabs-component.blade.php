@@ -1,7 +1,6 @@
 @php
     $tabs = [
        ['title' => 'Informações','link' => route('products.edit',['product' => $product->id])],
-       ['title' => 'Categorias','link' => route('products.category',['product' => $product->id])],
        ['title' => 'Imagens','link' => route('products.gallery',['product' => $product->id])],
     ]
 @endphp

@@ -23,12 +23,10 @@
     ->striped()
     ->callback('Ações', function($field,$model){
 		$linkGallery = route('products.gallery',['product' => $model->id]);
-		$linkCategory = route('products.category',['product' => $model->id]);
         $linkEdit = route('products.edit',['product' => $model->id]);
         $linkShow = route('products.show',['product' => $model->id]);
         
         return Button::link(Icon::create('picture').' Imagens')->asLinkTo($linkGallery).'&nbsp;&nbsp'.'|'.
-			Button::link(Icon::create('certificate').' Categorias')->asLinkTo($linkCategory).'&nbsp;&nbsp'.'|'.
             Button::link(Icon::create('pencil').' Editar')->asLinkTo($linkEdit).'&nbsp;&nbsp'.'|'.
             Button::link(Icon::create('folder-open').'&nbsp;&nbsp;Ver')->asLinkTo($linkShow);
     })

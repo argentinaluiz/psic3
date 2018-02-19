@@ -56,10 +56,6 @@
             <th scope="row">Preço</th>
             <td> {{$product->textPrice}}</td>
         </tr>
-         <tr>
-            <th scope="row">Categorias</th>
-            <td> {{$product->textCategories}}</td>
-        </tr>
         <tr>
             <th scope="row">Descrição</th>
             <td>{{$product->description}}</td>
