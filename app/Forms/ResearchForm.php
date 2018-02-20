@@ -16,7 +16,6 @@ class ResearchForm extends Form
                 'rules' => 'image'
             ])
 
-        
             ->add('title', 'text', [
                 'label' => 'Título',
                 'rules' => 'required|min:3|max:50'
