@@ -5,41 +5,16 @@ namespace App\Models\Painel;
 use Bootstrapper\Interfaces\TableInterface;
 use Illuminate\Database\Eloquent\Model;
 
-class Research extends Model implements TableInterface
+class Research extends Model
 {
     protected $fillable = [
         'category_id',
         'title',
+        'image',
         'description',
         'year',
         'active'
     ];
-
-    public function getTableHeaders()
-    {
-        return ['ID','Imagem', 'Título', 'Ano', 'Categorias', 'Descrição', 'Ativa'];
-    }
-
-    public function getValueForHeader($header)
-    {
-        switch ($header) {
-            case 'ID':
-                return $this->id;
-            case 'Imagem':
-                return $this->image;
-            case 'Título':
-                return $this->title;
-            case 'Ano':
-                return $this->year;
-            case 'Categorias':
-                return $this->textCategories;
-            case 'Descrição':
-                return $this->description;
-            case 'Ativa':
-                return $this->active?'Sim': 'Não';
-        }
-    }
-
 
     public function categories()
     {
@@ -99,6 +74,23 @@ class Research extends Model implements TableInterface
 
         }
         return $text;
+    }
+
+    public function newResearch($request, $nameFile = '')
+    {
+        $data = $request->all();
+        $data['active'] = $request->has('active');
+        $data['image'] = $nameFile;
+        return $this->create($data);
+    }
+
+    public function updateResearch($request, $nameFile = '')
+    {
+        $data = $request->all();
+        $data['active'] = $request->has('active');
+        $data['image'] = $nameFile;
+        
+        return $this->update($data);
     }
 
 

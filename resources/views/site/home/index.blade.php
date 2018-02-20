@@ -186,8 +186,53 @@
                 </div>
             </div>
             <div class="row">
-                @component('components.list_product',['list'=>$products,'size'=>'4'])
-                @endcomponent
+                 @forelse ($products as $product)
+                    <div class="col-md-4">
+                        <div class="ibox">
+                            <div class="ibox-content product-box">
+                                <div class="product-imitation">
+                                    <img class="img-responsive" src="{{url("media/img/products/{$product->galeriaUrl}")}}">
+                                </div>
+                                <div class="product-desc">
+                                    <span class="product-price">
+                                        {{ $product->textPrice }}
+                                    </span>
+                                    <a href="{{ route('shop.show', $product->slug) }}" class="product-name"> {{ $product->name }}</a>
+
+                                    <div class="small m-t-xs">
+                                        {{ $product->description }}
+                                    </div>
+                                    <div class="m-t text-righ">
+                                        @can('favorites-view')
+                                            @if(Auth()->user()->products()->find($product->id))
+                                            <form action="{{route('site.favorites.delete',$product)}}" method="post">
+                                                <a href="{{ route('shop.show', $product->slug) }}" class="btn btn-sm btn-primary">Ver mais <i class="fa fa-long-arrow-right"></i> </a>
+                                                @can('favorites-delete')
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+                                                <button title="Remover dos Favoritos" class="btn btn-sm btn-danger"><i class="fa fa-star" aria-hidden="true"></i></button>
+                                                @endcan
+                                            </form>
+                                            @else
+                                            <form action="{{route('site.favorites.create',$product)}}" method="post">
+                                                <a href="{{ route('shop.show', $product->slug) }}" class="btn btn-sm btn-primary">Ver mais <i class="fa fa-long-arrow-right"></i> </a>
+                                                @can('favorites-create')
+                                                {{ csrf_field() }}
+                                                <button title="Adicionar dos Favoritos" class="btn btn-sm btn-warning"><i class="fa fa-star" aria-hidden="true"></i></button>
+                                                @endcan
+                                            </form>
+                                            @endif
+                                        @else
+                                            <a href="{{ route('shop.show', $product->slug) }}" class="btn btn-sm btn-primary">Ver mais <i class="fa fa-long-arrow-right"></i> </a>
+                                        @endcan               
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div style="text-align: left">No items found</div>
+                @endforelse 
             </div>
         </div>
     </section>

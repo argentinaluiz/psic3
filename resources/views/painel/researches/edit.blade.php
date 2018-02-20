@@ -12,15 +12,10 @@
 
 @section('content')
 	@component('painel.researches.tabs-component',['research' => $form->getModel()])
-		<div class="col-md-12">
-            <div class="cleaner_h25"></div>
-            <?php $icon = Icon::create('pencil');?>
-            {!!
-                form($form->add('salve', 'submit', [
-                    'attr' => ['class' => 'btn btn-primary btn-block'],
-                    'label' => $icon.'&nbsp;&nbsp;Salvar'
-                ]))
-            !!}
-        </div>
+		@include('form._form_errors')
+        {{ Form::model($research,['route' => ['researches.update',$research->id], 'class' => 'form form-search form-ds', 'files' => true, 'method' => 'PUT' ]) }}
+            @include('painel.researches._form')
+            <button class="btn btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Salvar</button>
+        {{ Form::close() }}
 	@endcomponent
 @endsection

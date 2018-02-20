@@ -11,11 +11,10 @@
 @endsection
  
 @section('content')
-    {!!
-    form($form->add('insert','submit', [
-        'attr'  => ['class' => 'btn btn-primary btn-block'],
-        'label' => Icon::create('floppy-disk').'&nbsp;&nbsp;Inserir'
-    ]))
-    !!}
+    @include('form._form_errors')
+    {{ Form::open(['route' => 'researches.store', 'class' => 'form form-search form-ds', 'files' => true]) }}
+        @include('painel.researches._form')
+        <button class="btn btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;&nbsp;Adicionar</button>
+    {{ Form::close() }}
     
 @endsection

@@ -17,20 +17,44 @@
 		<a class="btn btn-sm btn-primary" href="{{route('researches.create') }}"><span class="glyphicon glyphicon-plus"></span> Criar nova</a>
 	@endcan
 	<div class="cleaner_h15"></div>
-	 {!!
-    Table::withContents($researches->items())
-    ->striped()
-    ->callback('Ações', function($field,$model){
-		$linkCategory = route('researches.category',['research' => $model->id]);
-        $linkEdit = route('researches.edit',['research' => $model->id]);
-        $linkShow = route('researches.show',['research' => $model->id]);
-        
-        return 
-			Button::link(Icon::create('certificate').' Categorias')->asLinkTo($linkCategory).'&nbsp;&nbsp'.'|'.
-            Button::link(Icon::create('pencil').' Editar')->asLinkTo($linkEdit).'&nbsp;&nbsp'.'|'.
-            Button::link(Icon::create('folder-open').'&nbsp;&nbsp;Ver')->asLinkTo($linkShow);
-    })
-    !!}
+	<table class="table table-striped dataTables-products">
+		<thead>
+		<tr>
+			<th>Id</th>
+			<th>Imagem</th>
+            <th>Título</th>
+			<th>Ano</th>
+			<th>Descrição</th>
+			<th>Categorias</th>
+			<th>Ativo?</th>
+			<th>Ações</th>
+		</tr>
+		</thead>
+		<tbody>
+			@foreach($researches as $research)
+				<tr>
+					<td>{{ $research->id }}</td>
+					<td>
+						@if($research->image)
+							<img src="{{url("storage/research/{$research->image}")}}" alt="{{$research->id}}" style="max-width: 50px;">
+						@else
+							<img src="{{url('painel/imgs/no-image.png')}}" alt="{{$research->id}}" style="max-width: 50px;">
+						@endif
+					</td>
+                    <td>{{ $research->title }}</td>
+					<td>{{ $research->year }}</td>
+					<td>{{ $research->description }}</td>
+					<td>{{ $research->TextCategories }}</td>
+					<td>{{$research->active?'Sim': 'Não'}}</td>
+					<td>
+						<a href="{{route('researches.category',['research' => $research->id])}}"><span class="glyphicon glyphicon-pencil"></span> Categorias</a> |
+						<a href="{{route('researches.edit',['research' => $research->id])}}"><span class="glyphicon glyphicon-pencil"></span> Editar</a> |
+						<a href="{{route('researches.show',['research' => $research->id])}}"><span class="glyphicon glyphicon-folder-open"></span> Ver</a>
+					</td>
+				</tr>
+			@endforeach
+		</tbody>
+	</table>
 	<div class="cleaner_h15"></div>
     {!! $researches->links() !!}
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Painel;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use App\Http\Requests\ResearchRequest;
 use App\Http\Controllers\Controller;
 use Kris\LaravelFormBuilder\Form;
 use App\Forms\ResearchForm;
@@ -13,11 +14,12 @@ use App\Models\Painel\Category;
 
 class ResearchesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $research;
+    public function __construct(Research $research)
+    {
+        $this->research = $research;
+    }
+
     public function index()
     {
         if(Gate::denies('researches-view')){
@@ -89,25 +91,33 @@ class ResearchesController extends Controller
           return view('painel.researches.create',compact('form'));
     }
 
-    public function store(Request $request)
+    public function store(ResearchRequest $request)
     {
         if(Gate::denies('researches-create')){
             abort(403,"Não autorizado!");
         }
-        /** @var Form $form */
-        $form = \FormBuilder::create(ResearchForm::class);
+        $nameFile = '';
 
-        if (!$form->isValid()) {
-            return redirect()
-                ->back()
-                ->withErrors($form->getErrors())
-                ->withInput();
+        if ($request->hasFile('image') && $request->file('image')->isValid()) { 
+            $nameFile = uniqid(date('HisYmd')).'.'.$request->image->extension();
+
+            if (!$request->image->storeAs('research', $nameFile))
+                return redirect()
+                            ->back()
+                            ->with('error', 'Falha ao fazer upload')
+                            ->withInput();
+
         }
 
-        $data = $form->getFieldValues();
-        Research::create($data);
-        $request->session()->flash('message','Pesquisa criada com sucesso');
-        return redirect()->route('researches.index');
+        if ( $this->research->newResearch($request, $nameFile) ) 
+        return redirect()
+                            ->route('researches.index')
+                            ->with('message', 'Pesquisa criada com sucesso!');
+            else
+                return redirect()
+                            ->back()
+                            ->with('error', 'Falha ao cadastrar')
+                            ->withInput();
 
     }
 
@@ -136,28 +146,41 @@ class ResearchesController extends Controller
 
     }
 
-    public function update(Research $research)
+    public function update(ResearchRequest $request, $id)
     {
         if(Gate::denies('researches-edit')){
             abort(403,"Não autorizado!");
         }
 
-        $form = \FormBuilder::create(ResearchForm::class, [
-            'data' => ['id' => $research->id]
-        ]);
+        $research = $this->research->find($id);
+        if(!$research) return redirect()->back();
 
-        if (!$form->isValid()) {
-            return redirect()
-                ->back()
-                ->withErrors($form->getErrors())
-                ->withInput();
+        $nameFile = $research->image;
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            
+            if($research->image)
+                $nameFile = $research->image;
+            else
+                $nameFile = uniqid(date('HisYmd')).'.'.$request->image->extension();
+
+            if (!$request->image->storeAs('research', $nameFile))
+                return redirect()
+                            ->back()
+                            ->with('error', 'Falha ao fazer upload')
+                            ->withInput();
+
         }
+        
 
-
-        $data = $form->getFieldValues();
-        $research->update($data);
-        session()->flash('message','Pesquisa editada com sucesso');
-        return redirect()->route('researches.index');
+        if ( $research->updateResearch($request, $nameFile) )
+            return redirect()
+                            ->route('researches.index')
+                            ->with('message', 'Pesquisa alterada com sucesso!');
+            else
+                return redirect()
+                            ->back()
+                            ->with('error', 'Falha ao atualizar')
+                            ->withInput();
     }
 
     public function destroy(Research $research)
@@ -170,9 +193,10 @@ class ResearchesController extends Controller
             $research->categories()->detach($value);
           }
     
-          foreach ($research->imagens as $key => $value) {
+        /*  foreach ($research->imagens as $key => $value) {
             $value->delete();
           }
+        */
     
           $research->delete();
           return redirect()->route('researches.index');
