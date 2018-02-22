@@ -8,8 +8,6 @@ Auth::routes();
   Route::get('favorites', ['as'=>'site.favorites','uses'=>'SiteController@favorites']);
   Route::post('favorites/{product}', ['as'=>'site.favorites.create','uses'=>'SiteController@favoritesCreate']);
   Route::delete('favorites/{product}', ['as'=>'site.favorites.delete','uses'=>'SiteController@favoritesDelete']);
-
-  Route::get('/product/{id}/{name?}', 'SiteController@detail')->name('site.detail');
  
  //Carrinho de compra 
  Route::get('/shop', 'ShopController@index')->name('shop.index');
@@ -136,12 +134,22 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
 
     Route::resource('researches', 'ResearchesController');
 
+    Route::get('researches/arcade/{research}', ['as'=>'researches.arcade','uses'=>'ResearchesController@indexArcade']);
+    Route::get('researches/arcade/create/{research}', ['as'=>'researches.arcade.create','uses'=>'ResearchesController@createArcade']);
+    Route::post('researches/arcade/store', ['as'=>'researches.arcade.store','uses'=>'ResearchesController@storeArcade']);
+    Route::delete('researches/arcade/remove', ['as'=>'researches.arcade.remove','uses'=>'ResearchesController@removeArcade']);
+  
+    Route::get('researches/arcade/edit/{arcade}', ['as'=>'researches.arcade.edit','uses'=>'ResearchesController@editArcade']);
+    Route::put('researches/arcade/update/{arcade}', ['as'=>'researches.arcade.update','uses'=>'ResearchesController@updateArcade']);
+    Route::delete('researches/arcade/delete/{arcade}', ['as'=>'researches.arcade.delete','uses'=>'ResearchesController@deleteArcade']);
+   
+
     Route::get('documents/excluidas', ['as'=>'documents.excluidas','uses'=>'DocumentsController@excluidas']);
     Route::put('documents/recupera/{id}', ['as'=>'documents.recupera','uses'=>'DocumentsController@recupera']);
     
-    Route::resource('documents', 'DocumentsController');
     Route::get('documents', 'DocumentsController@index')->name('documents.index');
     Route::post('documents', 'DocumentsController@store')->name('documents.store');
+    Route::resource('documents', 'DocumentsController');
 
     Route::get("teste1","testeImagemController@teste1");
     Route::post("teste1","testeImagemController@teste1Post");

@@ -19,7 +19,7 @@
 						<th>Id</th>
 						<th>Título</th>
 						<th>Descrição</th>
-						<th>Imagem</th>
+						<th>Documento</th>
 						<th>Ação</th>
 					</tr>
 				</thead>
@@ -29,7 +29,7 @@
 						<td>{{ $registro->id }}</td>
 						<td>{{ $registro->title }}</td>
 						<td>{{ $registro->description }}</td>
-						<td><img width="50" src="{{$registro->galeriaUrl()}}" alt="{{$registro->titulo}}"></td>
+						<td></td>
 
 						<td>
 							<form action="{{route('documents.recupera',$registro->id)}}" method="post">
@@ -49,8 +49,8 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-12">
-			@can('imagens-create')
-			<a class="btn btn-sm btn-primary" href="{{route('imagens.index')}}">Voltar</a>
+			@can('documents-create')
+			<a class="btn btn-sm btn-primary" href="{{route('documents.index')}}">Voltar</a>
 			@endcan
 		</div>
 	</div>

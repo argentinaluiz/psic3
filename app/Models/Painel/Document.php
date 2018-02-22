@@ -15,24 +15,7 @@ class Document extends Model
       {
         return $this->hasMany('App\Models\Painel\Folder');
       }
-
-      public function newDocument($request, $nameFile = '')
-    {
-        $data = $request->all();
-        $data['active'] = $request->has('active');
-        $data['image'] = $nameFile;
-        return $this->create($data);
-    }
-
-    public function updateDocument($request, $nameFile = '')
-    {
-        $data = $request->all();
-        $data['active'] = $request->has('active');
-        $data['image'] = $nameFile;
-        
-        return $this->update($data);
-    }
-  
+    
       public function somUrl()
       {
         $url = asset($this->folders()->where('type','=','mp3')->first()->url);

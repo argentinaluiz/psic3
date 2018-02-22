@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Painel\Product;
-use App\Models\Site\Category;
+use App\Models\Painel\Imagem;
 
 class ShopController extends Controller
 {
@@ -27,10 +27,12 @@ class ShopController extends Controller
     public function show($slug)
     {
         $product = Product::where('slug', $slug)->firstOrFail();
+        $imagem = $product->imagens()->get();
         $mightAlsoLike = Product::where('slug', '!=', $slug)->mightAlsoLike()->get();
 
        return view('product')->with([
             'product' => $product,
+            'imagem' => $imagem,
             'mightAlsoLike' => $mightAlsoLike,
         ]);
     }

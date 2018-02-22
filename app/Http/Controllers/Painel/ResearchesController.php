@@ -11,6 +11,8 @@ use App\Forms\ResearchForm;
 
 use App\Models\Painel\Research;
 use App\Models\Painel\Category;
+use App\Models\Painel\Document;
+use App\Models\Painel\Arcade;
 
 class ResearchesController extends Controller
 {
@@ -98,10 +100,10 @@ class ResearchesController extends Controller
         }
         $nameFile = '';
 
-        if ($request->hasFile('image') && $request->file('image')->isValid()) { 
-            $nameFile = uniqid(date('HisYmd')).'.'.$request->image->extension();
+        if ($request->hasFile('document') && $request->file('document')->isValid()) { 
+            $nameFile = uniqid(date('HisYmd')).'.'.$request->document->extension();
 
-            if (!$request->image->storeAs('research', $nameFile))
+            if (!$request->document->storeAs('research', $nameFile))
                 return redirect()
                             ->back()
                             ->with('error', 'Falha ao fazer upload')
@@ -155,15 +157,15 @@ class ResearchesController extends Controller
         $research = $this->research->find($id);
         if(!$research) return redirect()->back();
 
-        $nameFile = $research->image;
-        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+        $nameFile = $research->document;
+        if ($request->hasFile('document') && $request->file('document')->isValid()) {
             
-            if($research->image)
-                $nameFile = $research->image;
+            if($research->document)
+                $nameFile = $research->document;
             else
-                $nameFile = uniqid(date('HisYmd')).'.'.$request->image->extension();
+                $nameFile = uniqid(date('HisYmd')).'.'.$request->document->extension();
 
-            if (!$request->image->storeAs('research', $nameFile))
+            if (!$request->document->storeAs('research', $nameFile))
                 return redirect()
                             ->back()
                             ->with('error', 'Falha ao fazer upload')
@@ -201,5 +203,137 @@ class ResearchesController extends Controller
           $research->delete();
           return redirect()->route('researches.index');
     }
+
+    public function indexArcade(Research $research)
+    {
+      if(Gate::denies('researches-edit')){
+        abort(403,"Não autorizado!");
+      }
+
+      $form = \FormBuilder::create(ResearchForm::class, [
+        'url' => route('researches.update',['research' => $research->id]),
+        'method' => 'PUT',
+        'model' => $research
+      ]);
+      
+      $registros = $research->documents()->where('deleted','=','N')->orderBy('order')->paginate(10);
+
+      return view('painel.researches.arcade',compact('registros','research', 'form'));
+    }
+
+    public function createArcade(Research $research)
+    {
+      if(Gate::denies('researches-edit')){
+        abort(403,"Não autorizado!");
+      }
+
+      if($research->documents()->where('deleted','=','N')->count()){
+        $documentsResearch = $research->documents()->where('deleted','=','N')->get();
+      }else{
+        $documentsResearch = null;
+      }
+
+      $documents = Document::where('deleted','=','N')->orderBy('id','DESC')->paginate(10);
+
+      return view('painel.researches.documents',compact('documents','research','documentsResearch'));
+    }
+
+    public function storeArcade(Request $request)
+    {
+      if(Gate::denies('researches-edit')){
+        abort(403,"Não autorizado!");
+      }
+
+      $data = $request->all();
+
+      $research = Research::find($data['research']);
+      $document = Document::find($data['id']);
+
+      $order= 1;
+      if($research->documents()->where('deleted','=','N')->count()){
+        $aux = $research->documents()->where('deleted','=','N')->orderBy('order','DESC')->first();
+        $order = $aux->order + 1;
+      }
+
+      if($research->documents()->where('document_id','=',$document->id)->count()){
+        $aux = $research->documents()->where('document_id','=',$document->id)->first();
+        $aux->update(['deleted'=>'N','order'=>$order]);
+      }else{
+        $research->documents()->create(['document_id'=>$document->id ,'url'=>$document->arcadeUrl(), 'order'=> $order]);
+      }
+
+      return $research->documents;
+    }
+
+    public function removeArcade(Request $request)
+    {
+      if(Gate::denies('researches-edit')){
+        abort(403,"Não autorizado!");
+      }
+      $data = $request->all();
+
+      $research = Research::find($data['research']);
+      $document = Document::find($data['id']);
+
+      if($research->documents()->where('document_id','=',$document->id)->count() > 1){
+        $arcades = $research->documents()->where('document_id','=',$document->id)->get();
+        foreach ($arcades as $arcade) {
+          $arcade->update(['deleted'=>'S']);
+        }
+      }else{
+        $arcade = $research->documents()->where('document_id','=',$document->id)->first();
+        $arcade->update(['deleted'=>'S']);
+      }
+
+      return $research->documents;
+    }
+
+    public function editArcade(Arcade $arcade)
+    {
+      if(Gate::denies('researches-edit')){
+        abort(403,"Não autorizado!");
+      }
+
+      $registro = $arcade;
+      $research = $arcade->research;
+
+      return view('painel.researches.arcade.edit',compact('registro'));
+    }
+
+    public function updateArcade(Request $request, Arcade $arcade)
+    {
+      if(Gate::denies('researches-edit')){
+        abort(403,"Não autorizado!");
+      }
+
+        $this->validate($request, [
+          'order' => 'required|numeric',
+         ]);
+
+          $data = $request->all();
+          $registro = $arcade;
+          $research = $arcade->research;
+
+          $registro->update($request->all());
+          session()->flash('message','Galeria editada com sucesso');
+          return redirect()->route('researches.arcade', $research);
+
+      }
+
+    public function deleteArcade(Request $request,Arcade $arcade)
+    {
+      if(Gate::denies('researches-edit')){
+        abort(403,"Não autorizado!");
+      }
+
+      $arcade->update(['deleted'=>'S']); 
+      session()->flash('message','Galeria excluída com sucesso');
+      return redirect()->back();
+    }
+
+
+
+
+
 
 }

@@ -61,6 +61,11 @@ class Research extends Model
         return $this->belongsToMany(App\Models\User::class);
     }
 
+    public function documents()
+    {
+      return $this->hasMany(Arcade::class);
+    }
+
     public function getTextCategoriesAttribute($value)
     {
         $categories = $this->categories;

@@ -13,7 +13,7 @@
 <div class="file-field input-field">
   <div class="btn">
     <span>Carregar documentos</span>
-    <input type="file" multiple name="imagens[]">
+    <input type="file" multiple name="documents[]">
   </div>
   <div class="file-path-wrapper">
     <input class="file-path validate" type="text">

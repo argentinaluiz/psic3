@@ -7,7 +7,7 @@
 @endsection
 
 @section('h5-title')
-     <h5>Editar imagem</h5>
+     <h5>Editar Documento</h5>
 @endsection
 
 @section('content')
@@ -27,7 +27,7 @@
 				</div>
 				 <div class="form-group">
 					<div class="btn">
-						<span>Atualizar imagem</span>
+						<span>Atualizar documento</span>
 						<input type="file" name="imagem">
 					</div>
 					<div class="file-path-wrapper">

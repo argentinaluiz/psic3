@@ -36,9 +36,9 @@
 					<td>{{ $research->id }}</td>
 					<td>
 						@if($research->image)
-							<img src="{{url("storage/research/{$research->image}")}}" alt="{{$research->id}}" style="max-width: 50px;">
+							<img class="img-responsive" src="{{url("storage/research/{$research->image}")}}" alt="{{$research->id}}" style="max-width: 50px;">
 						@else
-							<img src="{{url('painel/imgs/no-image.png')}}" alt="{{$research->id}}" style="max-width: 50px;">
+							<img class="img-responsive" src="{{url('painel/imgs/no-image.png')}}" alt="{{$research->id}}" style="max-width: 50px;">
 						@endif
 					</td>
                     <td>{{ $research->title }}</td>
@@ -47,7 +47,8 @@
 					<td>{{ $research->TextCategories }}</td>
 					<td>{{$research->active?'Sim': 'Não'}}</td>
 					<td>
-						<a href="{{route('researches.category',['research' => $research->id])}}"><span class="glyphicon glyphicon-pencil"></span> Categorias</a> |
+						<a href="{{route('researches.category',['research' => $research->id])}}"><span class="glyphicon glyphicon-tags"></span> Categorias</a> |
+						<a href="{{route('researches.arcade',['research' => $research->id])}}"><span class="glyphicon glyphicon-book"></span> Documentos</a> |
 						<a href="{{route('researches.edit',['research' => $research->id])}}"><span class="glyphicon glyphicon-pencil"></span> Editar</a> |
 						<a href="{{route('researches.show',['research' => $research->id])}}"><span class="glyphicon glyphicon-folder-open"></span> Ver</a>
 					</td>

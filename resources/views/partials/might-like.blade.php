@@ -10,7 +10,9 @@
              <div class="row">
                 @foreach ($mightAlsoLike as $product)
                     <div class="col-md-3">
-                        <a href="{{ route('shop.show', $product->slug) }}"><img src="{{url("storage/products/{$product->image}")}}" alt="product"></a>
+                        <a href="{{ route('shop.show', $product->slug) }}">
+                             @component('components.imagem',['list'=>$product->imagens()->where('deleted','=','N')->get()])
+                             @endcomponent
                         <a href="{{ route('shop.show', $product->slug) }}"><div class="product-name">{{ $product->name }}</div></a>
                         <div class="product">{{ $product->details }}</div>
                         <div class="product">R$ {{number_format($product->price, 2, ',', '.')}}</div>

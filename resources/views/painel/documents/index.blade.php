@@ -35,7 +35,7 @@
 			<th>Id</th>
 			<th>Título</th>
 			<th>Descrição</th>
-			<th>Imagem</th>
+			<th>Documento</th>
 			<th>Ações</th>
 		</tr>
 		</thead>
@@ -45,12 +45,12 @@
 					<td>{{ $registro->id }}</td>
 					<td>{{ $registro->title }}</td>
 					<td>{{ $registro->description }}</td>
-					<td><img width="50" src="{{$registro->textoUrl()}}" alt="{{$registro->title}}"></td>
+					<td></td>
 
 					<td>
 						<form action="{{route('documents.destroy',$registro->id)}}" method="post">
 							@can('documents-edit')
-							<a href="{{route('documents.edit',['image' => $registro->id])}}"><span class="glyphicon glyphicon-pencil"></span> Editar</a> |
+							<a href="{{route('documents.edit',['document' => $registro->id])}}"><span class="glyphicon glyphicon-pencil"></span> Editar</a> |
 							@endcan
 							@can('documents-delete')
 								{{ method_field('DELETE') }}

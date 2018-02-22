@@ -13,7 +13,8 @@
                     <div class="ibox-content">
                         <div class="row">
                             <div class="col-md-5">
-                                <img src="{{url("media/img/products/{$product->image}")}}" alt="{{$product->id}}">
+                                @component('components.imagem',['list'=>$product->imagens()->where('deleted','=','N')->get()])
+                                @endcomponent
                             </div>
                             <div class="col-md-7">
                                 <h2 class="font-bold m-b-xs">{{ $product->name }}</h2>

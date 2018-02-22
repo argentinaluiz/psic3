@@ -7,7 +7,7 @@
         'description'=>$value->description,
         'imagem'=>$value->imagens()->where('deleted','=','N')->orderBy('order')->first()->imagem->galeriaUrl(),
         'price'=>$value->textPrice,
-        'url'=>route('site.detail',[$value->id,str_slug($value->name)])]
+        'url'=>route('shop.show',[$value->slug])]
         )
       @endcomponent
     </div>
