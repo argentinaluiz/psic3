@@ -43,6 +43,6 @@ class SaveForLaterController extends Controller
         Cart::instance('default')->add($item->id, $item->name, 1, $item->price)
             ->associate('App\Models\Painel\Product');
 
-        return redirect()->route('cart.index')->with('message', 'O Item foi removido do seu Carrinho!');
+        return redirect()->route('cart.index')->with('message', 'O Item foi movido para o seu Carrinho!');
     }
 }

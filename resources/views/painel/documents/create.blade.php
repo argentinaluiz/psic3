@@ -12,7 +12,7 @@
  
 @section('content')
     @include('form._form_errors')
-    {{ Form::open(['route' => 'documents.store', 'class' => 'form form-search form-ds', 'files' => true]) }}
+    {{ Form::open(['route' => 'documents.store', 'class' => 'form', 'enctype' => 'multipart/form-data', 'files' => true]) }}
         @include('painel.documents._form')
         <div class="cleaner_h15"></div>
         <button class="btn btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;&nbsp;Adicionar</button>

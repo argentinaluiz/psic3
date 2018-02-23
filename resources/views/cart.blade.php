@@ -27,7 +27,7 @@
 
             @if (Cart::count() > 0)
 
-            <h2>{{ Cart::count() }} item(s) in Shopping Cart</h2>
+            <h2>{{ Cart::count() }} item(s) no Carrinho</h2>
 
             <div class="cart-table">
                 @foreach (Cart::content() as $item)
@@ -45,12 +45,12 @@
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
 
-                                <button type="submit" class="btn btn-sm btn-default">Remove</button>
+                                <button type="submit" class="btn btn-sm btn-default">Remover</button>
                             </form>
 
                             <form action="{{ route('cart.switchToSaveForLater', $item->rowId) }}" method="POST">
                                 {{ csrf_field() }}
-                                <button type="submit" class="btn btn-sm btn-default">Save for Later</button>
+                                <button type="submit" class="btn btn-sm btn-default">Salve para depois</button>
                             </form>
                         </div>
                         <div>
@@ -93,22 +93,22 @@
 
             
             <div class="cart-buttons">
-                <a href="{{ route('site.home.index') }}" class="btn btn-sm btn-default">Continue Shopping</a>
-                <a href="{{ route('checkout.index') }}" class="btn btn-sm btn-primary">Proceed to Checkout</a>
+                <a href="{{ route('site.home.index') }}" class="btn btn-sm btn-default">Escolher mais produtos</a>
+                <a href="{{ route('checkout.index') }}" class="btn btn-sm btn-primary">Comprar</a>
             </div>
 
             @else
 
-                <h3>No items in Cart!</h3>
+                <h3>Não têm item no Carrinho!</h3>
                 <div class="spacer"></div>
-                <a href="{{ route('site.home.index') }}" class="btn btn-sm btn-default">Continue Shopping</a>
+                <a href="{{ route('site.home.index') }}" class="btn btn-sm btn-default">Escolher mais produtos</a>
                 <div class="spacer"></div>
 
             @endif
 
             @if (Cart::instance('saveForLater')->count() > 0)
 
-            <h2>{{ Cart::instance('saveForLater')->count() }} item(s) Saved For Later</h2>
+            <h2>{{ Cart::instance('saveForLater')->count() }} item(s) salvo para depois</h2>
 
             <div class="saved-for-later cart-table">
                 @foreach (Cart::instance('saveForLater')->content() as $item)
@@ -126,12 +126,12 @@
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
 
-                                <button type="submit" class="btn btn-sm btn-default">Remove</button>
+                                <button type="submit" class="btn btn-sm btn-default">Remover</button>
                             </form>
 
                             <form action="{{ route('saveForLater.switchToCart', $item->rowId) }}" method="POST">
                                 {{ csrf_field() }}
-                                <button type="submit" class="btn btn-sm btn-default">Move to Cart</button>
+                                <button type="submit" class="btn btn-sm btn-default">Mover para o Carrinho</button>
                             </form>
                         </div>
 
@@ -144,7 +144,7 @@
 
             @else
 
-            <h3>You have no items Saved for Later.</h3>
+            <h3>Você não tem nenhum item salvo para depois.</h3>
 
             @endif
 

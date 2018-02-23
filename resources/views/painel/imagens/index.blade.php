@@ -29,7 +29,7 @@
 		</div>
 	</div>
 	
-	<table class="table table-striped dataTables-products">
+	<table class="table table-striped">
 		<thead>
 		<tr>
 			<th>Id</th>

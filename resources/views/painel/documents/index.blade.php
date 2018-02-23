@@ -12,7 +12,7 @@
 
 
 @section('content')
-	<span class="pull-right small text-muted">Total de documentos: {{ $totalDocuments}}</span>
+	<span class="pull-right small text-muted">Total de documentos: </span>
 	<br/>
 
 	<div class="row">
@@ -34,7 +34,6 @@
 		<tr>
 			<th>Id</th>
 			<th>Título</th>
-			<th>Descrição</th>
 			<th>Documento</th>
 			<th>Ações</th>
 		</tr>
@@ -44,9 +43,7 @@
 				<tr>
 					<td>{{ $registro->id }}</td>
 					<td>{{ $registro->title }}</td>
-					<td>{{ $registro->description }}</td>
-					<td></td>
-
+					<td>{{ $registro }}</td>
 					<td>
 						<form action="{{route('documents.destroy',$registro->id)}}" method="post">
 							@can('documents-edit')
@@ -63,5 +60,5 @@
 			@endforeach
 		</tbody>
 	</table>
-	{{ $registros->links() }}
+	 {!! $registros->links() !!}
 @endsection
