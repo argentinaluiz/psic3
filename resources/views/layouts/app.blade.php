@@ -38,13 +38,23 @@
 							<img alt="image" class="img-circle" src="{{ asset('img/profile_small.jpg')}} " />
 							 </span>
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-							<span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Vestibulum ante</strong>
-							 </span> <span class="text-muted text-xs block">Administrador <b class="caret"></b></span> </span> </a>
+							<span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{ Auth::user()->name }}</strong>
+							 </span> <span class="text-muted text-xs block">administrador <b class="caret"></b></span> </span> </a>
 							<ul class="dropdown-menu animated fadeInRight m-t-xs">
-								<li><a href="">Perfil</a></li>
+								<li><a href="{{ route('site.perfil')}}">Perfil</a></li>
 								<li><a href="">Mudar Senha</a></li>
 								<li><a href="">Email</a></li>
-								<li><a href="">SAIR</a></li>
+								<li>
+									<a href="{{ route('logout') }}"
+										onclick="event.preventDefault();
+													document.getElementById('logout-form').submit();">
+										 {{trans('auth.logout')}}
+									</a>
+
+									<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+										{{ csrf_field() }}
+									</form>
+								</li>
 							</ul>
 						</div>
 						<div class="logo-element">

@@ -30,7 +30,7 @@ class UserProfileForm extends Form
                 'class' => '\App\Models\Painel\State', // Entity that holds data
                 'property' => 'name', // Value that will be used as a label for each choice option, default: name 
                 'property_key' => 'id',
-                'value' => '2'
+                'value' => '25'
             ])
 
             ->add('cidades', 'entity', [

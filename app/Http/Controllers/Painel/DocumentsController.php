@@ -32,6 +32,7 @@ class DocumentsController extends Controller
     public function create(Request $request)
     {
         if(Gate::denies('documents-create')){
+            
             abort(403,"Não autorizado!");
           }
   
@@ -43,8 +44,8 @@ class DocumentsController extends Controller
         if(Gate::denies('documents-create')){
             abort(403,"Não autorizado!");
         }
-        if($request->hasFile('file')){
-            $file = $request->file('file');
+         /*if($request->hasFile('file')){
+           $file = $request->file('file');
             $allowedFileTypes = config('app.allowedFileTypes');
             $maxFileSize = config('app.maxFileSize');
             $rules =['file'=>'required|mimes:'.$allowedFileTypes.'|max:'.$maxFileSize
@@ -60,7 +61,47 @@ class DocumentsController extends Controller
                 ]);
             }
     
+        }*/
+
+        if($request->hasFile('files')){
+            $files = $request->files;
+            $allowedFileTypes = config('app.allowedFileTypes');
+            $maxFileSize = config('app.maxFileSize');
+            $fileRegras = array(
+                'file' => 'required|mimes:'.$allowedFileTypes.'|max:'.$maxFileSize,
+              );
+            
+            foreach($files as $file){
+                $fileArray = array('file' => $file);
+                //dd($fileArray);
+                $fileValidate = Validator::make($fileArray, $fileRegras);
+                dd($fileValidate);
+                if ($fileValidate->fails()) {
+                  return redirect()->route('documents.create')
+                              ->withErrors($fileValidate)
+                              ->withInput();
+                }
+            }
+
+            foreach ($files as $file) {
+                $fileName = uniqid(date('HisYmd')).$file->getClientOriginalName();
+
+                
+                $destinationPath = config('app.fileDestinationPath').'/'.$fileName;
+                $file->move($destinationPath);
+               
+                
+            }
+
+
+            
+
+
+            dd( $nameFile);
+
+
         }
+
         
             
             return redirect()->route('documents.index');

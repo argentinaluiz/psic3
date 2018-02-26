@@ -70,7 +70,6 @@
 
 .cart-section {
   display: grid;
-  grid-template-columns: 2fr 1fr;
   grid-gap: 30px;
   margin: 60px auto;
 }
@@ -86,12 +85,12 @@
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  border-top: 1px solid #919191;
+  border-top: 1px solid #e7eaec;
   padding: 14px 0;
 }
 
 .cart-section .cart-table-row:last-child {
-  border-bottom: 1px solid #919191;
+  border-bottom: 1px solid #e7eaec;
 }
 
 .cart-section .cart-table-row .cart-table-row-left,

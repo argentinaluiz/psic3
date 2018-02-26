@@ -3,20 +3,35 @@
             <div class="row m-b-lg">
                 <div class="col-lg-12 text-center">
                     <div class="navy-line"></div>
-                    <h1>You might also like...</h1>
+                    <h1>Você poderia gostar também...</h1>
                     <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod.</p>
                 </div>
             </div>
              <div class="row">
                 @foreach ($mightAlsoLike as $product)
                     <div class="col-md-3">
-                        <a href="{{ route('shop.show', $product->slug) }}">
-                             @component('components.imagem',['list'=>$product->imagens()->where('deleted','=','N')->get()])
-                             @endcomponent
-                        <a href="{{ route('shop.show', $product->slug) }}"><div class="product-name">{{ $product->name }}</div></a>
-                        <div class="product">{{ $product->details }}</div>
-                        <div class="product">R$ {{number_format($product->price, 2, ',', '.')}}</div>
-                        <a class="btn btn-sm btn-primary" href="{{ route('shop.show', $product->slug) }}">Details</a>
+                        <div class="ibox">
+                            <div class="ibox-content product-box">
+                                <div class="product-images">
+                                    <a href="{{ route('shop.show', $product->slug) }}">
+                                        <img src="{{ url($product->imagens()->where('deleted','=','N')->orderBy('order')->first()->imagem->galeriaUrl()) }}" alt="item" class="checkout-table-img">
+                                    </a>  
+                                </div>
+                                <div class="product-desc">
+                                    <span class="product-price">
+                                        {{$product->textPrice}}
+                                    </span>
+                                    <a href="{{ route('shop.show', $product->slug) }}" class="product-name"> {{$product->name}}</a>
+
+                                    <div class="small m-t-xs">
+                                        {{$product->description}}
+                                    </div>
+                                 
+                                    <a class="btn btn-sm btn-primary" href="{{ route('shop.show', $product->slug) }}">Ver mais <i class="fa fa-long-arrow-right"></i></a>
+
+                                </div>
+                             </div>
+                         </div>
                     </div>
                 @endforeach            
             </div>

@@ -9,9 +9,14 @@
     {{ Form::text('description', null,['class' => 'form-control'])}}
 @endcomponent
 
-@component('form._form_group',['field' => 'file'])
-    {{ Form::label('file', 'Arquivos',['class' => 'control-label']) }}
-    {{ Form::file('file', null,['class' => 'form-control'])}}
-@endcomponent
+<div class="file-field input-field">
+  <div class="btn">
+    <span>Carregar Documentos</span>
+    <input type="file" multiple name="files[]">
+  </div>
+  <div class="file-path-wrapper">
+    <input class="file-path validate" type="text">
+  </div>
+</div>
 
 

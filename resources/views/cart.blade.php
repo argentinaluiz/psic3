@@ -27,13 +27,15 @@
 
             @if (Cart::count() > 0)
 
-            <h2>{{ Cart::count() }} item(s) no Carrinho</h2>
+            <h2>{{ Cart::count() }} item(s) no carrinho</h2>
 
             <div class="cart-table">
                 @foreach (Cart::content() as $item)
                 <div class="cart-table-row">
                     <div class="cart-table-row-left">
-                        <a href="{{ route('shop.show', $item->model->slug) }}"><img src="{{ asset('storage/products/'.$item->model->slug.'.jpg') }}" alt="item" class="cart-table-img"></a>
+                        <a href="{{ route('shop.show', $item->model->slug) }}">
+                             <img src="{{ url($item->model->imagens()->where('deleted','=','N')->orderBy('order')->first()->imagem->galeriaUrl()) }}" alt="item" class="cart-table-img">
+                        </a>
                         <div class="cart-item-details">
                             <div class="cart-table-item"><a href="{{ route('shop.show', $item->model->slug) }}">{{ $item->model->name }}</a></div>
                             <div class="cart-table-description">{{ $item->model->details }}</div>
@@ -65,7 +67,7 @@
                                 <option {{ $item->qty == 5 ? 'selected' : '' }}>5</option> --}}
                             </select>
                         </div>
-                         <div>{{ ($item->subtotal) }}</div>
+                         <div>R$ {{ number_format($item->subtotal, 2, ',', '.') }}</div>
                     </div>
                 </div> <!-- end cart-table-row -->
                 @endforeach
@@ -84,24 +86,24 @@
                         <span class="cart-totals-total">Total</span>
                     </div>
                     <div class="cart-totals-subtotal">
-                        {{ (Cart::subtotal()) }} <br>
-                        {{ (Cart::tax()) }} <br>
-                        <span class="cart-totals-total">{{ (Cart::total()) }}</span>
+                         R$ {{ (Cart::subtotal()) }} <br>
+                        R$ {{ (Cart::tax()) }} <br>
+                        <span class="cart-totals-total">R$ {{ (Cart::total()) }}</span>
                     </div>
                 </div>
             </div> <!-- end cart-totals -->
 
             
             <div class="cart-buttons">
-                <a href="{{ route('site.home.index') }}" class="btn btn-sm btn-default">Escolher mais produtos</a>
+                <a href="{{ route('site.home.index') }}" class="btn btn-sm btn-warning">Escolher mais produtos</a>
                 <a href="{{ route('checkout.index') }}" class="btn btn-sm btn-primary">Comprar</a>
             </div>
 
             @else
 
-                <h3>Não têm item no Carrinho!</h3>
+                <h3>Não têm item no carrinho!</h3>
                 <div class="spacer"></div>
-                <a href="{{ route('site.home.index') }}" class="btn btn-sm btn-default">Escolher mais produtos</a>
+                <a href="{{ route('site.home.index') }}" class="btn btn-sm btn-warning">Escolher mais produtos</a>
                 <div class="spacer"></div>
 
             @endif
@@ -114,7 +116,10 @@
                 @foreach (Cart::instance('saveForLater')->content() as $item)
                 <div class="cart-table-row">
                     <div class="cart-table-row-left">
-                        <a href="{{ route('shop.show', $item->model->slug) }}"><img src="{{ url('storage/products/'.$item->model->slug.'.jpg') }}" alt="item" class="cart-table-img"></a>
+                        
+                        <a href="{{ route('shop.show', $item->model->slug) }}">
+                            <img src="{{ url($item->model->imagens()->where('deleted','=','N')->orderBy('order')->first()->imagem->galeriaUrl()) }}" alt="item" class="cart-table-img">
+                        </a>
                         <div class="cart-item-details">
                             <div class="cart-table-item"><a href="{{ route('shop.show', $item->model->slug) }}">{{ $item->model->name }}</a></div>
                             <div class="cart-table-description">{{ $item->model->details }}</div>
@@ -135,7 +140,7 @@
                             </form>
                         </div>
 
-                        <div>{{ $item->model->price }}</div>
+                        <div>{{ $item->model->textPrice }}</div>
                     </div>
                 </div> <!-- end cart-table-row -->
                 @endforeach

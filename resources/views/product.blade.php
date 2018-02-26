@@ -10,7 +10,7 @@
 		<div class="row">
             <div class="col-lg-12">
                 <div class="ibox product-detail">
-                    <div class="ibox-content">
+                    <div class="ibox-content" style="border: none;">
                         <div class="row">
                             <div class="col-md-5">
                                 @component('components.imagem',['list'=>$product->imagens()->where('deleted','=','N')->get()])
@@ -52,10 +52,10 @@
                                             <input type="hidden" name="id" value="{{ $product->id }}">
                                             <input type="hidden" name="name" value="{{ $product->name }}">
                                             <input type="hidden" name="price" value="{{ $product->price }}">
-                                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-cart-plus"></i> Add to cart</button>
+                                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-cart-plus"></i> Adicionar ao carrinho</button>
                                         </form>
                                         <button class="btn btn-white btn-sm"><i class="fa fa-star"></i> Add to wishlist </button>
-                                        <button class="btn btn-white btn-sm"><i class="fa fa-envelope"></i> Contact with author </button>
+                                        <button class="btn btn-white btn-sm"><i class="fa fa-envelope"></i> Contato </button>
                                     </div>
                                 </div>
                             </div>

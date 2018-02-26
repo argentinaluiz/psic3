@@ -21,7 +21,7 @@ class CitiesController extends Controller
     public function index(State $state)
     {
 
-        //$cities   = $state->cities;
+      // $cities   = $state->cities;
        // return $cities;
        $cities = $state->cities()->getQuery()->get(['id', 'name']);
         return Response::json($cities);
