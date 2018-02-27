@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.5.34 on 2018-02-07 15:05:34.
+ * Generated for Laravel 5.5.35 on 2018-02-27 09:37:39.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -12416,6 +12416,17 @@ namespace Collective\Html {
         }
         
         /**
+         * Get the current model instance on the form builder.
+         *
+         * @return mixed $model
+         * @static 
+         */ 
+        public static function getModel()
+        {
+            return \Collective\Html\FormBuilder::getModel();
+        }
+        
+        /**
          * Close the current form.
          *
          * @return string 
@@ -12666,15 +12677,16 @@ namespace Collective\Html {
          *
          * @param string $name
          * @param array $list
-         * @param string $selected
+         * @param string|bool $selected
          * @param array $selectAttributes
          * @param array $optionsAttributes
+         * @param array $optgroupsAttributes
          * @return \Illuminate\Support\HtmlString 
          * @static 
          */ 
-        public static function select($name, $list = array(), $selected = null, $selectAttributes = array(), $optionsAttributes = array())
+        public static function select($name, $list = array(), $selected = null, $selectAttributes = array(), $optionsAttributes = array(), $optgroupsAttributes = array())
         {
-            return \Collective\Html\FormBuilder::select($name, $list, $selected, $selectAttributes, $optionsAttributes);
+            return \Collective\Html\FormBuilder::select($name, $list, $selected, $selectAttributes, $optionsAttributes, $optgroupsAttributes);
         }
         
         /**
@@ -12731,12 +12743,13 @@ namespace Collective\Html {
          * @param string $value
          * @param string $selected
          * @param array $attributes
+         * @param array $optgroupAttributes
          * @return \Illuminate\Support\HtmlString 
          * @static 
          */ 
-        public static function getSelectOption($display, $value, $selected, $attributes = array())
+        public static function getSelectOption($display, $value, $selected, $attributes = array(), $optgroupAttributes = array())
         {
-            return \Collective\Html\FormBuilder::getSelectOption($display, $value, $selected, $attributes);
+            return \Collective\Html\FormBuilder::getSelectOption($display, $value, $selected, $attributes, $optgroupAttributes);
         }
         
         /**
@@ -14641,139 +14654,6 @@ namespace Bootstrapper\Facades {
         {
             //Method inherited from \Bootstrapper\RenderedObject            
             return \Bootstrapper\Carousel::addClass($classes);
-        }
-         
-    }
-
-    class ControlGroup {
-        
-        /**
-         * Renders the control group
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function render()
-        {
-            return \Bootstrapper\ControlGroup::render();
-        }
-        
-        /**
-         * Set the attributes of the control group
-         *
-         * @param array $attributes The attributes array
-         * @return $this 
-         * @static 
-         */ 
-        public static function withAttributes($attributes)
-        {
-            return \Bootstrapper\ControlGroup::withAttributes($attributes);
-        }
-        
-        /**
-         * Adds the contents to the control group
-         *
-         * @param string $contents The contents of the control group
-         * @param null $controlSize |int The size of the form control
-         * @return $this 
-         * @throws ControlGroupException If is $controlSize set and not between 1
-         *                            and 12
-         * @static 
-         */ 
-        public static function withContents($contents, $controlSize = null)
-        {
-            return \Bootstrapper\ControlGroup::withContents($contents, $controlSize);
-        }
-        
-        /**
-         * Sets the label of the control group
-         *
-         * @param string $label The label
-         * @param null $labelSize |int The size of the label
-         * @return $this 
-         * @throws ControlGroupException If is $labelSize set and not between 1
-         *                          and 12
-         * @static 
-         */ 
-        public static function withLabel($label, $labelSize = null)
-        {
-            return \Bootstrapper\ControlGroup::withLabel($label, $labelSize);
-        }
-        
-        /**
-         * Adds a help block
-         *
-         * @param string $help The help information
-         * @return $this 
-         * @static 
-         */ 
-        public static function withHelp($help)
-        {
-            return \Bootstrapper\ControlGroup::withHelp($help);
-        }
-        
-        /**
-         * Adds validation error if occured
-         *
-         * @param string $name
-         * @return $this 
-         * @static 
-         */ 
-        public static function withValidation($name)
-        {
-            return \Bootstrapper\ControlGroup::withValidation($name);
-        }
-        
-        /**
-         * Generates a full control group with a label, control and help block
-         *
-         * @param string $label The label
-         * @param string $control The form control
-         * @param string $help The help text
-         * @param int $labelSize The size of the label
-         * @param int $controlSize The size of the form control
-         * @return $this 
-         * @throws ControlGroupException if the sizes are invalid
-         * @static 
-         */ 
-        public static function generate($label, $control, $help = null, $labelSize = null, $controlSize = null)
-        {
-            return \Bootstrapper\ControlGroup::generate($label, $control, $help, $labelSize, $controlSize);
-        }
-        
-        /**
-         * Renders the label
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function renderLabel()
-        {
-            return \Bootstrapper\ControlGroup::renderLabel();
-        }
-        
-        /**
-         * Creates the div to surround the form control
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function createControlDiv()
-        {
-            return \Bootstrapper\ControlGroup::createControlDiv();
-        }
-        
-        /**
-         * Adds the given classes to attributes
-         *
-         * @param array $classes
-         * @return $this 
-         * @static 
-         */ 
-        public static function addClass($classes)
-        {
-            //Method inherited from \Bootstrapper\RenderedObject            
-            return \Bootstrapper\ControlGroup::addClass($classes);
         }
          
     }
@@ -17611,6 +17491,21 @@ namespace  {
             public static function mergeWheres($wheres, $bindings)
             {    
                 \Illuminate\Database\Query\Builder::mergeWheres($wheres, $bindings);
+            }
+         
+            /**
+             * Prepare the value and operator for a where clause.
+             *
+             * @param string $value
+             * @param string $operator
+             * @param bool $useDefault
+             * @return array 
+             * @throws \InvalidArgumentException
+             * @static 
+             */ 
+            public static function prepareValueAndOperator($value, $operator, $useDefault = false)
+            {    
+                return \Illuminate\Database\Query\Builder::prepareValueAndOperator($value, $operator, $useDefault);
             }
          
             /**
