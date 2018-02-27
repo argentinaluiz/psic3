@@ -16,7 +16,7 @@ class CreateUserProfilesTable extends Migration
         Schema::create('user_profiles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('address');
-            $table->string('cep', 8);
+            $table->string('cep', 10);
             $table->string('number');
             $table->string('complement')->nullable();
             $table->string('city');

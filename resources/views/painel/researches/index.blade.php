@@ -35,11 +35,9 @@
 				<tr>
 					<td>{{ $research->id }}</td>
 					<td>
-						@if($research->image)
+						
 							<img class="img-responsive" src="{{url("storage/research/{$research->image}")}}" alt="{{$research->id}}" style="max-width: 50px;">
-						@else
-							<img class="img-responsive" src="{{url('painel/imgs/no-image.png')}}" alt="{{$research->id}}" style="max-width: 50px;">
-						@endif
+						
 					</td>
                     <td>{{ $research->title }}</td>
 					<td>{{ $research->year }}</td>

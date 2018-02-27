@@ -100,10 +100,10 @@ class ResearchesController extends Controller
         }
         $nameFile = '';
 
-        if ($request->hasFile('document') && $request->file('document')->isValid()) { 
-            $nameFile = uniqid(date('HisYmd')).'.'.$request->document->extension();
+        if ($request->hasFile('image') && $request->file('image')->isValid()) { 
+            $nameFile = uniqid(date('HisYmd')).'.'.$request->image->extension();
 
-            if (!$request->document->storeAs('research', $nameFile))
+            if (!$request->image->storeAs('research', $nameFile))
                 return redirect()
                             ->back()
                             ->with('error', 'Falha ao fazer upload')
@@ -157,15 +157,15 @@ class ResearchesController extends Controller
         $research = $this->research->find($id);
         if(!$research) return redirect()->back();
 
-        $nameFile = $research->document;
-        if ($request->hasFile('document') && $request->file('document')->isValid()) {
+        $nameFile = $research->image;
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
             
-            if($research->document)
-                $nameFile = $research->document;
+            if($research->image)
+                $nameFile = $research->image;
             else
-                $nameFile = uniqid(date('HisYmd')).'.'.$request->document->extension();
+                $nameFile = uniqid(date('HisYmd')).'.'.$request->image->extension();
 
-            if (!$request->document->storeAs('research', $nameFile))
+            if (!$request->image->storeAs('research', $nameFile))
                 return redirect()
                             ->back()
                             ->with('error', 'Falha ao fazer upload')

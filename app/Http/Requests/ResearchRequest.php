@@ -29,7 +29,8 @@ class ResearchRequest extends FormRequest
         $rules = [
             'title' => 'required',
             'description' => 'required',
-            'year' => 'required|numeric'
+            'year' => 'required|numeric',
+            'image'=>'image|mimes:png,jpg,jpeg|max:10000'
         ];
 
         return $rules;
