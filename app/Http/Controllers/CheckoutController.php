@@ -5,10 +5,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\CheckoutRequest;
+use Illuminate\Support\Facades\Auth;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Cartalyst\Stripe\Laravel\Facades\Stripe;
 use Cartalyst\Stripe\Exception\CardErrorException;
 use App\Http\Controllers\Controller;
+
+use App\Models\Painel\UserProfile;
+use App\Forms\UserProfileForm;
+use App\Models\Painel\Product;
 
 class CheckoutController extends Controller
 {
@@ -20,12 +25,17 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-        return view('checkout')->with([
-            'discount' => $this->getNumbers()->get('discount'),
-            'newSubtotal' => $this->getNumbers()->get('newSubtotal'),
-            'newTax' => $this->getNumbers()->get('newTax'),
-            'newTotal' => $this->getNumbers()->get('newTotal'),
-        ]);
+        if(Auth::check()){
+            return view('checkout')->with([
+                'discount' => $this->getNumbers()->get('discount'),
+                'newSubtotal' => $this->getNumbers()->get('newSubtotal'),
+                'newTax' => $this->getNumbers()->get('newTax'),
+                'newTotal' => $this->getNumbers()->get('newTotal'),
+            ]);
+        }
+        else {
+            return redirect('login');
+        }
     }
 
 
@@ -41,29 +51,25 @@ class CheckoutController extends Controller
             return $item->model->slug.', '.$item->qty;
         })->values()->toJson();
 
-        try {
-            $charge = Stripe::charges()->create([
-                'amount' => $this->getNumbers()->get('newTotal'),
-                'currency' => 'CAD',
-                'source' => $request->stripeToken,
-                'description' => 'Order',
-                'receipt_email' => $request->email,
-                'metadata' => [
-                    //change to Order ID after we start using DB
-                    'contents' => $contents,
-                    'quantity' => Cart::instance('default')->count(),
-                    'discount' => collect(session()->get('coupon'))->toJson(),
-                ],
-            ]);
+        $userid = Auth::user()->id;
+            $UserProfile = new UserProfile;
+            $UserProfile->address = $request->address;
+            $UserProfile->number = $request->number;
+            $UserProfile->complement = $request->complement;
+            $UserProfile->city = $request->city;
+            $UserProfile->cep = $request->cep;
+            $UserProfile->neighborhood = $request->neighborhood;
+            $UserProfile->state = $request->state;
+            $UserProfile->user_id = $userid;
+            $UserProfile->save();
+           // dd('done');
+            orders::createOrder();
 
             // SUCCESSFUL
             Cart::instance('default')->destroy();
             session()->forget('coupon');
 
             return redirect()->route('confirmation.index')->with('message', 'Obrigado! Seu pagamento foi aceito com sucesso!');
-        } catch (CardErrorException $e) {
-            return back()->withErrors('Error! ' . $e->getMessage());
-        }
     }
 
     private function getNumbers()
