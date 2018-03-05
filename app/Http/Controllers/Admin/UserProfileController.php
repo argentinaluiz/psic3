@@ -13,12 +13,6 @@ use App\Models\Painel\City;
 class UserProfileController extends Controller
 {
     
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \SON\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function edit(User $user)
     {
         if(Gate::denies('users-edit')){
@@ -59,8 +53,10 @@ class UserProfileController extends Controller
         $data = $form->getFieldValues();
         $user->profile->address?$user->profile->update($data):$user->profile()->create($data);
 
-
         session()->flash('message', 'Perfil alterado com sucesso.');
         return redirect()->route('users.profile.update', ['user' => $user->id]);
     }
+
+
+    
 }

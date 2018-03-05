@@ -122,7 +122,7 @@
 								<form action="{{ route('coupon.destroy') }}" method="POST" style="display:inline">
 									{{ csrf_field() }}
 									{{ method_field('delete') }}
-									<button type="submit" style="font-size:14px">Remove</button>
+									<button type="submit" style="font-size:14px">Remover</button>
 								</form>
 								<br>
 								<hr>
@@ -154,7 +154,7 @@
 						<form action="{{ route('coupon.store') }}" method="POST">
 							{{ csrf_field() }}
 							<input type="text" name="coupon_code" id="coupon_code">
-							<button type="submit" class="button button-plain">Apply</button>
+							<button type="submit" class="button button-plain">Aplicar</button>
 						</form>
 					</div> <!-- end have-code-container -->
 					@endif

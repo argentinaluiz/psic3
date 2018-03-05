@@ -68,14 +68,14 @@ class DocumentsController extends Controller
             $allowedFileTypes = config('app.allowedFileTypes');
             $maxFileSize = config('app.maxFileSize');
             $fileRegras = array(
-                'file' => 'required|mimes:'.$allowedFileTypes.'|max:'.$maxFileSize,
+                'file' => 'required|mimetypes:'.$allowedFileTypes.'|max:'.$maxFileSize,
               );
             
             foreach($files as $file){
                 $fileArray = array('file' => $file);
                 //dd($fileArray);
                 $fileValidate = Validator::make($fileArray, $fileRegras);
-                dd($fileValidate);
+               // dd($fileValidate);
                 if ($fileValidate->fails()) {
                   return redirect()->route('documents.create')
                               ->withErrors($fileValidate)
@@ -94,10 +94,7 @@ class DocumentsController extends Controller
             }
 
 
-            
-
-
-            dd( $nameFile);
+            //dd( $nameFile);
 
 
         }

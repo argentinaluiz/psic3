@@ -29,7 +29,7 @@
     <script type="text/javascript">
         $('select[name=estados]').change(function () {
             var idState = $(this).val();
-            $.get("{{ url('/admin/users/{id}/profile/') }}/state/" + idState, function (cities) {
+            $.get('{state}/cities' + idState, function (cities) {
                 $('select[name=cidades]').empty();
                 $.each(cities, function (key, value) {
                     $('select[name=cidades]').append('<option value=' + value.id + '>' + value.city + '</option>');

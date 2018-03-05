@@ -5,6 +5,8 @@ Auth::routes();
   Route::get('perfil', ['as'=>'site.perfil','uses'=>'SiteController@perfil']);
   Route::put('perfil', ['as'=>'site.perfil.update','uses'=>'SiteController@perfilUpdate']);
 
+  Route::get('orders', ['as'=>'site.orders','uses'=>'SiteController@orders']);
+  
   Route::get('favorites', ['as'=>'site.favorites','uses'=>'SiteController@favorites']);
   Route::post('favorites/{product}', ['as'=>'site.favorites.create','uses'=>'SiteController@favoritesCreate']);
   Route::delete('favorites/{product}', ['as'=>'site.favorites.delete','uses'=>'SiteController@favoritesDelete']);
@@ -91,7 +93,7 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
     Route::resource('clients', 'ClientsController');
 
     Route::get('states', 'StatesController@index')->name('states.index');
-    Route::get('state/{state}/cities', 'CitiesController@index')->name('state.cities');
+    Route::get('{state}/cities', 'CitiesController@index')->name('state.cities');   
 
     //Route::get('get-cities/{idState}', 'CitiesController@getCities');
 
@@ -168,7 +170,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
     });
 
     Route::group(['prefix' => 'users', 'as' => 'users.'], function (){
-        Route::name('show_details')->get('show_details', 'UserController@showDetails'); 
+        Route::name('show_details')->get('show_details', 'UserController@showDetails');
         Route::group(['prefix' => '{user}/profile'], function () {
             Route::name('profile.edit')->get('', 'UserProfileController@edit');
             Route::name('profile.update')->put('', 'UserProfileController@update');
@@ -180,7 +182,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
     Route::get('users/role/{id}', ['as'=>'users.role','uses'=>'UserController@role']);
     Route::post('users/role/{role}', ['as'=>'users.role.store','uses'=>'UserController@roleStore']);
     Route::delete('users/role/{user}/{role}', ['as'=>'users.role.destroy','uses'=>'UserController@roleDestroy']);
-  
+
     Route::resource('roles', 'RoleController');
   
     Route::get('roles/permission/{id}', ['as'=>'roles.permission','uses'=>'RoleController@permission']);

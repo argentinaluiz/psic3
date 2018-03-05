@@ -24,7 +24,8 @@ return [
     'imagemSlide' => '1920x580',
 
     'fileDestinationPath' =>'media/documents',
-    'allowedFileTypes' =>'jpg,jpeg,png,pdf,doc,docx,xls,xlsx,mp3,mp4,mov,avi,wmv',
+    'allowedFileTypes' => 'image/png', 'image/jpeg', 'image/jpg', 'plain/text', 'application/pdf', 'text/plain','video/avi', 'video/mpeg', 'video/wmv', 'video/mp4', 'audio/mp3', 'audio/wav', 'application/xls',
+    'application/x-xls',
     'maxFileSize' =>1000*20,
 
     /*

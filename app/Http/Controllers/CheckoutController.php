@@ -7,13 +7,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CheckoutRequest;
 use Illuminate\Support\Facades\Auth;
 use Gloudemans\Shoppingcart\Facades\Cart;
-use Cartalyst\Stripe\Laravel\Facades\Stripe;
-use Cartalyst\Stripe\Exception\CardErrorException;
 use App\Http\Controllers\Controller;
 
 use App\Models\Painel\UserProfile;
 use App\Forms\UserProfileForm;
 use App\Models\Painel\Product;
+use App\Models\Painel\Order;
 
 class CheckoutController extends Controller
 {
@@ -46,6 +45,7 @@ class CheckoutController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(CheckoutRequest $request)
+    
     {
         $contents = Cart::content()->map(function ($item) {
             return $item->model->slug.', '.$item->qty;
@@ -63,7 +63,7 @@ class CheckoutController extends Controller
             $UserProfile->user_id = $userid;
             $UserProfile->save();
            // dd('done');
-            orders::createOrder();
+            order::createOrder();
 
             // SUCCESSFUL
             Cart::instance('default')->destroy();

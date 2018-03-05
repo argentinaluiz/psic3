@@ -193,6 +193,7 @@
 							<li><a href="{{ route('specialties.index') }}">Especialidade</a></li>
 							<li><a href="{{ route('class_informations.index') }}">Classe</a></li>
 							<li><a href="{{ route('site.perfil') }}">Perfil</a></li>
+							<li><a href="{{ route('site.orders') }}">Ordens</a></li>
 						</ul>
 					</li>
 				</ul>

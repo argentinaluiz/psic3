@@ -181,5 +181,8 @@ class User extends Authenticatable implements TableInterface
       return $roles->intersect($userRoles)->count();
     }
 
+     public function orders(){
+        return $this->hasMany(\App\Models\Painel\Order::class);
+    }
 
 }

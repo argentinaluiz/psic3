@@ -36,7 +36,7 @@
 
                   <form class="subscribe-form" action="" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
                       <div class="input-group">
-                        <input class="form-control required email" value="" id="mce-EMAIL" type="email" name="EMAIL" placeholder=""><span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
+                        <input class="form-control required email" value="" id="mce-EMAIL" type="email" name="EMAIL" placeholder="" style="height: 44px;"><span class="input-group-addon"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
                       </div>
                       <div style="position: absolute; left: -5000px;" aria-hidden="true">
                         <input type="text" name="" tabindex="-1">

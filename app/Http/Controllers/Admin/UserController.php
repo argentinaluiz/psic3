@@ -181,4 +181,5 @@ class UserController extends Controller
         session()->flash('message','Usuário excluído com sucesso');
         return redirect()->route('users.index');
     }
+
 }

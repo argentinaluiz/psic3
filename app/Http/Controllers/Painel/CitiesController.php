@@ -18,11 +18,10 @@ class CitiesController extends Controller
     }
 
     
-    public function index(State $state)
+    public function index($idState)
     {
 
-      // $cities   = $state->cities;
-       // return $cities;
+      // $state = $this->stateModel->find($idState);
        $cities = $state->cities()->getQuery()->get(['id', 'name']);
         return Response::json($cities);
     }

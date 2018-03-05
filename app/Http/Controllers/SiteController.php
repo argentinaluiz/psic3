@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Kris\LaravelFormBuilder\Form;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Gate;
 
 use App\Forms\SlideForm;
@@ -12,6 +15,7 @@ use App\Models\Site\Site;
 use App\Models\Painel\Product;
 use App\Models\Painel\Imagem;
 use App\Models\Painel\Slide;
+use App\Models\Painel\Order;
 
 class SiteController extends Controller
 {
@@ -92,6 +96,13 @@ class SiteController extends Controller
 
       return redirect()->back();
     }
+
+    public function orders() {
+      $user_id = (auth()->check()) ? auth()->user()->id : null;
+      // $orders=Order_products::all();
+      $orders = DB::table('order_product')->leftJoin('products', 'products.id', '=', 'order_product.product_id')->leftJoin('orders', 'orders.id', '=', 'order_product.order_id')->where('orders.user_id', '=', $user_id)->get();
+      return view('site.orders', compact('orders'));
+  }
 
 
 }
