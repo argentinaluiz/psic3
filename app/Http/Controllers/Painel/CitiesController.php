@@ -18,12 +18,25 @@ class CitiesController extends Controller
     }
 
     
-    public function index($idState)
+    public function index($nameState)
     {
 
       // $state = $this->stateModel->find($idState);
-       $cities = $state->cities()->getQuery()->get(['id', 'name']);
-        return Response::json($cities);
+      // $cities = $state->cities()->getQuery()->get(['id', 'name']);
+      //  return Response::json($cities);
+        $nameState = urldecode($nameState);
+       $idState = $this->_cityStateIDForStateName($nameState);
+       $cities = DB::table("cities")
+                ->where("state_id",$state_id)
+                ->lists('name','id');
+        return json_encode($cities);
     }
+
+    
+    private function _cityStateIDForStateName($nameState)
+    {
+        return DB::table('states')->where("name","$nameState")->first()->idState;
+    }
+
 
 }

@@ -65,15 +65,13 @@ class DocumentsController extends Controller
 
         if($request->hasFile('files')){
             $files = $request->files;
-            $allowedFileTypes = config('app.allowedFileTypes');
-            $maxFileSize = config('app.maxFileSize');
             $fileRegras = array(
-                'file' => 'required|mimetypes:'.$allowedFileTypes.'|max:'.$maxFileSize,
+                'file' => 'file|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx,mp3,mp4,mov,avi,wmv',
               );
             
             foreach($files as $file){
                 $fileArray = array('file' => $file);
-                //dd($fileArray);
+                dd($fileArray);
                 $fileValidate = Validator::make($fileArray, $fileRegras);
                // dd($fileValidate);
                 if ($fileValidate->fails()) {

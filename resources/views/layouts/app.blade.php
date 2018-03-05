@@ -112,7 +112,11 @@
 						<a href=""><i class="fa fa-address-book-o"></i> <span class="nav-label">Agendas</span>  </a>
 					</li>
 					<li>
-						<a href="{{ route('researches.index') }}"><i class="fa fa-pie-chart"></i> <span class="nav-label">Pesquisa</span>  </a>
+						<a href=""><i class="fa fa-pie-chart"></i> <span class="nav-label">Pesquisas</span><span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+							<li><a href="{{ route('researches.index') }}"> Pesquisas </a></li>
+							<li><a href="{{ route('categories.index') }}"> Categorias</a></li>
+						</ul>
 					</li>
 					<li>
 						<a href=""><i class="fa fa-comments-o"></i> <span class="nav-label">Recursos</span><span class="fa arrow"></span></a>

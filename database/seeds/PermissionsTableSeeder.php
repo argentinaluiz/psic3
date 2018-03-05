@@ -200,6 +200,23 @@ class PermissionsTableSeeder extends Seeder
             'description' =>'Deletar Documento'
         ]);
 
+         $categories1 = Permission::firstOrCreate([
+            'name' =>'categories-view',
+            'description' =>'Acesso a lista de Documentos'
+        ]);
+        $categories2 = Permission::firstOrCreate([
+            'name' =>'categories-create',
+            'description' =>'Adicionar Documento'
+        ]);
+        $categories3 = Permission::firstOrCreate([
+            'name' =>'categories-edit',
+            'description' =>'Editar Documento'
+        ]);
+        $categories4 = Permission::firstOrCreate([
+            'name' =>'categories-delete',
+            'description' =>'Deletar Documento'
+        ]);
+
 
     }
 }

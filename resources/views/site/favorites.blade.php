@@ -12,9 +12,9 @@
 
 @section('content')
   @if (session('status'))
-		<div class="row">
-				<div class="col-sm-12">
-          <div class="widget p-lg text-center">
+	<div class="row">
+		<div class="col-sm-12">
+            <div class="widget p-lg text-center">
                 <i class="fa fa-thumbs-o-up fa-4x"></i>
                 <div class="cleaner_h15"></div>
                 <h3 class="font-bold no-margins"> Status</h3>
@@ -22,10 +22,15 @@
                 <p>{{session('status')}}</p>
             </div>
         </div>
-      </div>
+    </div>
   @endif
 
-  @component('components.list_product',['list'=>$products,'size'=>'4'])
-  @endcomponent
+    <div class="row">
+        <div class="col-md-12">
+                @include('site.menu')
+        </div>
+    </div>
+    @component('components.list_product',['list'=>$products,'size'=>'4'])
+    @endcomponent
 
 @endsection

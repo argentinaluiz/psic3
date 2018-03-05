@@ -6,7 +6,7 @@ Auth::routes();
   Route::put('perfil', ['as'=>'site.perfil.update','uses'=>'SiteController@perfilUpdate']);
 
   Route::get('orders', ['as'=>'site.orders','uses'=>'SiteController@orders']);
-  
+
   Route::get('favorites', ['as'=>'site.favorites','uses'=>'SiteController@favorites']);
   Route::post('favorites/{product}', ['as'=>'site.favorites.create','uses'=>'SiteController@favoritesCreate']);
   Route::delete('favorites/{product}', ['as'=>'site.favorites.delete','uses'=>'SiteController@favoritesDelete']);
@@ -93,7 +93,7 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
     Route::resource('clients', 'ClientsController');
 
     Route::get('states', 'StatesController@index')->name('states.index');
-    Route::get('{state}/cities', 'CitiesController@index')->name('state.cities');   
+    Route::get('state/{state}', 'CitiesController@index');   
 
     //Route::get('get-cities/{idState}', 'CitiesController@getCities');
 
@@ -104,6 +104,8 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
     Route::resource('agendas', 'AgendasController');
     
     Route::resource('reserves', 'ReservesController');
+    
+    Route::resource('categories', 'CategoriesController');
    
     Route::get('products', 'ProductsController@index')->name('products.index');
     Route::post('products', 'ProductsController@store')->name('products.store');
@@ -132,7 +134,7 @@ Route::group(['prefix' => 'painel', 'namespace' => 'Painel', 'middleware' => ['a
 
     Route::get('researches/category/{id}', ['as'=>'researches.category','uses'=>'ResearchesController@category']);
     Route::post('researches/category/{category}', ['as'=>'category.store','uses'=>'ResearchesController@categoryStore']);
-    Route::delete('researches/category/{search}/{category}', ['as'=>'category.destroy','uses'=>'ResearchesController@categoryDestroy']);
+    Route::delete('researches/category/{research}/{category}', ['as'=>'category.destroy','uses'=>'ResearchesController@categoryDestroy']);
 
     Route::resource('researches', 'ResearchesController');
 

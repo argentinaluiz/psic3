@@ -24,7 +24,11 @@
         </div>
       </div>
   @endif
-
+	<div class="row">
+		<div class="col-md-12">
+				@include('site.menu')
+		</div>
+    </div>
 	<div class="row">
 		<div class="col-sm-12">
 			<form action="{{ route('site.perfil.update') }}" method="post">

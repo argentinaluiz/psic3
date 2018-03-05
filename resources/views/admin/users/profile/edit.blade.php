@@ -27,14 +27,23 @@
 
 @section('extra-js')
     <script type="text/javascript">
-        $('select[name=estados]').change(function () {
+        $('select[name=estado]').change(function () {
             var idState = $(this).val();
-            $.get('{state}/cities' + idState, function (cities) {
-                $('select[name=cidades]').empty();
-                $.each(cities, function (key, value) {
-                    $('select[name=cidades]').append('<option value=' + value.id + '>' + value.city + '</option>');
-                });
+            if(idState){
+                $.ajax({
+                url: 'state/'+encodeURI(idState),
+                type: "GET",
+                dataType: "json",
+                success:function(data) {
+                    $('select[name="cidade"]').empty();
+                    $.each(data, function(key, value) {
+                        $('select[name="cidade"]').append('<option value=' + value.id + '>' + value.cidade + '</option>');
+                    });
+                }
             });
+            }else{
+            $('select[name="cidade"]').empty();
+              }
         });
     </script>
 @endsection

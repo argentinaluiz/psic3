@@ -3,7 +3,7 @@
 namespace App\Forms;
 
 use Kris\LaravelFormBuilder\Form;
-use App\Models\Painel\Search;
+use App\Models\Painel\Research;
 
 class ResearchForm extends Form
 {

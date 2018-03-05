@@ -82,8 +82,8 @@
                           </span>
 
                         <span>
-                        <input type="radio" name="pay" value="paypal"> PayPal
-                         @include('paypal')
+                        	<input type="radio" name="pay" value="paypal"> PayPal
+                         	@include('paypal')
                         </span>
 
 						<div class="cleaner_h20"></div>

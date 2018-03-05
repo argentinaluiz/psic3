@@ -26,14 +26,14 @@ class UserProfileForm extends Form
                 'rules' => 'max:255'
             ])
 
-            ->add('estados', 'entity', [
+            ->add('estado', 'entity', [
                 'class' => '\App\Models\Painel\State', // Entity that holds data
                 'property' => 'name', // Value that will be used as a label for each choice option, default: name 
                 'property_key' => 'id',
                 'value' => '25'
             ])
 
-            ->add('cidades', 'entity', [
+            ->add('cidade', 'entity', [
                 'class' => '\App\Models\Painel\City', 
                 'property' => 'name', 
                 'property_key' => 'id', 
