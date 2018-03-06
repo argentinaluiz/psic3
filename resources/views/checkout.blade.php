@@ -56,10 +56,7 @@
 								<input type="text" class="form-control" placeholder="Bairro" id="neighborhood" name="neighborhood" value="{{ old('neighborhood') }}" required>
 							</div>
 							<div class="form-group">
-								<input type="text" class="form-control" placeholder="Estado" id="state" name="state" value="{{ old('state') }}" required>
-							</div> 
-							<div class="form-group">
-								<input type="text" class="form-control" placeholder="Cidade" id="city" name="city" value="{{ old('city') }}" required>
+								<input type="text" class="form-control" placeholder="Cidade" id="city_id" name="city_id" value="{{ old('city_id') }}" required>
 							</div> 
 							 
 						</div> <!-- end half-form -->
@@ -76,11 +73,7 @@
 						<div class="cleaner_h20"></div>
 
 						<h2>Detalhes do pagamento</h2>
-						
-						<span>
-                       <input type="radio" name="pay" value="COD" checked="checked"> COD
-                          </span>
-
+												
                         <span>
                         	<input type="radio" name="pay" value="paypal"> PayPal
                          	@include('paypal')

@@ -12,9 +12,8 @@ class UserProfile extends Model
         'cep',
         'number',
         'complement',
-        'city',
-        'neighborhood',
-        'state'
+        'city_id',
+        'neighborhood'
     ];
 
     public function city()

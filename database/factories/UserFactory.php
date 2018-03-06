@@ -35,9 +35,9 @@ $factory->define(\App\Models\Painel\UserProfile::class, function (Faker $faker) 
         },
         'number' => rand(1,100),
         'complement' => rand(1,10)%2==0?null:$faker->sentence,
-        'city' => $faker->city,
+        'city_id' => rand(1,200), 
         'neighborhood' => $faker->city,
-        'state' => collect(\App\Models\Painel\State::$states)->random(),
+       // 'state' => collect(\App\Models\Painel\State::$states)->random(),
        // 'state' => collect(\App\Models\Painel\State::pluck('state_id'))->random(),
     ];
 });

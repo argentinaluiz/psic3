@@ -7,9 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Painel\Document;
 use Illuminate\Support\Facades\Gate;
-use Intervention\Image\ImageManagerStatic as Image;
-use Validator;
-use \Storage;
+use Storage;
 
 class DocumentsController extends Controller
 {
@@ -20,9 +18,6 @@ class DocumentsController extends Controller
             abort(403,"Não autorizado!");
         }
 
-        //  $totalDocuments = Document::where('deleted','=','N')->count();
-          $directory = config('app.fileDestinationPath');
-        //  $files = Storage::files($directory);
           $registros = Document::where('deleted','=','N')->orderBy('id','DESC')->paginate(10);
 
           return view('painel.documents.index',compact('registros'));
@@ -43,63 +38,16 @@ class DocumentsController extends Controller
     {
         if(Gate::denies('documents-create')){
             abort(403,"Não autorizado!");
-        }
-         /*if($request->hasFile('file')){
-           $file = $request->file('file');
-            $allowedFileTypes = config('app.allowedFileTypes');
-            $maxFileSize = config('app.maxFileSize');
-            $rules =['file'=>'required|mimes:'.$allowedFileTypes.'|max:'.$maxFileSize
-            ];
-            $this->validate($request, $rules);
-            $fileName = $file->getClientOriginalName();
-            $destinationPath = config('app.fileDestinationPath').'/'.$fileName;
-            $uploaded = Storage::put($destinationPath, file_get_contents($file->getRealPath()));
+        }       
+            $files = $request->file('files');
 
-            if($uploaded){
-                Document::create([
-                    'title' =>$fileName
-                ]);
-            }
-    
-        }*/
-
-        if($request->hasFile('files')){
-            $files = $request->files;
-            $fileRegras = array(
-                'file' => 'file|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx,mp3,mp4,mov,avi,wmv',
-              );
-            
-            foreach($files as $file){
-                $fileArray = array('file' => $file);
-                dd($fileArray);
-                $fileValidate = Validator::make($fileArray, $fileRegras);
-               // dd($fileValidate);
-                if ($fileValidate->fails()) {
-                  return redirect()->route('documents.create')
-                              ->withErrors($fileValidate)
-                              ->withInput();
-                }
-            }
-
-            foreach ($files as $file) {
-                $fileName = uniqid(date('HisYmd')).$file->getClientOriginalName();
-
-                
-                $destinationPath = config('app.fileDestinationPath').'/'.$fileName;
-                $file->move($destinationPath);
-               
-                
-            }
-
-
-            //dd( $nameFile);
-
-
-        }
-
-        
-            
-            return redirect()->route('documents.index');
+            if(!empty($files)):
+                foreach($files as $file):
+                    Storage::put($file->getClientOriginalName(), file_get_contents($file));
+                endforeach;
+            endif;
+            return redirect()->route('documents.index')
+                    ->with('message', 'Documento(s) criado(s) com sucesso!');
 
     }
 

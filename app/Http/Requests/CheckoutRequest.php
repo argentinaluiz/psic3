@@ -30,9 +30,8 @@ class CheckoutRequest extends FormRequest
             'number' => 'required|numeric',
             'complement' => 'required',
             'neighborhood' => 'required',
-            'city' => 'required|min:5|max:25',
+            'city_id' => 'min:1|max:25',
             'cep' => 'required|max:25',
-            'state' => 'required|max:5',
             'phone' => 'required',
         ];
     }

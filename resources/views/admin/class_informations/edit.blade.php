@@ -7,7 +7,7 @@
 @endsection
 
 @section('h5-title')
-     <h5>Listagem de usuários</h5>
+     <h5>Editar Classe</h5>
 @endsection
 
 @section('content')

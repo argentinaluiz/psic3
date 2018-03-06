@@ -15,7 +15,7 @@ class ClassPatientsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ClassInformation $class_information)
     {
         return view('admin.class_informations.class_patient', compact('class_information'));
     }

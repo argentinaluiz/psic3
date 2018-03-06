@@ -23,11 +23,6 @@ return [
     'imagemGaleria' => '465x418',
     'imagemSlide' => '1920x580',
 
-    'fileDestinationPath' =>'media/documents',
-    'allowedFileTypes' => 'image/png', 'image/jpeg', 'image/jpg', 'plain/text', 'application/pdf', 'text/plain','video/avi', 'video/mpeg', 'video/wmv', 'video/mp4', 'audio/mp3', 'audio/wav', 'application/xls',
-    'application/x-xls',
-    'maxFileSize' =>1000*20,
-
     /*
     |--------------------------------------------------------------------------
     | Application Environment

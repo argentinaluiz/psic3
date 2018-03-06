@@ -18,3 +18,4 @@
         <button class="btn btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;&nbsp;Adicionar</button>
     {{ Form::close() }}
 @endsection
+

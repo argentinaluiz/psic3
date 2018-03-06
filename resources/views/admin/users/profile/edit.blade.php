@@ -27,22 +27,22 @@
 
 @section('extra-js')
     <script type="text/javascript">
-        $('select[name=estado]').change(function () {
-            var idState = $(this).val();
-            if(idState){
+        $('select[name=state]').change(function () {
+            var stateId = $(this).val();
+            if(stateId){
                 $.ajax({
-                url: 'state/'+encodeURI(idState),
+                url: 'state/'+encodeURI(stateId),
                 type: "GET",
                 dataType: "json",
                 success:function(data) {
-                    $('select[name="cidade"]').empty();
+                    $('select[name="city_id"]').empty();
                     $.each(data, function(key, value) {
-                        $('select[name="cidade"]').append('<option value=' + value.id + '>' + value.cidade + '</option>');
+                        $('select[name="city_id"]').append('<option value=' + value.id + '>' + value.city + '</option>');
                     });
                 }
             });
             }else{
-            $('select[name="cidade"]').empty();
+            $('select[name="city_id"]').empty();
               }
         });
     </script>

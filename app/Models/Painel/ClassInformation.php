@@ -29,13 +29,10 @@ class ClassInformation extends Model implements TableInterface
 
     public function patients()
     {
-        return $this->belongsToMany(Patient::class);
+        return $this->belongsToMany(Patient::class);//quando estou trabalhando com uma tabela pivot, o método correto é o belongsToMany
     }
 
-    public function sessions()
-    {
-        return $this->hasMany(ClassSessions::class);
-    }
+  
 
     /**
      * A list of headers to be used when a table is displayed

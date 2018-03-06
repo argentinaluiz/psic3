@@ -56,10 +56,9 @@ class CheckoutController extends Controller
             $UserProfile->address = $request->address;
             $UserProfile->number = $request->number;
             $UserProfile->complement = $request->complement;
-            $UserProfile->city = $request->city;
+            $UserProfile->city_id = $request->city_id;
             $UserProfile->cep = $request->cep;
             $UserProfile->neighborhood = $request->neighborhood;
-            $UserProfile->state = $request->state;
             $UserProfile->user_id = $userid;
             $UserProfile->save();
            // dd('done');

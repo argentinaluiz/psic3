@@ -9,6 +9,7 @@
     {{ Form::text('description', null,['class' => 'form-control'])}}
 @endcomponent
 
+
 <div class="file-field input-field">
   <div class="btn">
     <span>Carregar Documentos</span>
