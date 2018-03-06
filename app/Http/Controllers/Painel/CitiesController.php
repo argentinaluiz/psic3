@@ -24,10 +24,10 @@ class CitiesController extends Controller
       // $state = $this->stateModel->find($idState);
       // $cities = $state->cities()->getQuery()->get(['id', 'name']);
       //  return Response::json($cities);
-       $nameState = urldecode($nameState);
-       $cities = DB::table("cities")
+       //$nameState = urldecode($nameState);
+       $cities = \DB::table("cities")
                 ->where("state_id",$stateId)
-                ->lists('name','id');
+                ->pluck('name','id');
         return json_encode($cities);
     }
 

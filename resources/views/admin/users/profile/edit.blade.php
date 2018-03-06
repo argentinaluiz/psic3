@@ -31,7 +31,7 @@
             var stateId = $(this).val();
             if(stateId){
                 $.ajax({
-                url: 'state/'+encodeURI(stateId),
+                url: '/painel/state/'+stateId,
                 type: "GET",
                 dataType: "json",
                 success:function(data) {
